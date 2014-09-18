@@ -1,0 +1,18 @@
+Roxygen: list(wrap = FALSE)
+Package: rncl
+Title: An R interface to the Nexus Class Library
+Version: 0.1
+Authors@R: person("Francois", "Michonneau", role=c("aut", "cre"),
+    email="francois.michonneau@gmail.com")
+Description: This package provides an interface to the Nexus Class Library
+    which allows parsing for NEXUS, Newick and other phylogenetic tree file
+    formats
+Imports:
+    Rcpp (>= 0.11.0),
+    ape,
+    phylobase
+LinkingTo: Rcpp
+Depends:
+    R (>= 3.1.1)
+License: GPL (>= 2)
+LazyData: true
