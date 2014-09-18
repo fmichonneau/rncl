@@ -7,7 +7,7 @@ readNCL(file, simplify = FALSE, type = c("all", "tree", "data"),
   char.all = FALSE, polymorphic.convert = TRUE, levels.uniform = FALSE,
   quiet = TRUE, check.node.labels = c("keep", "drop", "asdata"),
   return.labels = TRUE, file.format = c("nexus", "newick"),
-  check.names = TRUE, convert.edge.length = FALSE, ...)
+  check.names = TRUE, ...)
 }
 \arguments{
 \item{file}{something}
@@ -32,17 +32,21 @@ readNCL(file, simplify = FALSE, type = c("all", "tree", "data"),
 
 \item{check.names}{something}
 
-\item{convert.edge.length}{something}
-
 \item{...}{something else}
 }
 \value{
 something cool
 }
 \description{
-Returns a list of the elements contained in a Nexus file used to build phylogenetic objects in R
+Returns a list of the elements contained in a Nexus file used to
+build phylogenetic objects in R
 }
 \details{
-The NEXUS class is a common file format
+The NEXUS class is a common file format used in
+phylogenetics. This function calls NCL to parse NEXUS, newick or
+other common phylogenetic file formats.
+}
+\author{
+Francois Michonneau
 }
 

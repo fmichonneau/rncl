@@ -5,19 +5,19 @@
 
 //#define NEW_TREE_RETURN_TYPE
 
-NxsString contData(NxsCharactersBlock& charBlock, NxsString& charString, 
+NxsString contData(NxsCharactersBlock& charBlock, NxsString& charString,
 		   const int& eachChar, const int& nTax) {
     for (int taxon=0; taxon < nTax; ++taxon) {
-	double state=charBlock.GetSimpleContinuousValue(taxon,eachChar);			
+	double state=charBlock.GetSimpleContinuousValue(taxon,eachChar);
 	if (state==DBL_MAX) {
 	    charString+="NA";
 	}
-	else {					    
+	else {
 	    char buffer[100];
 	    sprintf(buffer, "%.10f", state);
-	    charString+=buffer; 
+	    charString+=buffer;
 	}
-	
+
 	if (taxon+1 < nTax) {
 	    charString+=',';
 	}
@@ -43,7 +43,7 @@ NxsString stdData(NxsCharactersBlock& charBlock, NxsString& charString, const in
 		charString+='"';
 		charString+='{';
 		for (unsigned int k=0; k < charBlock.GetNumStates(taxon, eachChar); ++k) {
-		    charString += charBlock.GetInternalRepresentation(taxon, eachChar, k);	
+		    charString += charBlock.GetInternalRepresentation(taxon, eachChar, k);
 		    if (k+1 < charBlock.GetNumStates(taxon, eachChar)) {
 			charString+=',';
 		    }
@@ -88,6 +88,9 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
     Rcpp::List lTaxaLabelVector = Rcpp::List::create();
     Rcpp::List lParentVector = Rcpp::List::create();
     Rcpp::List lBranchLengthVector = Rcpp::List::create();
+    Rcpp::List lIsRooted = Rcpp::List::create();
+    Rcpp::List lHasPolytomies = Rcpp::List::create();
+    Rcpp::List lHasSingletons = Rcpp::List::create();
     std::vector<std::string> trees;          //vector of Newick strings holding the names
     std::vector<std::string> treeNames;      //vector of tree names
     std::vector<std::string> taxaNames;      //vector of taxa names
@@ -160,7 +163,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
     "rnafin"
     }; */
     try {
-	nexusReader.ReadFilepath(const_cast < char* > (filename.c_str()), fileFormat);  
+	nexusReader.ReadFilepath(const_cast < char* > (filename.c_str()), fileFormat);
     }
     catch (NxsException &x) {
 	errorMsg = x.msg;
@@ -181,9 +184,9 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 	const unsigned nCharBlocks = nexusReader.GetNumCharactersBlocks(taxaBlock);
 
 	int nTax = taxaBlock->GetNumTaxonLabels();
-	
+
 	/* Get taxa names */
-	for (int j=0; j < nTax; ++j) {	
+	for (int j=0; j < nTax; ++j) {
 	    taxaNames.push_back (taxaBlock->GetTaxonLabel(j));
 	}
 
@@ -204,30 +207,30 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 
 			std::vector<std::string> taxonLabelVector; //Index of the parent. 0 means no parent.
 			std::vector<unsigned> parentVector;        //Index of the parent. 0 means no parent.
-			std::vector<double> branchLengthVector;   
+			std::vector<double> branchLengthVector;
 
 			taxonLabelVector.reserve(nTax);
 			parentVector.reserve(2*nTax);
-			branchLengthVector.reserve(2*nTax); 
+			branchLengthVector.reserve(2*nTax);
 
 			taxonLabelVector.clear();
 			parentVector.clear();
 			branchLengthVector.clear();
-                
-			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k); 
+
+			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k);
 			treeNames.push_back(ftd.GetName());
 			NxsSimpleTree simpleTree(ftd, -1, -1.0);
 			std::vector<const NxsSimpleNode *> ndVector =  simpleTree.GetPreorderTraversal();
 			unsigned internalNdIndex = nTax;
 			for (std::vector<const NxsSimpleNode *>::const_iterator ndIt = ndVector.begin();
-			     ndIt != ndVector.end(); ++ndIt) 
+			     ndIt != ndVector.end(); ++ndIt)
 			{
 			    NxsSimpleNode * nd = (NxsSimpleNode *) *ndIt;
 			    unsigned nodeIndex;
 			    if (nd->IsTip())
 			    {
 				nodeIndex = nd->GetTaxonIndex();
-				taxonLabelVector.push_back(taxaNames[nodeIndex]);				
+				taxonLabelVector.push_back(taxaNames[nodeIndex]);
 			    }
 			    else {
 				nodeIndex = internalNdIndex++;
@@ -242,7 +245,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 				branchLengthVector.resize(nodeIndex + 1);
 			    }
 			    NxsSimpleEdge edge = nd->GetEdgeToParent();
-			    
+
 			    NxsSimpleNode * par = 0L;
 			    par = (NxsSimpleNode *) edge.GetParent();
 			    if (par != 0L)
@@ -261,10 +264,16 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			treeNames.push_back (trNm);
 			NxsString ts = treeBlock->GetTreeDescription(k);
 			trees.push_back (ts);
+                        bool isRooted = ftd.IsRooted();
+                        bool hasPolys = ftd.HasPolytomies();
+                        bool hasSingletons = ftd.HasDegreeTwoNodes();
 
 			lTaxaLabelVector.push_back (taxonLabelVector);
 			lParentVector.push_back (parentVector);
 			lBranchLengthVector.push_back (branchLengthVector);
+                        lIsRooted.push_back (isRooted);
+                        lHasPolytomies.push_back (hasPolys);
+                        lHasSingletons.push_back (hasSingletons);
 		    }
 		}
 		else {
@@ -272,19 +281,19 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 		}
 	    }
 	}
-	
+
 	/* Get data */
 	if (returnData) {
 	    for (unsigned k = 0; k < nCharBlocks; ++k) {
 		NxsCharactersBlock * charBlock = nexusReader.GetCharactersBlock(taxaBlock, k);
-		
+
 		if (nCharBlocks == 0) {
 		    continue;
 		}
 		else {
 		    NxsString dtType = charBlock->GetNameOfDatatype(charBlock->GetDataType());
 		    dataTypes.push_back(dtType);
-		
+
 		    if (charall) {
 			nCharToReturn=charBlock->GetNCharTotal();
 		    }
@@ -300,14 +309,14 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			else {
 			    charLabels.push_back ("standard_char"); //FIXME: needs to fixed for sequence data
 			}
-			
+
 			NxsString tmpCharString;
 			if (std::string("Continuous") == dtType) {
 			    tmpCharString = contData(*charBlock, tmpCharString, eachChar, nTax);
-			    nbStates.push_back (0);			    
+			    nbStates.push_back (0);
 			}
 			else {
-			    if (std::string("Standard") == dtType) {			    
+			    if (std::string("Standard") == dtType) {
 				tmpCharString = stdData(*charBlock, tmpCharString, eachChar, nTax,
 							polyconvert);
 				unsigned int nCharStates = charBlock->GetNumObsStates(eachChar, false);
@@ -332,11 +341,11 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 						else {
 						    if (nCharStates == 1) {
 							tmpCharString += charBlock->GetState(taxon, eachChar, 0);
-			
+
 						    }
 						    else {
 							tmpCharString += "?"; //FIXME
-						    }			    
+						    }
 						}
 					    }
 					}
@@ -363,13 +372,17 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 					Rcpp::Named("taxonLabelVector") = lTaxaLabelVector,
 					Rcpp::Named("parentVector") = lParentVector,
 					Rcpp::Named("branchLengthVector") = lBranchLengthVector,
-					Rcpp::Named("trees") = trees,					
+					Rcpp::Named("trees") = trees,
 					Rcpp::Named("dataTypes") = dataTypes,
 					Rcpp::Named("nbCharacters") = nbCharacters,
 					Rcpp::Named("charLabels") = charLabels,
 					Rcpp::Named("nbStates") = nbStates,
 					Rcpp::Named("stateLabels") = stateLabels,
 					Rcpp::Named("dataChr") = dataChr,
-					Rcpp::Named("Test") = test);
+					Rcpp::Named("Test") = test,
+                                        Rcpp::Named("isRooted") = lIsRooted,
+                                        Rcpp::Named("hasPolytomies") = lHasPolytomies,
+                                        Rcpp::Named("hasSingletons") = lHasSingletons);
+
     return res;
 }
