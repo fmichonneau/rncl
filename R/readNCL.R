@@ -75,7 +75,7 @@ build_raw_phylo <- function(ncl, ...) {
         for (i in 1:length(ncl$trees)) {
             edgeMat <- cbind(ncl$parentVector[[i]], 1:length(ncl$parentVector[[i]]))
             edgeMat <- edgeMat[-which(edgeMat[, 1] == 0), ]
-            edgeLgth <- ncl$branchLengthVector[[i]]
+            edgeLgth <- ncl$branchLengthVector[[i]][which(ncl$parentVector[[i]] != 0)]
             edgeLgth[edgeLgth == -1] <- NA
             ## TODO: code node labels in GetNCL
 
