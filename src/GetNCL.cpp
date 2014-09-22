@@ -88,6 +88,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
     Rcpp::List lTaxaLabelVector = Rcpp::List::create();
     Rcpp::List lParentVector = Rcpp::List::create();
     Rcpp::List lBranchLengthVector = Rcpp::List::create();
+    Rcpp::List lNodeLabelVector = Rcpp::List::create();
     Rcpp::List lIsRooted = Rcpp::List::create();
     Rcpp::List lHasPolytomies = Rcpp::List::create();
     Rcpp::List lHasSingletons = Rcpp::List::create();
@@ -208,14 +209,17 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			std::vector<std::string> taxonLabelVector; //Index of the parent. 0 means no parent.
 			std::vector<unsigned> parentVector;        //Index of the parent. 0 means no parent.
 			std::vector<double> branchLengthVector;
+                        std::vector<std::string> nodeLabelVector;
 
 			taxonLabelVector.reserve(nTax);
 			parentVector.reserve(2*nTax);
 			branchLengthVector.reserve(2*nTax);
+                        nodeLabelVector.reserve(2*nTax);
 
 			taxonLabelVector.clear();
 			parentVector.clear();
 			branchLengthVector.clear();
+                        nodeLabelVector.clear();
 
 			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k);
 			treeNames.push_back(ftd.GetName());
@@ -235,6 +239,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			    else {
 				nodeIndex = internalNdIndex++;
 				nd->SetTaxonIndex(nodeIndex);
+                                nodeLabelVector.push_back(nd->GetName());
 			    }
 			    if (parentVector.size() < nodeIndex + 1)
 			    {
@@ -244,6 +249,10 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			    {
 				branchLengthVector.resize(nodeIndex + 1);
 			    }
+                            if (nodeLabelVector.size() < nodeIndex + 1)
+                            {
+                                nodeLabelVector.resize(nodeIndex + 1);
+                            }
 			    NxsSimpleEdge edge = nd->GetEdgeToParent();
 
 			    NxsSimpleNode * par = 0L;
@@ -252,11 +261,13 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			    {
 				parentVector[nodeIndex] = 1 + par->GetTaxonIndex();
 				branchLengthVector[nodeIndex] = edge.GetDblEdgeLen();
+                                //nodeLabelVector[nodeIndex] = par->GetName();
 			    }
 			    else
 			    {
 				parentVector[nodeIndex] = 0;
 				branchLengthVector[nodeIndex] = -1.0;
+                                //nodeLabelVector[nodeIndex] = "";
 			    }
 			}
 
@@ -274,6 +285,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
                         lIsRooted.push_back (isRooted);
                         lHasPolytomies.push_back (hasPolys);
                         lHasSingletons.push_back (hasSingletons);
+                        lNodeLabelVector.push_back (nodeLabelVector);
 		    }
 		}
 		else {
@@ -372,6 +384,7 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 					Rcpp::Named("taxonLabelVector") = lTaxaLabelVector,
 					Rcpp::Named("parentVector") = lParentVector,
 					Rcpp::Named("branchLengthVector") = lBranchLengthVector,
+                                        Rcpp::Named("nodeLabelsVector") = lNodeLabelVector,
 					Rcpp::Named("trees") = trees,
 					Rcpp::Named("dataTypes") = dataTypes,
 					Rcpp::Named("nbCharacters") = nbCharacters,
