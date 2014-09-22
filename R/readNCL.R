@@ -76,7 +76,7 @@ build_raw_phylo <- function(ncl, ...) {
             tr <- list(edge=edgeMat, tip.label=ncl$taxaNames, Nnode=nNodes)
 
             if (!all(is.na(edgeLgth))) {
-                tr <- c(tr, edge.length=edgeLgth)
+                tr <- c(tr, list(edge.length=edgeLgth))
             }
 
             listTrees[[i]] <- tr
