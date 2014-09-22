@@ -5,7 +5,7 @@
 \usage{
 readNCL(file, char.all = FALSE, polymorphic.convert = TRUE,
   levels.uniform = FALSE, quiet = TRUE, file.format = c("nexus",
-  "newick"), check.names = TRUE, ...)
+  "newick"), spacesAsUnderscores = TRUE, check.names = TRUE, ...)
 }
 \arguments{
 \item{file}{something}
@@ -19,6 +19,8 @@ readNCL(file, char.all = FALSE, polymorphic.convert = TRUE,
 \item{quiet}{something}
 
 \item{file.format}{something}
+
+\item{spacesAsUnderscores}{}
 
 \item{check.names}{something}
 

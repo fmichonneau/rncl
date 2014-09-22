@@ -6,25 +6,27 @@
 ##' other common phylogenetic file formats.
 ##' @title readNCL something
 ##' @param file something
-##' @param simplify something
-##' @param type something
 ##' @param char.all something
 ##' @param polymorphic.convert something
 ##' @param levels.uniform something
 ##' @param quiet something
-##' @param check.node.labels something
-##' @param return.labels something
 ##' @param file.format something
+##' @param spacesAsUnderscores
 ##' @param check.names something
 ##' @param ... something else
+##' @param simplify something
+##' @param type something
+##' @param check.node.labels something
+##' @param return.labels something
 ##' @author Francois Michonneau
 ##' @return something cool
 ##' @export
 readNCL <- function(file,
                     char.all=FALSE, polymorphic.convert=TRUE,
-                    levels.uniform=FALSE, quiet=TRUE,
-                    file.format=c("nexus", "newick"),
-                    check.names=TRUE,  ...) {
+                    levels.uniform = FALSE, quiet=TRUE,
+                    file.format = c("nexus", "newick"),
+                    spacesAsUnderscores = TRUE,
+                    check.names = TRUE,  ...) {
 
     file <- path.expand(file)
     if (!file.exists(file)) {
@@ -52,6 +54,12 @@ readNCL <- function(file,
 
     ncl <- GetNCL(fileName, parameters)
 
+    if (spacesAsUnderscores) {
+        ncl$taxonLabelVector <- lapply(ncl$taxonLabelVector, function(x) {
+            gsub("\\s", "_", x)
+        })
+    }
+
     ## Return Error message
     if (length(ncl) == 1 && names(ncl) == "ErrorMsg") {
         stop(ncl$ErrorMsg)
@@ -73,7 +81,7 @@ build_raw_phylo <- function(ncl, ...) {
 
             nNodes <- length(ncl$parentVector[[i]]) - length(ncl$taxaNames)
 
-            tr <- list(edge=edgeMat, tip.label=ncl$taxaNames, Nnode=nNodes)
+            tr <- list(edge=edgeMat, tip.label=ncl$taxonLabelVector[[i]], Nnode=nNodes)
 
             if (!all(is.na(edgeLgth))) {
                 tr <- c(tr, list(edge.length=edgeLgth))
