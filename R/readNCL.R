@@ -74,7 +74,9 @@ build_raw_phylo <- function(ncl, ...) {
 
         for (i in 1:length(ncl$trees)) {
             edgeMat <- cbind(ncl$parentVector[[i]], 1:length(ncl$parentVector[[i]]))
+            rootNd <- edgeMat[which(edgeMat[, 1] == 0), 2]
             edgeMat <- edgeMat[-which(edgeMat[, 1] == 0), ]
+
             edgeLgth <- ncl$branchLengthVector[[i]][which(ncl$parentVector[[i]] != 0)]
             edgeLgth[edgeLgth == -1] <- NA
 
@@ -83,12 +85,16 @@ build_raw_phylo <- function(ncl, ...) {
             tr <- list(edge=edgeMat, tip.label=ncl$taxonLabelVector[[i]], Nnode=nNodes)
 
             if (!all(is.na(edgeLgth))) {
+                if (any(is.na(edgeLgth))) {
+                    stop("missing edge lengths are not allowed in ape's phylo class")
+                }
                 tr <- c(tr, list(edge.length=edgeLgth))
             }
 
             if (any(nzchar(ncl$nodeLabelsVector[[i]]))) {
                 ntips <- length(tr$tip.label)
                 ndLbl <- ncl$nodeLabelsVector[[i]]
+                ndLbl[rootNd] <- ndLbl[1]
                 tr <- c(tr, list(node.label=ndLbl[(ntips+1):length(ndLbl)]))
             }
 
