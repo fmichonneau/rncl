@@ -261,13 +261,11 @@ Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
 			    {
 				parentVector[nodeIndex] = 1 + par->GetTaxonIndex();
 				branchLengthVector[nodeIndex] = edge.GetDblEdgeLen();
-                                //nodeLabelVector[nodeIndex] = par->GetName();
 			    }
 			    else
 			    {
 				parentVector[nodeIndex] = 0;
 				branchLengthVector[nodeIndex] = -1.0;
-                                //nodeLabelVector[nodeIndex] = "";
 			    }
 			}
 
