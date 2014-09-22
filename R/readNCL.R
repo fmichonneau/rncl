@@ -60,7 +60,7 @@ readNCL <- function(file,
     ncl
 }
 
-make_raw_phylo <- function(ncl) {
+build_raw_phylo <- function(ncl, ...) {
     if (length(ncl$trees) > 0) {
         listTrees <- vector("list", length(ncl$trees))
 
@@ -88,8 +88,8 @@ make_raw_phylo <- function(ncl) {
     listTrees
 }
 
-make_phylo <- function(ncl, simplify=TRUE) {
-    trees <- make_raw_phylo(ncl)
+build_phylo <- function(ncl, simplify=TRUE, ...) {
+    trees <- build_raw_phylo(ncl, ...)
     trees <- lapply(trees, function(tr) {
         ape::collapse.singles(tr)
     })
@@ -102,7 +102,11 @@ make_phylo <- function(ncl, simplify=TRUE) {
     trees
 }
 
-
+##' @export
+make_phylo <- function(file, ...) {
+    ncl <- readNCL(file=file, ...)
+    build_phylo(ncl)
+}
 
 
 ##   ## Disclaimer

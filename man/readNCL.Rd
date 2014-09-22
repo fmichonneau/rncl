@@ -3,18 +3,12 @@
 \alias{readNCL}
 \title{readNCL something}
 \usage{
-readNCL(file, simplify = FALSE, type = c("all", "tree", "data"),
-  char.all = FALSE, polymorphic.convert = TRUE, levels.uniform = FALSE,
-  quiet = TRUE, check.node.labels = c("keep", "drop", "asdata"),
-  return.labels = TRUE, file.format = c("nexus", "newick"),
-  check.names = TRUE, ...)
+readNCL(file, char.all = FALSE, polymorphic.convert = TRUE,
+  levels.uniform = FALSE, quiet = TRUE, file.format = c("nexus",
+  "newick"), check.names = TRUE, ...)
 }
 \arguments{
 \item{file}{something}
-
-\item{simplify}{something}
-
-\item{type}{something}
 
 \item{char.all}{something}
 
@@ -24,15 +18,19 @@ readNCL(file, simplify = FALSE, type = c("all", "tree", "data"),
 
 \item{quiet}{something}
 
-\item{check.node.labels}{something}
-
-\item{return.labels}{something}
-
 \item{file.format}{something}
 
 \item{check.names}{something}
 
 \item{...}{something else}
+
+\item{simplify}{something}
+
+\item{type}{something}
+
+\item{check.node.labels}{something}
+
+\item{return.labels}{something}
 }
 \value{
 something cool
