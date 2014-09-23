@@ -1,9 +1,13 @@
 Roxygen: list(wrap = FALSE)
 Package: rncl
 Title: An R interface to the Nexus Class Library
-Version: 0.1
-Authors@R: person("Francois", "Michonneau", role=c("aut", "cre"),
-    email="francois.michonneau@gmail.com")
+Version: 0.1.1
+Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
+    email="francois.michonneau@gmail.com"),
+    person("Mark", "Holder", role=c("aut", "cre")),
+    person("Paul", "Lewis", role=c("aut", "cre")),
+    person("Brian", "O'Meara", role=c("aut", "cre")))
+Maintainer: Francois Michonneau <francois.michonneau@gmail.com>
 Description: This package provides an interface to the Nexus Class Library
     which allows parsing for NEXUS, Newick and other phylogenetic tree file
     formats
