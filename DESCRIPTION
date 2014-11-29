@@ -9,9 +9,10 @@ Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
     person("Paul", "Lewis", role=c("aut", "cre")),
     person("Brian", "O'Meara", role=c("aut", "cre")))
 Maintainer: Francois Michonneau <francois.michonneau@gmail.com>
-Description: This package provides an interface to the Nexus Class Library
-    which allows parsing for NEXUS, Newick and other phylogenetic tree file
-    formats
+Description: An interface to the Nexus Class Library which allows parsing
+    of NEXUS, Newick and other phylogenetic tree file formats. It provides
+    elements of the file that can be used to build phylogenetic objects
+    such as ape's phylo or phylobase's phylo4(d).
 Imports:
     Rcpp (>= 0.11.0),
     ape
