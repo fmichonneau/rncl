@@ -23,32 +23,12 @@ co1File <- file.path(pth, "co1.nex")
 ## MultiLineTrees.nex -- 2 identical trees stored on several lines
 multiLinesFile <- file.path(pth, "MultiLineTrees.nex")
 
-## treeWithDiscreteData.nex -- Mesquite file with discrete data
-treeDiscDt <- file.path(pth, "treeWithDiscreteData.nex")
-
-## treeWithPolyExcludedData.nex -- Mesquite file with polymorphic and excluded
-##  characters
-treePolyDt <- file.path(pth, "treeWithPolyExcludedData.nex")
-
-## treeWithContinuousData.nex -- Mesquite file with continuous characters
-treeContDt <- file.path(pth, "treeWithContinuousData.nex")
-
-## treeWithDiscAndContData.nex -- Mesquite file with both discrete and
-##    continuous data
-treeDiscCont <- file.path(pth, "treeWithDiscAndContData.nex")
-
-## noStateLabels.nex -- Discrete characters with missing state labels
-noStateLabels <- file.path(pth, "noStateLabels.nex")
-
 ## Newick trees
 newick <- file.path(pth, "newick.tre")
 
 ## Contains correct (as of 2014-11-29) phylo representation of one of the tree
 ## stored in the nexus file
 mlFile <- file.path(pth, "multiLines.rds")
-
-## Contains representation of data associated with continuous data
-ExContDataFile <- file.path(pth, "ExContData.Rdata")
 
 
 stopifnot(file.exists(co1File))
@@ -60,8 +40,6 @@ stopifnot(file.exists(treeContDt))
 stopifnot(file.exists(treeDiscCont))
 stopifnot(file.exists(ExContDataFile))
 stopifnot(file.exists(noStateLabels))
-
-op <- phylobase.options()
 
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
