@@ -32,14 +32,8 @@ mlFile <- file.path(pth, "multiLines.rds")
 
 
 stopifnot(file.exists(co1File))
-stopifnot(file.exists(treeDiscDt))
 stopifnot(file.exists(multiLinesFile))
 stopifnot(file.exists(mlFile))
-stopifnot(file.exists(treePolyDt))
-stopifnot(file.exists(treeContDt))
-stopifnot(file.exists(treeDiscCont))
-stopifnot(file.exists(ExContDataFile))
-stopifnot(file.exists(noStateLabels))
 
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
