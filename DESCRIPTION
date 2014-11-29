@@ -1,7 +1,8 @@
 Roxygen: list(wrap = FALSE)
 Package: rncl
 Title: An R interface to the Nexus Class Library
-Version: 0.1.1
+Version: 0.2.0
+Date: 2014-11-29
 Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
     email="francois.michonneau@gmail.com"),
     person("Mark", "Holder", role=c("aut", "cre")),
@@ -20,4 +21,6 @@ LinkingTo: Rcpp
 Depends:
     R (>= 3.1.1)
 License: GPL (>= 2)
+URL: https://github.com/fmichonneau/rncl
+BugReports: https://github.com/fmichonneau/rncl/issues
 LazyData: true
