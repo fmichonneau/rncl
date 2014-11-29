@@ -108,7 +108,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
     std::string filename = list["fileName"];
 #   endif
 
-    MultiFormatReader nexusReader(-1, NxsReader::WARNINGS_TO_STDERR);
+    MultiFormatReader nexusReader(-1, NxsReader::IGNORE_WARNINGS);
 
     /* make NCL less strict */
     NxsTreesBlock * treesB = nexusReader.GetTreesBlockTemplate();
