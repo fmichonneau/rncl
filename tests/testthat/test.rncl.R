@@ -65,11 +65,11 @@ lVco1 <- c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0.93, 0.88, 0.99, 1.00,
            0.76, 1.00, 1.00)
 context("readNCL can deal with simple NEXUS files (tree only)")
 test_that("file with 2 trees (warning normal)", {
-    target_edgeLength <- unname(eLco1[paste(co1Tree1$edge[,1], co1Tree1$edge[,2], sep="-")])
     ## Read trees
     co1 <- read_nexus_phylo(file=co1File)
     ## Tree 1
     co1Tree1 <- co1[[1]]
+    target_edgeLength <- unname(eLco1[paste(co1Tree1$edge[,1], co1Tree1$edge[,2], sep="-")])
     expect_equal(co1Tree1$tip.label, labCo1)     # check labels
     expect_equal(co1Tree1$edge.length, target_edgeLength)  # check edge lengths
     expect_equal(co1Tree1$node.label, c("", "0.93", "0.88", "0.99", "1.00", "0.76", "1.00", "1.00"))
@@ -81,9 +81,9 @@ test_that("file with 2 trees (warning normal)", {
 })
 
 test_that("test option simplify", {
-    target_edgeLength <- unname(eLco1[paste(co1Tree1$edge[,1], co1Tree1$edge[,2], sep="-")])
     ## Check option simplify
     co1 <- read_nexus_phylo(file=co1File, simplify=TRUE)
+    target_edgeLength <- unname(eLco1[paste(co1$edge[,1], co1$edge[,2], sep="-")])
     expect_true(inherits(co1, "phylo"))        # make sure there is only one tree
     expect_equal(co1$tip.label, labCo1)     # check labels
     expect_equal(co1$edge.length, target_edgeLength)  # check edge lengths
