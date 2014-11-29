@@ -61,6 +61,6 @@ Francois Michonneau
 \references{
 Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
 An extensible file format for systematic information". Systematic
-Biology 46 (4): 590–621. doi:10.1093/sysbio/46.4.590
+Biology 46(4) : 590-621. doi:10.1093/sysbio/46.4.590
 }
 
