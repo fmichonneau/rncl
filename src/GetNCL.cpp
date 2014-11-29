@@ -66,7 +66,7 @@ NxsString stdData(NxsCharactersBlock& charBlock, NxsString& charString, const in
 
 
 //[[Rcpp::export]]
-Rcpp::List GetNCL (SEXP params, SEXP paramsVecR) {
+Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 
     Rcpp::List list(params);
     Rcpp::LogicalVector paramsVec(paramsVecR);

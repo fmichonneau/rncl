@@ -296,16 +296,16 @@ BEGIN_RCPP
     return __sexp_result;
 END_RCPP
 }
-// GetNCL
-Rcpp::List GetNCL(SEXP params, SEXP paramsVecR);
-RcppExport SEXP rncl_GetNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
+// RNCL
+Rcpp::List RNCL(SEXP params, SEXP paramsVecR);
+RcppExport SEXP rncl_RNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP );
         Rcpp::traits::input_parameter< SEXP >::type paramsVecR(paramsVecRSEXP );
-        Rcpp::List __result = GetNCL(params, paramsVecR);
+        Rcpp::List __result = RNCL(params, paramsVecR);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);

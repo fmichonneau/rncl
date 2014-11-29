@@ -77,7 +77,7 @@ checkTreeCpp <- function(obj, opts) {
     .Call('rncl_checkTreeCpp', PACKAGE = 'rncl', obj, opts)
 }
 
-GetNCL <- function(params, paramsVecR) {
-    .Call('rncl_GetNCL', PACKAGE = 'rncl', params, paramsVecR)
+RNCL <- function(params, paramsVecR) {
+    .Call('rncl_RNCL', PACKAGE = 'rncl', params, paramsVecR)
 }
 
