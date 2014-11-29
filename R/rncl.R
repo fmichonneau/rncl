@@ -1,32 +1,30 @@
-##' Returns a list of the elements contained in a Nexus file used to
+##' Returns a list of the elements contained in a NEXUS file used to
 ##' build phylogenetic objects in R
 ##'
-##' The NEXUS class is a common file format used in
-##' phylogenetics. This function calls NCL to parse NEXUS, newick or
-##' other common phylogenetic file formats.
-##' @title readNCL something
-##' @param file something
-##' @param char.all something
-##' @param polymorphic.convert something
-##' @param levels.uniform something
-##' @param quiet something
-##' @param file.format something
-##' @param spacesAsUnderscores
-##' @param check.names something
-##' @param ... something else
-##' @param simplify something
-##' @param type something
-##' @param check.node.labels something
-##' @param return.labels something
+##' NEXUS is a common file format used in phylogenetics to represent
+##' phylogenetic trees, and other types of phylogenetic data. This
+##' function uses NCL (the NEXUS Class Library) to parse NEXUS, Newick
+##' or other common phylogenetic file formats, and returns the
+##' relevant elements as a list. \code{phylo} (from the ape package)
+##' or \code{phylo4} (from the phylobase package) can be constructed
+##' from the elements contained in this list.
+##' @title Get all the elements from a NEXUS (or Newick) file
+##' @param file path to a NEXUS or Newick file
+##' @param file.format something a character string indicating the
+##' type of file to be parsed.
+##' @param spacesAsUnderscores In the NEXUS file format white spaces
+##' are not allowed in taxa labels and are represented by
+##' underscores. Therefore, NCL converts underscores found in taxa
+##' labels in the NEXUS file into white spaces (e.g. \code{species_1}
+##' will become \code{"species 1"}. If you want to preserve the
+##' underscores, set as TRUE, the default).
+##' @param ... additional parameters (currently not in use).
 ##' @author Francois Michonneau
-##' @return something cool
+##' @return A list that contains the following:
+##' *
 ##' @export
-readNCL <- function(file,
-                    char.all=FALSE, polymorphic.convert=TRUE,
-                    levels.uniform = FALSE, quiet=TRUE,
-                    file.format = c("nexus", "newick"),
-                    spacesAsUnderscores = TRUE,
-                    check.names = TRUE,  ...) {
+rncl <- function(file, file.format = c("nexus", "newick"),
+                 spacesAsUnderscores = TRUE, ...) {
 
     file <- path.expand(file)
     if (!file.exists(file)) {
@@ -37,22 +35,17 @@ readNCL <- function(file,
     if (file.format == "newick") file.format <- "relaxedphyliptree"
 
     fileName <- list(fileName=file, fileFormat=file.format)
-    parameters <- c(char.all, polymorphic.convert, levels.uniform, TRUE, TRUE)
 
-    ## GetNCL returns a list containing:
-    ##  $taxaNames: names of the taxa (from taxa block, implied or declared)
-    ##  $treeNames: the names of the trees
-    ##  $trees: a vector of (untranslated) Newick strings
-    ##  $dataTypes: data type for each character block of the nexus file (length = number of chr blocks)
-    ##  $nbCharacters: number of characters in each block (length = number of chr blocks)
-    ##  $charLabels: the labels for the characters, i.e. the headers of the data frame to be returned
-    ##    (length = number of chr blocks * sum of number of characters in each block)
-    ##  $nbStates: the number of states of each character (equals 0 for non-standard types, length = number
-    ##    of characters)
-    ##  $stateLabels: the labels for the states of the characters, i.e. the levels of the factors to be returned
-    ##  $dataChr: string that contains the data to be returned
+    ## Order of the logical parameters for GetNCL R (and C++) arguments
+    ## - char.all (charall)
+    ## - polymorphic.convert (polyconvert)
+    ## - levels.uniform (levelsUnif)
+    ## - (returnTrees)
+    ## - (returnData)
+    #parameters <- c(char.all, polymorphic.convert, levels.uniform, TRUE, TRUE)
+    parameters <- c(TRUE, TRUE, TRUE, TRUE, FALSE)
 
-    ncl <- GetNCL(fileName, parameters)
+    ncl <- RNCL(fileName, parameters)
 
     if (spacesAsUnderscores) {
         ncl$taxonLabelVector <- lapply(ncl$taxonLabelVector, function(x) {
@@ -61,37 +54,64 @@ readNCL <- function(file,
     }
 
     ## Return Error message
-    if (length(ncl) == 1 && names(ncl) == "ErrorMsg") {
+    if (exists("ErrorMsg", where=ncl)) {
         stop(ncl$ErrorMsg)
     }
 
     ncl
 }
 
-build_raw_phylo <- function(ncl, ...) {
+## Returns the edge matrix from the parentVector (the i^th element is
+## the descendant element of node i)
+get_edge_matrix <- function(parentVector) {
+    edgeMat <- cbind(parentVector, 1:length(parentVector))
+    rootNd <- edgeMat[which(edgeMat[, 1] == 0), 2]
+    edgeMat <- edgeMat[-which(edgeMat[, 1] == 0), ]
+    attr(edgeMat, "root") <- rootNd
+    edgeMat
+}
+
+## Returns the edge lengths (missing are represented by -1)
+get_edge_length <- function(branchLengthVector, parentVector) {
+    edgeLgth <- branchLengthVector[which(parentVector != 0)]
+    edgeLgth[edgeLgth == -1] <- NA
+    edgeLgth
+}
+
+## Tests whether there are node labels
+has_node_labels <- function(nodeLabelsVector) {
+    any(nzchar(nodeLabelsVector))
+}
+
+
+## Pieces together the elements needed to build a phylo object, but
+## they are not converted as such to allow for singletons (and
+## possibly other kinds of trees that phylo doesn't support)
+build_raw_phylo <- function(ncl) {
     if (length(ncl$trees) > 0) {
         listTrees <- vector("list", length(ncl$trees))
 
         for (i in 1:length(ncl$trees)) {
-            edgeMat <- cbind(ncl$parentVector[[i]], 1:length(ncl$parentVector[[i]]))
-            rootNd <- edgeMat[which(edgeMat[, 1] == 0), 2]
-            edgeMat <- edgeMat[-which(edgeMat[, 1] == 0), ]
+            edgeMat <- get_edge_matrix(ncl$parentVector[[i]])
+            rootNd <- attr(edgeMat, "root")
+            attr(edgeMat, "root") <- NULL
+            attr(edgeMat, "dimnames") <- NULL
 
-            edgeLgth <- ncl$branchLengthVector[[i]][which(ncl$parentVector[[i]] != 0)]
-            edgeLgth[edgeLgth == -1] <- NA
+            edgeLgth <- get_edge_length(ncl$branchLength[[i]], ncl$parentVector[[i]])
 
             nNodes <- length(ncl$parentVector[[i]]) - length(ncl$taxaNames)
 
-            tr <- list(edge=edgeMat, tip.label=ncl$taxonLabelVector[[i]], Nnode=nNodes)
+            tr <- list(edge=edgeMat, tip.label=ncl$taxonLabelVector[[i]],
+                       Nnode=nNodes)
 
             if (!all(is.na(edgeLgth))) {
                 if (any(is.na(edgeLgth))) {
-                    stop("missing edge lengths are not allowed in ape's phylo class")
+                    stop("missing edge lengths are not allowed in phylo class")
                 }
                 tr <- c(tr, list(edge.length=edgeLgth))
             }
 
-            if (any(nzchar(ncl$nodeLabelsVector[[i]]))) {
+            if (has_node_labels(ncl$nodeLabelsVector[[i]])) {
                 ntips <- length(tr$tip.label)
                 ndLbl <- ncl$nodeLabelsVector[[i]]
                 ndLbl[rootNd] <- ndLbl[1]
@@ -107,155 +127,51 @@ build_raw_phylo <- function(ncl, ...) {
     listTrees
 }
 
-build_phylo <- function(ncl, simplify=TRUE, ...) {
-    trees <- build_raw_phylo(ncl, ...)
+## polishes things up
+build_phylo <- function(ncl, simplify=FALSE) {
+    trees <- build_raw_phylo(ncl)
     trees <- lapply(trees, function(tr) {
-        ape::collapse.singles(tr)
+        tr <- ape::collapse.singles(tr)
+        class(tr) <- "phylo"
+        tr
     })
     if (length(trees) == 1 || simplify) {
         trees <- trees[[1]]
-        class(trees) <- "phylo"
     } else {
-        stop("not yet implemented")
+        class(trees) <- "multiPhylo"
     }
     trees
 }
 
+##' Create phylo objects from NEXUS or Newick files
+##'
+##' These functions read NEXUS or Newick files and return an object of
+##' class phylo/multiPhylo.
+##' @title Read phylogenetic trees from files
+##' @param file Path of NEXUS or Newick file
+##' @param simplify If the file includes more than one tree, returns
+##' only the first tree; otherwise, returns a multiPhylo object
+##' @param ... additional parameters to be passed to the rncl function
+##' @return A phylo or a multiPhyloo object
+##' @author Francois Michonneau
+##' @seealso rncl, and the
+##' @rdname read_nexus_phylo
+##' @note make_phylo may become deprecated in the future, use
+##' read_nexus_phylo or read_newick_phylo instead.
 ##' @export
-make_phylo <- function(file, ...) {
-    ncl <- readNCL(file=file, ...)
-    build_phylo(ncl)
+make_phylo <- function(file, simplify=FALSE, ...) {
+    ncl <- rncl(file=file, ...)
+    build_phylo(ncl, simplify=simplify)
 }
 
+##' @rdname read_nexus_phylo
+##' @export
+read_nexus_phylo <- function(file, simplify=FALSE, ...) {
+    make_phylo(file=file, simplify=simplify, file.format="nexus", ...)
+}
 
-##   ## Disclaimer
-##     if (!length(grep("\\{", ncl$dataChr)) && return.labels && !polymorphic.convert) {
-##         stop("At this stage, it's not possible to use the combination: ",
-##              "return.labels=TRUE and polymorphic.convert=FALSE for datasets ",
-##              "that contain polymorphic characters.")
-##     }
-
-##     if (returnData && length(ncl$dataChr)) {
-##         tipData <- vector("list", length(ncl$dataChr))
-##         for (iBlock in 1:length(ncl$dataTypes)) {
-##             chrCounter <- ifelse(iBlock == 1, 0, sum(ncl$nbCharacters[1:(iBlock-1)]))
-##             if (ncl$dataTypes[iBlock] == "Continuous") {
-##                 for (iChar in 1:ncl$nbCharacters[iBlock]) {
-##                     i <- chrCounter + iChar
-##                     tipData[[i]] <- eval(parse(text=ncl$dataChr[i]))
-##                     names(tipData)[i] <- ncl$charLabels[i]
-##                 }
-##             }
-##             else {
-
-##                 if (ncl$dataTypes[iBlock] == "Standard") {
-##                     iForBlock <- integer(0)
-##                     for (iChar in 1:ncl$nbCharacters[iBlock]) {
-##                         i <- chrCounter + iChar
-##                         iForBlock <- c(iForBlock, i)
-##                         lblCounterMin <- ifelse(i == 1, 1, sum(ncl$nbStates[1:(i-1)]) + 1)
-##                         lblCounter <- seq(lblCounterMin, length.out=ncl$nbStates[i])
-##                         tipData[[i]] <- eval(parse(text=ncl$dataChr[i]))
-##                         names(tipData)[i] <- ncl$charLabels[i]
-##                         tipData[[i]] <- as.factor(tipData[[i]])
-
-##                         lbl <- ncl$stateLabels[lblCounter]
-##                         if (return.labels) {
-##                             if (any(nchar(gsub(" ", "", lbl)) == 0)) {
-##                                 warning("state labels are missing for \'", ncl$charLabels[i],
-##                                         "\', the option return.labels is thus ignored.")
-##                             }
-##                             else {
-##                                 levels(tipData[[i]]) <- lbl
-##                             }
-##                         }
-##                     }
-##                     if (levels.uniform) {
-##                         allLevels <- character(0)
-##                         for (j in iForBlock) {
-##                             allLevels <- union(allLevels, levels(tipData[[j]]))
-##                         }
-##                         for (j in iForBlock) {
-##                             levels(tipData[[j]]) <- allLevels
-##                         }
-##                     }
-##                 }
-##                 else {
-##                     warning("This datatype is not currently supported by phylobase")
-##                     next
-##                     ## FIXME: different datatypes in a same file isn't going to work
-##                 }
-##             }
-##         }
-##         tipData <- data.frame(tipData, check.names=check.names)
-##         if (length(ncl$taxaNames) == nrow(tipData)) {
-##             rownames(tipData) <- ncl$taxaNames
-##         }
-##         else stop("phylobase doesn't deal with multiple taxa block at this time.")
-##     }
-##     else {
-##         tipData <- NULL
-##     }
-
-##     if (returnTrees && length(ncl$trees) > 0) {
-##         listTrees <- vector("list", length(ncl$trees))
-
-##         for (i in 1:length(ncl$trees)) {
-##             edgeMat <- cbind(ncl$parentVector[[i]], 1:length(ncl$parentVector[[i]]))
-##             edgeLgth <- ncl$branchLengthVector[[i]]
-##             edgeLgth[edgeLgth == -1] <- NA
-##             if (length(ncl$taxaNames) != min(ncl$parentVector)-1) {
-##                 stop("phylobase doesn't deal with multiple taxa block at this time.")
-##             }
-##             ## TODO: code node labels in GetNCL
-##             tr <- list(edge=edgeMat,
-##                        edge.length=edgeLgth,
-##                        tip.label=ncl$taxaNames,
-##                        ...)
-##             listTrees[[i]] <- tr
-##         }
-##         if (length(listTrees) == 1 || simplify) {
-##             listTrees <- listTrees[[1]]
-##         }
-##     }
-##     else {
-##         listTrees <- NULL
-##     }
-
-##     switch(type,
-##            "data" = {
-##                if (is.null(tipData)) {
-##                    toRet <- NULL
-##                }
-##                else {
-##                    toRet <- tipData
-##                }
-##            },
-##            "tree" = {
-##                if (is.null(listTrees)) {
-##                    toRet <- NULL
-##                }
-##                else {
-##                    toRet <- listTrees
-##                }
-##            },
-##            "all" = {
-##                if (is.null(tipData) && is.null(listTrees)) {
-##                    toRet <- NULL
-##                }
-##                else if (is.null(tipData)) {
-##                    toRet <- listTrees
-##                }
-##                else if (is.null(listTrees)) {
-##                    toRet <- tipData
-##                }
-##                else {
-##                    if (length(listTrees) > 1) {
-##                        toRet <- lapply(listTrees, function(tr)
-##                                        addData(tr, tip.data=tipData, ...))
-##                    }
-##                    else toRet <- addData(listTrees, tip.data=tipData, ...)
-##                }
-##            })
-##     toRet
-## }
+##' @rdname read_nexus_phylo
+##' @export
+read_newick_phylo <- function(file, simplify=FALSE, ...) {
+    make_phylo(file=file, simplify=simplify, file.format="newick", ...)
+}
