@@ -13,8 +13,7 @@ Description: This package provides an interface to the Nexus Class Library
     formats
 Imports:
     Rcpp (>= 0.11.0),
-    ape,
-    phylobase
+    ape
 Suggests:
     testthat
 LinkingTo: Rcpp
