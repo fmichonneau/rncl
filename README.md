@@ -3,6 +3,18 @@
 
 # An R interface to the NEXUS Class Library
 
+This R package provides an interface to the C++ library NCL. It can parse
+efficiently NEXUS and Newick file. Currently, the package focuses on retrieving
+the phylogenetic trees included in these files. If you are interested in
+retrieving other kind of data that NEXUS files may include, check out the
+[https://github.com/fmichonneau/phylobase](phylobase) package.
+
+The functions intended for users are: `read_nexus_phylo()` and
+`read_newick_phylo()`. These functions read NEXUS and Newick files respectively,
+and return (a valid) `phylo` or `multiPhylo` object.
+
+The initial CRAN release for this package is 0.2.0.
+
 # Windows builds
 
 Because this package contains some C++ code, it can be tricky to build if you
