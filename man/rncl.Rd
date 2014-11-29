@@ -24,8 +24,8 @@ underscores, set as TRUE, the default).}
 \item{...}{additional parameters (currently not in use).}
 }
 \value{
-A list that contains the following:
-*
+A list that contains the elements extracted from a NEXUS
+or a Newick file.
 }
 \description{
 rncl provides an interface to the NEXUS Class Library (NCL), a C++
@@ -57,5 +57,10 @@ from the elements contained in this list.
 }
 \author{
 Francois Michonneau
+}
+\references{
+Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
+An extensible file format for systematic information". Systematic
+Biology 46 (4): 590–621. doi:10.1093/sysbio/46.4.590
 }
 

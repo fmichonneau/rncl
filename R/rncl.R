@@ -19,9 +19,12 @@
 ##' will become \code{"species 1"}. If you want to preserve the
 ##' underscores, set as TRUE, the default).
 ##' @param ... additional parameters (currently not in use).
+##' @references Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
+##' An extensible file format for systematic information". Systematic
+##' Biology 46 (4): 590–621. doi:10.1093/sysbio/46.4.590
 ##' @author Francois Michonneau
-##' @return A list that contains the following:
-##' *
+##' @return A list that contains the elements extracted from a NEXUS
+##' or a Newick file.
 ##' @export
 rncl <- function(file, file.format = c("nexus", "newick"),
                  spacesAsUnderscores = TRUE, ...) {
