@@ -81,6 +81,7 @@ test_that("file with 2 trees (warning normal)", {
 })
 
 test_that("test option simplify", {
+    target_edgeLength <- unname(eLco1[paste(co1Tree1$edge[,1], co1Tree1$edge[,2], sep="-")])
     ## Check option simplify
     co1 <- read_nexus_phylo(file=co1File, simplify=TRUE)
     expect_true(inherits(co1, "phylo"))        # make sure there is only one tree
