@@ -1,2 +1,3 @@
 ^\.travis\.yml$
 winbuilds/
+appveyor.yml
