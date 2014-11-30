@@ -128,7 +128,7 @@ class NxsSimpleEdge
 				lenAsString.assign(asString);
 			}
 		mutable void * scratch;
-		void SetParent(NxsSimpleNode *p) 
+		void SetParent(NxsSimpleNode *p)
 		    {
 		    this->parent = p;
 		    }
@@ -302,13 +302,13 @@ class NxsSimpleNode
 		bool RemoveChild(NxsSimpleNode *n)
 			{
 			if (n == 0L || lChild == 0L)
-			    return false;			
+			    return false;
 			if (lChild == n)
 				lChild = lChild->rSib;
-			else 
+			else
 			    {
 			    NxsSimpleNode * c = lChild;
-				for (;;) 
+				for (;;)
 				    {
 				    if (c->rSib == n)
 				        {
@@ -584,11 +584,11 @@ class NxsFullTreeDescription
 			{
 			return minDblEdgeLen;
 			}
-		bool RequiresNewickNameTokenizing() const 
+		bool RequiresNewickNameTokenizing() const
 		    {
 		    return this->requireNewickNameTokenizing;
 		    }
-		void SetRequiresNewickNameTokenizing(bool v) 
+		void SetRequiresNewickNameTokenizing(bool v)
 		    {
 		    this->requireNewickNameTokenizing = v;
 		    }
@@ -718,7 +718,7 @@ class NxsTreesBlock
 			{
 			return allowImplicitNames;
 			}
-		bool GetUseNewickTokenizingDuringParse() const 
+		bool GetUseNewickTokenizingDuringParse() const
 		    {
 		    return useNewickTokenizingDuringParse;
 		    }
@@ -737,11 +737,11 @@ class NxsTreesBlock
 			{
 			allowImplicitNames = s;
 			}
-		void SetUseNewickTokenizingDuringParse(bool v) 
+		void SetUseNewickTokenizingDuringParse(bool v)
 		    {
-		    useNewickTokenizingDuringParse = v; 
+		    useNewickTokenizingDuringParse = v;
 		    }
-		void SetTreatIntegerLabelsAsNumbers(bool s) 
+		void SetTreatIntegerLabelsAsNumbers(bool s)
 		    {
 		    treatIntegerLabelsAsNumbers = s;
 		    }
@@ -837,7 +837,7 @@ class NxsTreesBlock
 			*a = *this;
 			return a;
 			}
-		static void ProcessTokenVecIntoTree(const ProcessedNxsCommand & token, 
+		static void ProcessTokenVecIntoTree(const ProcessedNxsCommand & token,
 		                                    NxsFullTreeDescription & ftd,
 		                                    NxsLabelToIndicesMapper *,
 		                                    std::map<std::string, unsigned> &capNameToInd,
@@ -913,7 +913,7 @@ class NxsTreesBlock
 			this->writeTranslateTable = wtt;
 		}
 		void setAllowNumericInterpretationOfTaxLabels(bool x) {
-			this->allowNumericInterpretationOfTaxLabels = x; 
+			this->allowNumericInterpretationOfTaxLabels = x;
 		}
 		/*! Sets the boolean field that determines whether or not the trees
 			block will validate treat internal node labels
