@@ -798,6 +798,7 @@ class NxsTreesBlock
 			CopyBaseBlockContents(static_cast<const NxsBlock &>(other));
 			CopyTaxaBlockSurrogateContents(other);
 			CopyTreesBlockContents(other);
+			this->constructingTaxaBlock = other.constructingTaxaBlock;
 			return *this;
 			}
 
@@ -813,10 +814,10 @@ class NxsTreesBlock
 			writeFromNodeEdgeDataStructure = other.writeFromNodeEdgeDataStructure;
 			validateInternalNodeLabels = other.validateInternalNodeLabels;
 			allowNumericInterpretationOfTaxLabels = other.allowNumericInterpretationOfTaxLabels;
-			if (other.constructingTaxaBlock)
-			    constructingTaxaBlock = true; //other.constructingTaxaBlock;
-			else
-			    constructingTaxaBlock = false;
+			/* if (other.constructingTaxaBlock) */
+			/*     constructingTaxaBlock = true; //other.constructingTaxaBlock; */
+			/* else */
+			/*     constructingTaxaBlock = false; */
 			newtaxa = other.newtaxa;
 			trees = other.trees;
 			capNameToInd = other.capNameToInd;
