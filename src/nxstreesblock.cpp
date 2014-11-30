@@ -1126,10 +1126,12 @@ void NxsTreesBlock::ConstructDefaultTranslateTable(NxsToken &token, const char *
 		{
 		if (allowImplicitNames)
 			{
+			    if (!constructingTaxaBlock) Rcpp::Rcout << "constructingTaxaBlock is false" << std::endl;
+			    Rcpp::Rcout << "I'm here and constructingTaxaBlock is " << constructingTaxaBlock << std::endl;
 			    constructingTaxaBlock = true;
 			if (nexusReader)
 				nexusReader->NexusWarnToken("A TAXA block should be read before the TREES block (but no TAXA block was found).  Taxa will be inferred from their usage in the TREES block.", NxsReader::AMBIGUOUS_CONTENT_WARNING , token);
-			Rcpp::Rcout << "I'm here and constructingTaxaBlock is " << constructingTaxaBlock << std::endl;
+
 			Rcpp::Rcout << "I'm there and constructingTaxaBlock is " << constructingTaxaBlock << std::endl;
 			newtaxa = true;
 			}
