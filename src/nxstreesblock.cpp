@@ -298,21 +298,21 @@ void NxsSimpleNode::AddSelfAndDesToPreorder(std::vector<const NxsSimpleNode *> &
 	for (;;)
 		{
 		p.push_back(currCh);
-		if (currCh->lChild) 
+		if (currCh->lChild)
 			{
 			currCh = currCh->lChild;
-			if (currCh->rSib) 
+			if (currCh->rSib)
 				{
 				ndStack.push(currCh->rSib);
 				}
 			}
-		else 
+		else
 			{
 			if (ndStack.empty())
 				break;
 			currCh = ndStack.top();
 			ndStack.pop();
-			if (currCh->rSib) 
+			if (currCh->rSib)
 				{
 				ndStack.push(currCh->rSib);
 				}
@@ -1017,7 +1017,7 @@ void NxsTreesBlock::WriteTreesCommand(std::ostream & out) const
 		else
 			out << treeDesc.GetNewick();
 		out << ";\n";
-		
+
 
 #		if defined(PHYLOBASE_TESTING)
 			const NxsTreesBlock * treeBlock = this;
@@ -1027,10 +1027,10 @@ void NxsTreesBlock::WriteTreesCommand(std::ostream & out) const
 
 
         	std::vector<unsigned> parentVector; //Index of the parent. 0 means no parent.
-    	    std::vector<double> branchLengthVector; 
+    	    std::vector<double> branchLengthVector;
 			parentVector.clear();
 			branchLengthVector.clear();
-			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k); 
+			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k);
 			treeNames.push_back(ftd.GetName());
 			NxsSimpleTree simpleTree(ftd, -1, -1.0);
 			std::vector<const NxsSimpleNode *> ndVector =  simpleTree.GetPreorderTraversal();
@@ -1076,12 +1076,12 @@ void NxsTreesBlock::WriteTreesCommand(std::ostream & out) const
 			Rcpp::Rcout << "Parents = [";
 			for (std::vector<unsigned>::const_iterator nIt = parentVector.begin(); nIt != parentVector.end(); ++nIt)
 			    {
-				Rcpp::Rcout << *nIt << ", ";				
+				Rcpp::Rcout << *nIt << ", ";
 			    }
 			Rcpp::Rcout << "]\nbranch lengths = [";
 			for (std::vector<double>::const_iterator nIt = branchLengthVector.begin(); nIt != branchLengthVector.end();  ++nIt)
 			    {
-			 	Rcpp::Rcout << *nIt << ", ";				
+			 	Rcpp::Rcout << *nIt << ", ";
 			    }
 			Rcpp::Rcout << "]\n";
 #endif
@@ -1221,7 +1221,7 @@ void NxsTreesBlock::ProcessTokenVecIntoTree(
   NxsReader * nexusReader,
   const bool respectCase,
   const bool validateInternalNodeLabels,
-  const bool treatIntegerLabelsAsNumbers, 
+  const bool treatIntegerLabelsAsNumbers,
   const bool allowNumericInterpretationOfTaxLabels)
 	{
 	ProcessedNxsCommand::const_iterator tvIt = tokenVec.begin();
@@ -1248,7 +1248,7 @@ void NxsTreesBlock::ProcessTokenVecIntoTree(
 
 	try
 		{
-		ProcessTokenStreamIntoTree(token, td, taxa, capNameToInd, allowNewTaxa, nexusReader, respectCase, 
+		ProcessTokenStreamIntoTree(token, td, taxa, capNameToInd, allowNewTaxa, nexusReader, respectCase,
 								   validateInternalNodeLabels,  treatIntegerLabelsAsNumbers, allowNumericInterpretationOfTaxLabels);
 		}
 	catch (NxsException & x)
@@ -1680,7 +1680,7 @@ void NxsTreesBlock::ProcessTree(NxsFullTreeDescription & ftd) const
 		{
 		token.UseNewickTokenization(true);
 		}
-	ProcessTokenStreamIntoTree(token, ftd, taxa, capNameToInd, constructingTaxaBlock, nexusReader, false, 
+	ProcessTokenStreamIntoTree(token, ftd, taxa, capNameToInd, constructingTaxaBlock, nexusReader, false,
 								validateInternalNodeLabels, treatIntegerLabelsAsNumbers, allowNumericInterpretationOfTaxLabels);
 	}
 
@@ -1790,9 +1790,9 @@ void NxsTreesBlock::ReadTreeFromOpenParensToken(NxsFullTreeDescription &td, NxsT
 				}
 			}
 		}
-	catch (...) 
+	catch (...)
 		{
-		if (this->useNewickTokenizingDuringParse) 
+		if (this->useNewickTokenizingDuringParse)
 			token.UseNewickTokenization(false);
 		throw;
 		}
