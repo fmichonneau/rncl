@@ -217,7 +217,10 @@ class NxsBlock
 			linkAPI = other.linkAPI;
 			storeSkippedCommands = other.storeSkippedCommands;
 			skippedCommands = other.skippedCommands;
-			autoTitle = false; //other.autoTitle;
+			if (other.autoTitle)
+			    autoTitle = true; //other.autoTitle;
+			else
+			    autoTitle = false;
 			}
 
 		virtual NxsBlock * Clone() const
@@ -362,5 +365,3 @@ inline void NxsBlock::DemandEquals(NxsToken &token, const char *contextString) c
 	DemandIsAtEquals(token, contextString);
 	}
 #endif
-
-
