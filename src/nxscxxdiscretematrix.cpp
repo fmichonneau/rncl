@@ -30,7 +30,7 @@ using std::endl;
 |
 | If `originalIndexToCompressed` or `compressedIndexToOriginal` are requested
 |   then the `compressedIndexPattern` mapping must be supplied. `compressedIndexPattern`
-|   must contain pointers to the keys in `patternSet.` Note that these will 
+|   must contain pointers to the keys in `patternSet.` Note that these will
 |   be invalid after the call because patternSet will be emptied).
 */
 void NxsConsumePatternSetToPatternVector(
@@ -134,13 +134,13 @@ unsigned NxsCompressDiscreteMatrix(
     // if floating point weights have been defined
 	const std::vector<int> & iwts = mat.getIntWeightsConst();
 	std::vector<double> actingWeights(nchar, 1.0);
-	bool weightsSpecified = false;
-	bool weightsAsInts = false;
+	//bool weightsSpecified = false;
+	//bool weightsAsInts = false;
 	if (!iwts.empty())
 		{
 		NCL_ASSERT(iwts.size() >= nchar);
-		weightsSpecified = true;
-		weightsAsInts = true;
+		//weightsSpecified = true;
+		//weightsAsInts = true;
 		for (unsigned j = 0; j < nchar; ++j)
 			actingWeights[j] = (double)iwts.at(j);
 		}
@@ -149,7 +149,7 @@ unsigned NxsCompressDiscreteMatrix(
 		const std::vector<double> & dwts = mat.getDblWeightsConst();
 		if (!dwts.empty())
 			{
-    		weightsSpecified = true;
+		//weightsSpecified = true;
 			actingWeights = dwts;
 			NCL_ASSERT(actingWeights.size() == nchar);
 			}
@@ -163,7 +163,7 @@ unsigned NxsCompressDiscreteMatrix(
 		actingWeights[*eIt] = 0.0;
 		}
 	const double * wts = &(actingWeights[0]);
-	
+
 	NxsCharacterPattern patternTemp;
     patternTemp.count = 1;
 	for (unsigned j = 0; j < nchar; ++j)
@@ -209,12 +209,12 @@ unsigned NxsCompressDiscreteMatrix(
                 }
             }
 		}
-	return (unsigned)patternSet.size() - origNumPatterns;	
+	return (unsigned)patternSet.size() - origNumPatterns;
     }
 
 /*----------------------------------------------------------------------------------------------------------------------
 |	Copies data from `mat' to `pattern_vect' and `pattern_counts'. The `pattern_vect' vector holds the patterns while
-|	`pattern_counts' holds the count of the number of sites having each pattern. Additionally, the vectors 
+|	`pattern_counts' holds the count of the number of sites having each pattern. Additionally, the vectors
 |	`pattern_to_sites' and `charIndexToPatternIndex' are built: `pattern_to_sites' allows you to get a list of sites
 |	given a specific pattern, and `charIndexToPatternIndex' lets you find the index of a pattern in `pattern_vect' and
 |	`pattern_counts' given an original site index.
@@ -235,13 +235,13 @@ unsigned NxsCompressDiscreteMatrix(
 
 	NxsCompressDiscreteMatrix(mat, patternSet, toPatternMapPtr, taxaToInclude, charactersToInclude);
     const unsigned numPatternsAdded = (unsigned const)patternSet.size();
-	
+
 	NxsConsumePatternSetToPatternVector(patternSet, compressedTransposedMatrix, toPatternMapPtr, originalIndexToCompressed, compressedIndexToOriginal);
 	return numPatternsAdded;
 	}
 
 void NxsTransposeCompressedMatrix(
-  const std::vector<NxsCharacterPattern> & compressedTransposedMatrix, 
+  const std::vector<NxsCharacterPattern> & compressedTransposedMatrix,
   ScopedTwoDMatrix<NxsCDiscreteStateSet> & destination,
   std::vector<unsigned> * patternCounts,
   std::vector<double> * patternWeights)
@@ -314,13 +314,13 @@ void NxsCXXDiscreteMatrix::Initialize(const NxsCharactersBlock * cb, bool gapsTo
 		unsigned charIndex = *indIt;
 		usedMappers.insert(cb->GetDatatypeMapperForChar(charIndex));
 		}
-	
-	
+
+
 	if (usedMappers.size() > 1)
 		throw NxsException("too many mappers");
 	if (usedMappers.empty())
 		throw NxsException("no mappers - or empty charset");
-	
+
 
 	const NxsDiscreteDatatypeMapper & mapper = **usedMappers.begin();
 	const NxsDiscreteStateMatrix & rawMatrix = cb->GetRawDiscreteMatrixRef();
@@ -509,4 +509,3 @@ NxsCXXDiscreteMatrix::NxsCXXDiscreteMatrix(const NxsCDiscreteMatrix & mat)
 		}
 
 	}
-

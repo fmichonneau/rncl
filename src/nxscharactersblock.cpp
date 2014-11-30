@@ -1971,24 +1971,24 @@ void NxsCharactersBlock::HandleFormat(
 				throw NxsException("SYMBOLS subcommand not allowed for DATATYPE=CONTINUOUS", *wIt);
 			if (restrictionDataype)
 				throw NxsException("SYMBOLS subcommand not allowed for DATATYPE=RESTRICTION", *wIt);
-			NxsDiscreteStateCell numDefStates;
+			//NxsDiscreteStateCell numDefStates;
 			unsigned maxNewStates = NCL_MAX_STATES;
 			switch(datatype)
 				{
 				case NxsCharactersBlock::dna:
 				case NxsCharactersBlock::rna:
 				case NxsCharactersBlock::nucleotide:
-					numDefStates = 4;
+				    //numDefStates = 4;
 					maxNewStates = NCL_MAX_STATES-4;
 					break;
 
 				case NxsCharactersBlock::protein:
-					numDefStates = 21;
+				    //numDefStates = 21;
 					maxNewStates = NCL_MAX_STATES-21;
 					break;
 
 				default:
-					numDefStates = 0; // replace symbols list for standard datatype
+				    //numDefStates = 0; // replace symbols list for standard datatype
 					symbols.clear();
 					maxNewStates = NCL_MAX_STATES;
 				}
@@ -4101,7 +4101,7 @@ void NxsCharactersBlock::HandleStdMatrix(
 	NxsDiscreteStateRow emptyDiscRow;
 	ContinuousCharRow *contRowPtr = NULL;
 	NxsDiscreteStateRow *discRowPtr = NULL;
-	ContinuousCharRow *ftContRowPtr = NULL;
+	//ContinuousCharRow *ftContRowPtr = NULL;
 	NxsDiscreteStateRow *ftDiscRowPtr = NULL;
 	const bool isContinuous = (datatype == NxsCharactersBlock::continuous);
 	if (isContinuous)
@@ -4215,8 +4215,8 @@ void NxsCharactersBlock::HandleStdMatrix(
 			if (isContinuous)
 				{
 				contRowPtr = &continuousMatrix[indOfTaxInMemory];
-				if (ftDiscRowPtr == NULL)
-					ftContRowPtr = contRowPtr;
+				//if (ftDiscRowPtr == NULL)
+				//	ftContRowPtr = contRowPtr;
 				}
 			else
 				{
