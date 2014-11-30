@@ -13,24 +13,24 @@
 //	GNU General Public License for more details.
 //
 //	You should have received a copy of the GNU General Public License
-//	along with NCL; if not, write to the Free Software Foundation, Inc., 
+//	along with NCL; if not, write to the Free Software Foundation, Inc.,
 //	59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 //
 
-#include "ncl.h"
+#include "ncl/ncl.h"
 
-/*----------------------------------------------------------------------------------------------------------------------
-|	Initializes value to 0.0 and missing to true.
-*/
-NxsDistanceDatum::NxsDistanceDatum()
-	{
-	missing	= true;
-	value	= 0.0;
-	}
+// /*----------------------------------------------------------------------------------------------------------------------
+// |	Initializes value to 0.0 and missing to true.
+// */
+// NxsDistanceDatum::NxsDistanceDatum()
+// 	{
+// 	missing	= true;
+// 	value	= 0.0;
+// 	}
 
-/*----------------------------------------------------------------------------------------------------------------------
-|	Does nothing.
-*/
-NxsDistanceDatum::~NxsDistanceDatum()
-	{
-	}
+// /*----------------------------------------------------------------------------------------------------------------------
+// |	Does nothing.
+// */
+// NxsDistanceDatum::~NxsDistanceDatum()
+// 	{
+// 	}
