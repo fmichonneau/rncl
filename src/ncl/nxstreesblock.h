@@ -813,7 +813,7 @@ class NxsTreesBlock
 			writeFromNodeEdgeDataStructure = other.writeFromNodeEdgeDataStructure;
 			validateInternalNodeLabels = other.validateInternalNodeLabels;
 			allowNumericInterpretationOfTaxLabels = other.allowNumericInterpretationOfTaxLabels;
-			constructingTaxaBlock = other.constructingTaxaBlock;
+			constructingTaxaBlock = false; //other.constructingTaxaBlock;
 			newtaxa = other.newtaxa;
 			trees = other.trees;
 			capNameToInd = other.capNameToInd;
