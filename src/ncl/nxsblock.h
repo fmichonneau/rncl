@@ -217,7 +217,7 @@ class NxsBlock
 			linkAPI = other.linkAPI;
 			storeSkippedCommands = other.storeSkippedCommands;
 			skippedCommands = other.skippedCommands;
-			autoTitle = other.autoTitle;
+			autoTitle = false; //other.autoTitle;
 			}
 
 		virtual NxsBlock * Clone() const
