@@ -2021,7 +2021,7 @@ void NxsTreesBlock::ReadPhylipTreeFile(NxsToken & token)
 			this->useNewickTokenizingDuringParse = true;
 			ReadTreeFromOpenParensToken(td, token);
 			this->useNewickTokenizingDuringParse = prevUNTDP;
-			this->constructingTaxaBlock = false; // we have to signal that we are done constructing the TAXA block
+			//this->constructingTaxaBlock = false; // we have to signal that we are done constructing the TAXA block
 			}
 		}
 	catch (NxsX_UnexpectedEOF &)
