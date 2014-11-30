@@ -63,7 +63,9 @@ names(nTco1) <- 1:18
 ## Label values
 lVco1 <- c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, 0.93, 0.88, 0.99, 1.00,
            0.76, 1.00, 1.00)
-context("readNCL can deal with simple NEXUS files (tree only)")
+
+
+context("rncl can deal with simple NEXUS files (tree only)")
 test_that("file with 2 trees (warning normal)", {
     ## Read trees
     co1 <- read_nexus_phylo(file=co1File)
