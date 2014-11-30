@@ -2,3 +2,4 @@
 winbuilds/
 appveyor.yml
 cran-comments.md
+travis-tool.sh
