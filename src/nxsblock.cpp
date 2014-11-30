@@ -26,6 +26,9 @@
 #include <cstdlib>
 using namespace std;
 
+bool NxsLabelToIndicesMapper::allowNumberAsIndexPlusOne = true; //@TEMPORARY hack
+
+
 /* i18 */ /*v2.1to2.2 18 */
 
 #if !defined(IGNORE_NXS_ASSERT) && !defined(NDEBUG)
@@ -73,6 +76,7 @@ unsigned NxsLabelToIndicesMapper::GetIndicesFromSets(const std::string &label,
 	return 0;
 	}
 
+
 /// returns the number of indices added (will generate an NxsException if the name is neither a set name or a number).
 unsigned NxsLabelToIndicesMapper::GetIndicesFromSetOrAsNumber(const std::string &label,
   NxsUnsignedSet *inds,
@@ -89,6 +93,12 @@ unsigned NxsLabelToIndicesMapper::GetIndicesFromSetOrAsNumber(const std::string 
 		NxsString emsg;
 		emsg << "Expecting a  number or " << itemType << " label, found " <<  label;
 		throw NxsException(emsg);
+		}
+	if (!NxsLabelToIndicesMapper::allowNumberAsIndexPlusOne)
+		{
+		NxsString emsg;
+		emsg << "Numbers are not to be used as labels to indicate " << itemType << " indices, but " << label << " was encountered.";
+		throw NxsException(emsg);		
 		}
 	i--;
 	if (i > (long)maxInd  || i < 0)
@@ -446,11 +456,11 @@ bool NxsBlock::IsEmpty() NCL_COULD_BE_CONST /*v2.1to2.2 1 */
 	}
 
 /*!
-	Returns the `id` NxsString.  \ref BlockTypeIDDiscussion
+	Returns the `NCL_BLOCKTYPE_ATTR_NAME` NxsString.  \ref BlockTypeIDDiscussion
 */
 NxsString NxsBlock::GetID() const
 	{
-	return id;
+	return NCL_BLOCKTYPE_ATTR_NAME;
 	}
 
 /*!

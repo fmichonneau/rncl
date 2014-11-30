@@ -28,7 +28,6 @@
 
 #include "ncl/nxsreader.h"
 #include "ncl/nxsdefs.h"
-
 #include "ncl/nxscharactersblock.h"
 #include "ncl/nxstaxablock.h"
 #include "ncl/nxstreesblock.h"
@@ -205,7 +204,7 @@ NxsBlock *NxsReader::FindBlockByTitle(const BlockReaderList & chosenBlockList, c
 		}
 	if (nMatches)
 		*nMatches = (unsigned)found.size();
-	return (NxsBlock *) found.front();
+	return (NxsBlock *) found.back();
 	}
 
 

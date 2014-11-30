@@ -19,10 +19,6 @@
 
 #include "ncl/ncl.h"
 
-// not used in phylobase
-#if 0
-
-using namespace std;
 /*----------------------------------------------------------------------------------------------------------------------
 |	Sets the base class data member `id' to the name of the block (i.e. "EMPTY") in NEXUS data files.
 */
@@ -47,11 +43,20 @@ NxsEmptyBlock::~NxsEmptyBlock()
 |	index in the range [1..`nchar']; i.e., add one to the 0-offset index.
 */
 unsigned NxsEmptyBlock::CharLabelToNumber(
-  NxsString s) NCL_COULD_BE_CONST /* the character label to be translated to character number */
+  NxsString s)	/* the character label to be translated to character number */
 	{
 	return 0;
 	}
 
+/*----------------------------------------------------------------------------------------------------------------------
+|	Called when the END or ENDBLOCK command needs to be parsed from within the EMPTY block. Basically just checks to 
+|	make sure the next token in the data file is a semicolon.
+*/
+void NxsEmptyBlock::HandleEndblock(
+  NxsToken &token)	/* the token used to read from `in' */
+	{
+	DemandEndSemicolon(token, "END or ENDBLOCK");
+	}
 
 /*----------------------------------------------------------------------------------------------------------------------
 |	This function provides the ability to read everything following the block name (which is read by the NxsReader 
@@ -70,11 +75,35 @@ void NxsEmptyBlock::Read(
 	for(;;)
 		{
 		token.GetNextToken();
-		NxsBlock::NxsCommandResult res = HandleBasicBlockCommands(token);
-		if (res == NxsBlock::NxsCommandResult(STOP_PARSING_BLOCK))
-			return;
-		if (res != NxsBlock::NxsCommandResult(HANDLED_COMMAND))
-			SkipCommand(token);
+
+		if (token.Equals("END"))
+			{
+			HandleEndblock(token);
+			break;
+			}
+
+		else if(token.Equals("ENDBLOCK"))
+			{
+			HandleEndblock(token);
+			break;
+			}
+
+		else
+			{
+			SkippingCommand(token.GetToken());
+
+			do
+				{
+				token.GetNextToken();
+				}
+			while (!token.AtEOF() && !token.Equals(";"));
+
+			if (token.AtEOF())
+				{
+				errormsg = "Unexpected end of file encountered";
+				throw NxsException(errormsg, token.GetFilePosition(), token.GetFileLine(), token.GetFileColumn());
+				}
+			}
 		}
 	}
 
@@ -92,7 +121,7 @@ void NxsEmptyBlock::Reset()
 |	the base class.
 */
 void NxsEmptyBlock::Report(
-  std::ostream &out) NCL_COULD_BE_CONST /* the output stream to which to write the report */
+  ostream &out)	/* the output stream to which to write the report */
 	{
 	out << endl;
 	out << id << " block contains...";
@@ -118,10 +147,8 @@ void NxsEmptyBlock::SkippingCommand(
 |	range [1..ntax]; i.e., add one to the 0-offset index.
 */
 unsigned NxsEmptyBlock::TaxonLabelToNumber(
-  NxsString s) const	/* the taxon label to be translated to a taxon number */
+  NxsString s)	/* the taxon label to be translated to a taxon number */
 	{
 	return 0;
 	}
 
-
-#endif

@@ -352,7 +352,7 @@ class NxsTaxaBlockFactory
 	:public NxsBlockFactory
 	{
 	public:
-		virtual NxsTaxaBlock  *	GetBlockReaderForID(const std::string & id, NxsReader *reader, NxsToken *token);
+		virtual NxsTaxaBlock  *	GetBlockReaderForID(const std::string & NCL_BLOCKTYPE_ATTR_NAME, NxsReader *reader, NxsToken *token);
 	};
 
 inline unsigned NxsTaxaBlock::GetNTax() const
@@ -444,7 +444,7 @@ inline unsigned NxsTaxaBlockSurrogate::GetNTaxTotal() const
 
 inline unsigned NxsTaxaBlock::GetNumActiveTaxa() const
 	{
-	return GetNTax() - inactiveTaxa.size();
+	return GetNTax() - (unsigned)inactiveTaxa.size();
 	}
 
 inline bool NxsTaxaBlock::IsActiveTaxon(unsigned i) const

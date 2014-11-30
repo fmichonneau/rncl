@@ -1,4 +1,4 @@
-//	Copyright (C) 1999-2003 Paul O. Lewis
+//	Copyright (C) 1999-2003 Paul O. Lewis and Mark T. Holder
 //
 //	This file is part of NCL (Nexus Class Library) version 2.0.
 //
@@ -17,20 +17,40 @@
 //	59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 //
 
-#include "ncl.h"
+#ifndef NCL_NXSINDENT_H
+#define NCL_NXSINDENT_H
 
 /*----------------------------------------------------------------------------------------------------------------------
-|	Initializes value to 0.0 and missing to true.
+|	Manipulator for use in indenting text `leftMarg' characters.
 */
-NxsDistanceDatum::NxsDistanceDatum()
+class Indent
 	{
-	missing	= true;
-	value	= 0.0;
+	public:
+					Indent(unsigned i);
+
+		unsigned	leftMarg;	/* the amount by which to indent */
+	};
+	
+/*----------------------------------------------------------------------------------------------------------------------
+|	Initializes `leftMarg' to `i'.
+*/
+inline Indent::Indent(
+  unsigned i)	/* the amount (in characters) by which to indent */
+	:leftMarg(i)
+	{
 	}
 
 /*----------------------------------------------------------------------------------------------------------------------
-|	Does nothing.
+|	Output operator for the Indent manipulator.
 */
-NxsDistanceDatum::~NxsDistanceDatum()
+inline ostream &operator <<(
+  ostream &o,		/* the ostream object */
+  const Indent &)	/* the Indent object to be sent to `o' */
 	{
+#if defined (HAVE_PRAGMA_UNUSED)
+#	pragma unused(i)
+#endif
+	return o;
 	}
+
+#endif
