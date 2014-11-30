@@ -213,7 +213,7 @@ NxsString &NxsString::operator+=(
 	// Create a C-string representing the supplied double value.
 	// The # causes a decimal point to always be output.
 	//
-	sprintf(tmp, "%#3.6f", d);
+	std::sprintf(tmp, "%#3.6f", d);
 	unsigned tmplen = (unsigned)strlen(tmp);
 
 	// If the C-string has a lot of trailing zeros, lop them off
@@ -255,7 +255,7 @@ NxsString &NxsString::AddTail(
 #		if !defined(vsnprintf)
 #			define vsnprintf _vsnprintf_s
 #		endif
-#		define sprintf sprintf_s
+#		define std::sprintf std::sprintf_s
 #   else
 #       define vsnprintf _vsnprintf
 #   endif
@@ -321,11 +321,11 @@ bool NxsString::IsStdAbbreviation(
 
 	// s is the unabbreviated comparison string
 	//
-	const unsigned slen = static_cast<unsigned long>(s.size());
+	const unsigned slen = static_cast<unsigned const>(s.size());
 
 	// t is the stored string
 	//
-	const unsigned tlen = static_cast<unsigned long>(size());
+	const unsigned tlen = static_cast<unsigned const>(size());
 
 	// t cannot be an abbreviation of s if it is longer than s
 	//
@@ -488,12 +488,12 @@ NxsString &NxsString::RightJustifyDbl(
 		erase();
 
 	char fmtstr[81];
-	sprintf(fmtstr, "%%.%df", p);
+	std::sprintf(fmtstr, "%%.%df", p);
 	NxsString tmp;
 	tmp.PrintF(fmtstr, x);
 
 	NCL_ASSERT(w >= tmp.length());
-	unsigned num_spaces = w - tmp.length();
+	unsigned num_spaces = w - (unsigned)tmp.length();
 
 	for (unsigned k = 0; k < num_spaces; k++)
 		*this += ' ';
@@ -516,7 +516,7 @@ NxsString &NxsString::RightJustifyString(
 		erase();
 
 	NCL_ASSERT(w >= s.length());
-	unsigned num_spaces = w - s.length();
+	unsigned num_spaces = w - (unsigned)s.length();
 
 	for (unsigned k = 0; k < num_spaces; k++)
 		*this += ' ';

@@ -24,7 +24,6 @@
 #include <climits>
 
 #include "ncl/nxscharactersblock.h"
-
 #include "ncl/nxsreader.h"
 #include "ncl/nxsassumptionsblock.h"
 #include "ncl/nxssetreader.h"
@@ -484,7 +483,7 @@ CodonRecodingStruct NxsCharactersBlock::RemoveStopCodons(NxsGeneticCodesEnum gCo
 
 	const std::vector<NxsDiscreteStateCell> v = getToCodonRecodingMapper(gCode);
 	CodonRecodingStruct c = getCodonRecodingStruct(gCode);
-	const unsigned nRS = c.compressedCodonIndToAllCodonsInd.size();
+	const unsigned nRS = (unsigned)c.compressedCodonIndToAllCodonsInd.size();
 	const unsigned offset = 64 - nRS;
 	NxsDiscreteStateMatrix	dMat(this->discreteMatrix);
 	unsigned rowInd = 0;
@@ -715,7 +714,7 @@ void NxsDiscreteDatatypeMapper::BuildStateSubsetMatrix() const
 		BuildStateIntersectionMatrix();
 	isStateSubsetMatrix.clear();
 	isStateSubsetMatrixGapsMissing.clear();
-	const unsigned nsPlus = stateSetsVec.size();
+	const unsigned nsPlus = (unsigned)stateSetsVec.size();
 	IsStateSubsetRow r(nsPlus, false);
 	isStateSubsetMatrix.assign(nsPlus, r);
 	isStateSubsetMatrixGapsMissing.assign(nsPlus, r);
@@ -740,7 +739,7 @@ void NxsDiscreteDatatypeMapper::BuildStateIntersectionMatrix() const
 
 	stateIntersectionMatrix.clear();
 
-	const unsigned nsPlus = stateSetsVec.size();
+	const unsigned nsPlus = (unsigned const)stateSetsVec.size();
 	const unsigned offset = (unsigned)(sclOffset + 2);
 	StateIntersectionRow emptyRow(nsPlus, emptySet);
 	stateIntersectionMatrix.assign(nsPlus, emptyRow);
@@ -1857,7 +1856,7 @@ void NxsCharactersBlock::HandleFormat(
 								dtv.push_back(protein);
 							else
 								{
-								errormsg << pIt->first <<  " is not a valid DATATYPE within a " <<  id << " block";
+								errormsg << pIt->first <<  " is not a valid DATATYPE within a " <<  NCL_BLOCKTYPE_ATTR_NAME << " block";
 								throw NxsException(errormsg, *wIt);
 								}
 							}
@@ -1865,7 +1864,7 @@ void NxsCharactersBlock::HandleFormat(
 					}
 				else
 					{
-					errormsg << wIt->GetToken() <<  " is not a valid DATATYPE within a " <<  id << " block";
+					errormsg << wIt->GetToken() <<  " is not a valid DATATYPE within a " <<  NCL_BLOCKTYPE_ATTR_NAME << " block";
 					throw NxsException(errormsg, *wIt);
 					}
 				datatypeReadFromFormat = true;
@@ -1972,24 +1971,24 @@ void NxsCharactersBlock::HandleFormat(
 				throw NxsException("SYMBOLS subcommand not allowed for DATATYPE=CONTINUOUS", *wIt);
 			if (restrictionDataype)
 				throw NxsException("SYMBOLS subcommand not allowed for DATATYPE=RESTRICTION", *wIt);
-			NxsDiscreteStateCell numDefStates;
+			//NxsDiscreteStateCell numDefStates;
 			unsigned maxNewStates = NCL_MAX_STATES;
 			switch(datatype)
 				{
 				case NxsCharactersBlock::dna:
 				case NxsCharactersBlock::rna:
 				case NxsCharactersBlock::nucleotide:
-					numDefStates = 4;
+				    //numDefStates = 4;
 					maxNewStates = NCL_MAX_STATES-4;
 					break;
 
 				case NxsCharactersBlock::protein:
-					numDefStates = 21;
+				    //numDefStates = 21;
 					maxNewStates = NCL_MAX_STATES-21;
 					break;
 
 				default:
-					numDefStates = 0; // replace symbols list for standard datatype
+				    //numDefStates = 0; // replace symbols list for standard datatype
 					symbols.clear();
 					maxNewStates = NCL_MAX_STATES;
 				}
@@ -2548,7 +2547,7 @@ void NxsDiscreteDatatypeMapper::RefreshMappings(NxsToken *token)
 		if (addEq)
 			{
 			const NxsString & s = eqIt->second;
-			unsigned slen = s.length();
+			unsigned slen = (unsigned)s.length();
 			if (slen == 2 + symbols.length())
 				{
 				if (s[0] == '{' && s[slen -1] == '}')
@@ -2733,7 +2732,10 @@ void NxsDiscreteDatatypeMapper::ValidateStateCode(NxsDiscreteStateCell c) const
 	if (c < sclOffset)
 		{
 		if (c == NXS_GAP_STATE_CODE)
-			throw NxsNCLAPIException("Illegal usage of NXS_GAP_STATE_CODE in a datatype without gaps");
+			{
+			if (gapChar == '\0')
+				throw NxsNCLAPIException("Illegal usage of NXS_GAP_STATE_CODE in a datatype without gaps");
+			}
 		if (c == NXS_INVALID_STATE_CODE)
 			throw NxsNCLAPIException("Illegal usage of NXS_INVALID_STATE_CODE as a state code");
 		throw NxsNCLAPIException("Illegal usage of unknown negative state index");
@@ -3503,7 +3505,7 @@ NxsCharactersBlock::NxsCharactersBlock(
   	:NxsTaxaBlockSurrogate(tb, NULL)
 	{
 	assumptionsBlock = ab;
-	id = "CHARACTERS";
+	NCL_BLOCKTYPE_ATTR_NAME = "CHARACTERS";
 	supportMixedDatatype = false;
 	convertAugmentedToMixed = false;
 	allowAugmentingOfSequenceSymbols = false;
@@ -4037,7 +4039,7 @@ void NxsCharactersBlock::HandleDimensions(
 			{
 			errormsg = ntaxLabel;
 			errormsg += " in ";
-			errormsg += id;
+			errormsg += NCL_BLOCKTYPE_ATTR_NAME;
 			errormsg += " block must be less than or equal to NTAX in TAXA block\nNote: one circumstance that can cause this error is \nforgetting to specify ";
 			errormsg += ntaxLabel;
 			errormsg += " in DIMENSIONS command when \na TAXA block has not been provided";
@@ -4099,7 +4101,7 @@ void NxsCharactersBlock::HandleStdMatrix(
 	NxsDiscreteStateRow emptyDiscRow;
 	ContinuousCharRow *contRowPtr = NULL;
 	NxsDiscreteStateRow *discRowPtr = NULL;
-	ContinuousCharRow *ftContRowPtr = NULL;
+	//ContinuousCharRow *ftContRowPtr = NULL;
 	NxsDiscreteStateRow *ftDiscRowPtr = NULL;
 	const bool isContinuous = (datatype == NxsCharactersBlock::continuous);
 	if (isContinuous)
@@ -4213,8 +4215,8 @@ void NxsCharactersBlock::HandleStdMatrix(
 			if (isContinuous)
 				{
 				contRowPtr = &continuousMatrix[indOfTaxInMemory];
-				if (ftDiscRowPtr == NULL)
-					ftContRowPtr = contRowPtr;
+				//if (ftDiscRowPtr == NULL)
+				//	ftContRowPtr = contRowPtr;
 				}
 			else
 				{
@@ -4499,7 +4501,7 @@ void NxsCharactersBlock::HandleMatrix(
 	if (ntax == 0)
 		{
 		errormsg = "Must precede ";
-		errormsg << id << " block with a TAXA block or specify NEWTAXA and NTAX in the DIMENSIONS command";
+		errormsg << NCL_BLOCKTYPE_ATTR_NAME << " block with a TAXA block or specify NEWTAXA and NTAX in the DIMENSIONS command";
 		throw NxsException(errormsg, token.GetFilePosition(), token.GetFileLine(), token.GetFileColumn());
 		}
 
@@ -4587,7 +4589,7 @@ void NxsCharactersBlock::Read(
 
 	NxsString s;
 	s = "BEGIN ";
-	s += id;
+	s += NCL_BLOCKTYPE_ATTR_NAME;
 	DemandEndSemicolon(token, s.c_str());
 	nTaxWithData = 0;
 
@@ -4600,7 +4602,7 @@ void NxsCharactersBlock::Read(
 			if (discreteMatrix.empty() && continuousMatrix.empty())
 				{
 				errormsg.clear();
-				errormsg << "\nA " << id << " block must contain a Matrix command";
+				errormsg << "\nA " << NCL_BLOCKTYPE_ATTR_NAME << " block must contain a Matrix command";
 				throw NxsException(errormsg, token);
 				}
 			return;
@@ -4636,7 +4638,7 @@ void NxsCharactersBlock::Read(
 void NxsCharactersBlock::Report(
   std::ostream &out) NCL_COULD_BE_CONST  /* the output stream to which to write the report */ /*v2.1to2.2 1 */
 	{
-	out << '\n' << id << " block contains ";
+	out << '\n' << NCL_BLOCKTYPE_ATTR_NAME << " block contains ";
 	if (nTaxWithData == 0)
 		out << "no taxa";
 	else if (nTaxWithData == 1)
@@ -4809,7 +4811,7 @@ void NxsCharactersBlock::WriteMatrixCommand(
 	out << "Matrix\n";
 	int prec = 6;
 	if (datatype == continuous)
-		prec = out.precision(10);
+		prec = (int)out.precision(10);
 	unsigned stride = (this->writeInterleaveLen < 1 ? this->nChar : this->writeInterleaveLen);
 	unsigned begChar = 0;
 	while (begChar < this->nChar)

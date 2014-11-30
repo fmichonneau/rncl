@@ -353,7 +353,7 @@ bool  MultiFormatReader::readFastaSequences(
 			{
 			if (isgraph(ftcb.current()))
 				{
-				err << "Illegal non-whitespace occurring outside of a name/sequence pair.  Expecting the first name to startwith < but found \"" << ftcb.current() << "\".";
+				err << "Illegal non-whitespace occurring outside of a name/sequence pair.  Expecting the first name to startwith > but found \"" << ftcb.current() << "\".";
 				throw NxsException(err, ftcb.position(), ftcb.line(), ftcb.column());
 				}
 			if (!ftcb.advance())
@@ -706,7 +706,7 @@ bool  MultiFormatReader::readAlnData(
 	unsigned index = 0;
 	const char * firstWord = "CLUSTAL";
 	std::string found;
-	const unsigned lenFirstWord = strlen(firstWord);
+	const unsigned lenFirstWord = (unsigned const)strlen(firstWord);
 	while (index < lenFirstWord)
 		{
 		found.append(1, c);
@@ -921,7 +921,7 @@ void MultiFormatReader::addTaxaNames(const std::list<std::string> & taxaNames, N
 
 
 	// write out a name translation file if we need to
-	if (nameTransNeeded)
+	if (nameTransNeeded && this->conversionOutputRecord.writeNameTranslationFile)
 		this->conversionOutputRecord.writeNameTranslation(nameTrans, taxa);
 	}
 
@@ -1001,7 +1001,6 @@ void  MultiFormatReader::readFastaFile(std::istream & inf, NxsCharactersBlock::D
 		bool aligned = true;
 		try {
 			aligned = readFastaSequences(ftcb, *dm, taxaNames, matList, longest);
-			
 			}
 		catch (...)
 			{
@@ -1011,7 +1010,7 @@ void  MultiFormatReader::readFastaFile(std::istream & inf, NxsCharactersBlock::D
 
 		if (aligned)
 			{
-			moveDataToDataBlock(taxaNames, matList, longest, dataB);
+			moveDataToDataBlock(taxaNames, matList, (unsigned int)longest, dataB);
 			BlockReadHook(blockID, dataB);
 			}
 		else
@@ -1030,6 +1029,7 @@ void  MultiFormatReader::readFastaFile(std::istream & inf, NxsCharactersBlock::D
 			unalignedB->Reset();
 			unalignedB->datatype = dt;
 			unalignedB->ResetSymbols();
+			unalignedB->gap = '-';
 			unalignedB->ResetDatatypeMapper();
 			moveDataToUnalignedBlock(taxaNames, matList, unalignedB);
 			BlockReadHook(blockID, unalignedB);
@@ -1185,8 +1185,8 @@ bool  MultiFormatReader::readFinSequences(
 							stateCode = dm.StateCodeForNexusMultiStateSet('\0',
   																	  recoded,
   																	  0L,
-  																	  taxaNames.size(),
-  																	  row.size(),
+  																	  (unsigned int)taxaNames.size(),
+  																	  (unsigned int)row.size(),
   																	  0L,
   																	  nn);
 							}
@@ -1269,7 +1269,7 @@ void  MultiFormatReader::readFinFile(std::istream & inf, NxsCharactersBlock::Dat
 
 		if (aligned)
 			{
-			moveDataToDataBlock(taxaNames, matList, longest, dataB);
+			moveDataToDataBlock(taxaNames, matList, (unsigned int)longest, dataB);
 			BlockReadHook(blockID, dataB);
 			}
 		else
@@ -1532,7 +1532,7 @@ void MultiFormatReader::readAlnFile(std::istream & inf, NxsCharactersBlock::Data
 			std::list<NxsDiscreteStateRow> matList;
 			if (!readAlnData(ftcb, *dm, taxaNames, matList))
 				throw NxsException("Expecting the same number of characters for all sequences in the ALN file");
-			const unsigned nchar = matList.begin()->size();
+			const unsigned nchar = (unsigned const)matList.begin()->size();
 			moveDataToDataBlock(taxaNames, matList, nchar, dataB);
 			BlockReadHook(blockID, dataB);
 			}

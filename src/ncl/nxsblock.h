@@ -78,6 +78,7 @@ class NxsLabelToIndicesMapper
 			{
 			throw NxsUnimplementedException("AppendNewLabel called on fixed label interface");
 			}
+		static bool allowNumberAsIndexPlusOne;
 	protected:
 		static unsigned GetIndicesFromSets(const std::string &label, NxsUnsignedSet *inds, const NxsUnsignedSetMap & itemSets);
 		static unsigned GetIndicesFromSetOrAsNumber(const std::string &label, NxsUnsignedSet *inds, const NxsUnsignedSetMap & itemSets, const unsigned maxInd, const char * itemType);
@@ -125,7 +126,7 @@ class NxsBlock
 		NxsReader *GetNexus() const;
 		virtual bool CanReadBlockType(const NxsToken & token)
 			{
-			return token.Equals(id);
+			return token.Equals(NCL_BLOCKTYPE_ATTR_NAME);
 			}
 
 		NxsString			GetID() const;
@@ -209,14 +210,14 @@ class NxsBlock
 			isEmpty = other.isEmpty;
 			isEnabled = other.isEnabled;
 			isUserSupplied = other.isUserSupplied;
-			id = other.id;
+			NCL_BLOCKTYPE_ATTR_NAME = other.NCL_BLOCKTYPE_ATTR_NAME;
 			title = other.title;
 			/* i19 */ /*v2.1to2.2 19 */
 			blockIDString = other.blockIDString;
 			linkAPI = other.linkAPI;
 			storeSkippedCommands = other.storeSkippedCommands;
 			skippedCommands = other.skippedCommands;
-			autoTitle = other.autoTitle;
+			autoTitle = false; //other.autoTitle; */
 			}
 
 		virtual NxsBlock * Clone() const
@@ -266,7 +267,7 @@ class NxsBlock
 		bool				isUserSupplied;		/* true if this object has been read from a file; false otherwise */
 		NxsReader			*nexusReader;		/* pointer to the Nexus file reader object */
 		NxsBlock			*next;				/* DEPRECATED field pointer to next block in list */
-		NxsString			id;					/* holds name of block (e.g., "DATA", "TREES", etc.) \ref BlockTypeIDDiscussion */
+		NxsString			NCL_BLOCKTYPE_ATTR_NAME;					/* holds name of block (e.g., "DATA", "TREES", etc.) \ref BlockTypeIDDiscussion */
 		std::string			title;				/* holds the title of the block empty by default */
 		std::string 		blockIDString; 		/* Mesquite generates these. I don't know what they are for */
 		bool				linkAPI;
@@ -303,9 +304,9 @@ class NxsBlockFactory
 		virtual ~NxsBlockFactory()
 			{
 			}
-		/*! \returns a NxsBlock instance with NxsBlock::Read method that is capable of parsing a NEXUS block of type `id`
+		/*! \returns a NxsBlock instance with NxsBlock::Read method that is capable of parsing a NEXUS block of type `NCL_BLOCKTYPE_ATTR_NAME`
 		*/
-		virtual NxsBlock  *	GetBlockReaderForID(const std::string & id, /*!< The type of block that needs to be read see \ref BlockTypeIDDiscussion */
+		virtual NxsBlock  *	GetBlockReaderForID(const std::string & NCL_BLOCKTYPE_ATTR_NAME, /*!< The type of block that needs to be read see \ref BlockTypeIDDiscussion */
 												NxsReader *reader,  /*!< a pointer to the NxsReader controlling the parse. Can be NULL. Usually not needed for an implementation of this method */
 												NxsToken *token  /*!< a pointer to the NxsToken that is generating token. Can be NULL. Usually not needed for an implementation of this method */
 												) = 0;
@@ -361,5 +362,3 @@ inline void NxsBlock::DemandEquals(NxsToken &token, const char *contextString) c
 	DemandIsAtEquals(token, contextString);
 	}
 #endif
-
-
