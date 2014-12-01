@@ -275,8 +275,8 @@ void NxsTaxaBlock::CheckCapitalizedTaxonLabel(
 	unsigned ind = (unsigned)taxLabels.size();
 	if (dimNTax < ind)
 		{
-		    NxsString e = "Number of stored labels (";
-		    e << taxLabels.size() << ") exceeds the NTax specified (" << dimNTax<<").";
+		    NxsString e = "Number of stored labels exceeds the NTax specified.";
+		    //e << "Number of stored labels (" << taxLabels.size() << ") exceeds the NTax specified (" << dimNTax<<").";
 		throw NxsException(e);
 		}
 	if (CapitalizedTaxLabelToNumber(s) != 0)
