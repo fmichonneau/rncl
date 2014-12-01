@@ -2,9 +2,10 @@ Roxygen: list(wrap = FALSE)
 Package: rncl
 Title: An interface to the Nexus Class Library
 Version: 0.2.0
-Date: 2014-11-29
+Date: 2014-12-01
 Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
     email="francois.michonneau@gmail.com"),
+    person("Ben", "Bolker", role=c("aut")),
     person("Mark", "Holder", role=c("aut", "cre")),
     person("Paul", "Lewis", role=c("aut", "cre")),
     person("Brian", "O'Meara", role=c("aut", "cre")))
