@@ -255,7 +255,7 @@ NxsString &NxsString::AddTail(
 #		if !defined(vsnprintf)
 #			define vsnprintf _vsnprintf_s
 #		endif
-#		define std::sprintf std::sprintf_s
+#		define sprintf sprintf_s
 #   else
 #       define vsnprintf _vsnprintf
 #   endif
@@ -488,7 +488,7 @@ NxsString &NxsString::RightJustifyDbl(
 		erase();
 
 	char fmtstr[81];
-	std::sprintf(fmtstr, "%%.%df", p);
+	sprintf(fmtstr, "%%.%df", p);
 	NxsString tmp;
 	tmp.PrintF(fmtstr, x);
 

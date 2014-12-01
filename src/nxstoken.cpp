@@ -718,6 +718,49 @@ void NxsToken::GetQuoted()
 	}
 
 /*!
+Like GetQuoted, but emits both single quotes in the event of an
+internal single quote. Important for the double parsing of trees by the NxsTreesBlock
+*/
+void NxsToken::GetQuotedWithInternalSingleQuotesDoubled()
+	{
+	bool formerEOFAllowed = eofAllowed;
+	eofAllowed = false;
+	long fl = fileLine;
+	long fc = fileColumn;
+
+	try
+		{
+		for(;;)
+			{
+			char ch = GetNextChar();
+			if (ch == '\'')
+				{
+				ch = GetNextChar();
+				if (ch == '\'')
+					{
+					AppendToToken(ch);
+					AppendToToken(ch);
+					}
+				else
+					{
+					saved = ch;
+					break;
+					}
+				}
+			else
+				AppendToToken(ch);
+			}
+		}
+	catch (NxsX_UnexpectedEOF & x)
+		{
+		x.msg << " (end-of-file inside \' quoted token that started on line " << fl<< ", column " <<fc << ')';
+		eofAllowed = formerEOFAllowed;
+		throw x;
+		}
+	eofAllowed = formerEOFAllowed ;
+	}
+
+/*!
 	Reads rest of parenthetical token (starting '(' already input) up to and including the matching ')' character.  All
 	nested parenthetical phrases will be included.
 */
@@ -739,7 +782,7 @@ void NxsToken::GetParentheticalToken()
 		if (ch == '\'')
 			{
 			AppendToToken('\'');
-			GetQuoted();
+			GetQuotedWithInternalSingleQuotesDoubled();
 			AppendToToken('\'');
 			ch = saved;
 			saved = '\0';
@@ -962,8 +1005,13 @@ void NxsToken::GetNextToken()
 				// Break only if we've begun adding to token (remember, if we hit a comment before a token,
 				// there might be further white space between the comment and the next token).
 				//
-				if (!token.empty())
-					break;
+				if (!token.empty()) 
+				    {
+				    if (ch == ' ' && (labileFlags & NxsToken::spaceDoesNotBreakToken))
+				        AppendToToken(ch);
+				    else
+    					break;
+					}
 				}
 			}
 		else if (ch == '_')

@@ -266,7 +266,7 @@ class NxsSimpleNode
 
 
 	public:
-		void WriteAsNewick(std::ostream &out, bool nhx, bool useLeafNames, bool escapeNames, const NxsTaxaBlockAPI *taxa=0L) const;
+		void WriteAsNewick(std::ostream &out, bool nhx, bool useLeafNames, bool escapeNames, const NxsTaxaBlockAPI *taxa=0L, bool escapeInternals=true) const;
 
 
 		NxsSimpleNode(int edgeLen, NxsSimpleNode *par)
@@ -346,12 +346,15 @@ class NxsSimpleNode
 class NxsSimpleTree
 	{
 	public:
-		NxsSimpleTree(const NxsFullTreeDescription &ftd, const int defaultIntEdgeLen, const double defaultDblEdgeLen)
+		NxsSimpleTree(const NxsFullTreeDescription &ftd,
+					  const int defaultIntEdgeLen,
+					  const double defaultDblEdgeLen,
+					  bool treatInternalNodeLabelsAsStrings=false)
 			:defIntEdgeLen(defaultIntEdgeLen),
 			defDblEdgeLen(defaultDblEdgeLen),
 			realEdgeLens(false)
 			{
-			Initialize(ftd);
+			Initialize(ftd, treatInternalNodeLabelsAsStrings);
 			}
 		NxsSimpleTree(const int defaultIntEdgeLen, const double defaultDblEdgeLen)
 			:defIntEdgeLen(defaultIntEdgeLen),
@@ -362,7 +365,7 @@ class NxsSimpleTree
 			{
 			Clear();
 			}
-		void Initialize(const NxsFullTreeDescription &);
+		void Initialize(const NxsFullTreeDescription &, bool treatInternalNodeLabelsAsStrings=false);
 
 
 		std::vector<const NxsSimpleNode *> GetPreorderTraversal() const;
@@ -376,10 +379,10 @@ class NxsSimpleTree
 		/** Writes just the newick description with numbers for leaf labels.
 			Neither the tree name or NEXUS ; are written
 		*/
-		void WriteAsNewick(std::ostream &out, bool nhx, bool useLeafNames, bool escapeNames, const NxsTaxaBlockAPI * taxa) const
+		void WriteAsNewick(std::ostream &out, bool nhx, bool useLeafNames, bool escapeNames, const NxsTaxaBlockAPI * taxa, bool escapeInternals=true) const
 			{
 			if (root)
-				root->WriteAsNewick(out, nhx, useLeafNames, escapeNames, taxa);
+				root->WriteAsNewick(out, nhx, useLeafNames, escapeNames, taxa, escapeInternals);
 			}
 		NxsSimpleNode * RerootAt(unsigned leafIndex);
         NxsSimpleNode * RerootAtNode(NxsSimpleNode *newRoot);
@@ -813,7 +816,7 @@ class NxsTreesBlock
 			writeFromNodeEdgeDataStructure = other.writeFromNodeEdgeDataStructure;
 			validateInternalNodeLabels = other.validateInternalNodeLabels;
 			allowNumericInterpretationOfTaxLabels = other.allowNumericInterpretationOfTaxLabels;
-			constructingTaxaBlock = true; //other.constructingTaxaBlock; */
+			constructingTaxaBlock = other.constructingTaxaBlock;
 			newtaxa = other.newtaxa;
 			trees = other.trees;
 			capNameToInd = other.capNameToInd;
@@ -824,6 +827,8 @@ class NxsTreesBlock
 			processedTreeValidationFunction = other.processedTreeValidationFunction;
 			ptvArg = other.ptvArg;
 			treatAsRootedByDefault = other.treatAsRootedByDefault;
+			allowUnquotedSpaces = other.allowUnquotedSpaces;
+			disambiguateDuplicateNames = other.disambiguateDuplicateNames;
 			}
         bool GetTreatAsRootedByDefault() const {
             return treatAsRootedByDefault;
@@ -846,7 +851,8 @@ class NxsTreesBlock
 		                                    const bool respectCase=false,
 		                                    const bool validateInternalNodeLabels=true,
 		                                    const bool treatIntegerLabelsAsNumbers=false,
-		                                    const bool allowNumericInterpretationOfTaxLabels=true);
+		                                    const bool allowNumericInterpretationOfTaxLabels=true,
+		                                    const bool autoNumberDuplicateNames=false);
 		static void ProcessTokenStreamIntoTree(NxsToken & token, NxsFullTreeDescription & ftd,
 		                                      NxsLabelToIndicesMapper *,
 		                                      std::map<std::string, unsigned> &capNameToInd,
@@ -855,7 +861,9 @@ class NxsTreesBlock
 		                                      const bool respectCase=false,
 		                                      const bool validateInternalNodeLabels=true,
 		                                      const bool treatIntegerLabelsAsNumbers=false,
-		                                      const bool allowNumericInterpretationOfTaxLabels=true);
+		                                      const bool allowNumericInterpretationOfTaxLabels=true,
+		                                      const bool allowUnquotedSpaces=false,
+		                                      const bool autoNumberDuplicateNames=false);
 
 		void SetWriteFromNodeEdgeDataStructure(bool v)
 			{
@@ -915,6 +923,12 @@ class NxsTreesBlock
 		void setAllowNumericInterpretationOfTaxLabels(bool x) {
 			this->allowNumericInterpretationOfTaxLabels = x;
 		}
+		void SetAllowUnquotedSpaces(bool x) {
+		    this->allowUnquotedSpaces = x;
+		}
+		void SetDisambiguateDuplicateNames(bool x) {
+		    this->disambiguateDuplicateNames = x;
+		}
 		/*! Sets the boolean field that determines whether or not the trees
 			block will validate treat internal node labels
 			as taxon labels during the parse. In this case the labels will
@@ -953,6 +967,8 @@ class NxsTreesBlock
 		bool writeFromNodeEdgeDataStructure; /**this will probably only ever be set to true in testing code. If true the WriteTrees function will convert each tree to NxsSimpleTree object to write the newick*/
 		bool validateInternalNodeLabels; /** if true then labels that occur for internal nodes will be validated via the taxa block (true is the default).  This can cause problems if the internal node names are integer that are not intended to be taxon labels. */
 		bool allowNumericInterpretationOfTaxLabels;
+		bool allowUnquotedSpaces; // default false. If true, then spaces are not token breakers in tree strings
+		bool disambiguateDuplicateNames; // default false. If true, then spaces are not token breakers in tree strings
 
 		mutable std::vector<NxsFullTreeDescription> trees;
 		mutable std::map<std::string, unsigned> capNameToInd;
