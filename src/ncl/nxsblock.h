@@ -34,7 +34,6 @@ typedef std::pair<const NxsBlock *, std::string> BlockUniqueID;
 typedef std::map<BlockUniqueID, NxsBlock *> NxsBlockMapper;
 
 
-
 /*! This is the base class for the block interfaces that correspond to blocks
 that hold ordered lists (TAXA, CHARACTERS, TREES).
 
@@ -217,7 +216,7 @@ class NxsBlock
 			linkAPI = other.linkAPI;
 			storeSkippedCommands = other.storeSkippedCommands;
 			skippedCommands = other.skippedCommands;
-			autoTitle = false; //other.autoTitle; */
+			autoTitle = other.autoTitle;
 			}
 
 		virtual NxsBlock * Clone() const

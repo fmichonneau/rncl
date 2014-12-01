@@ -24,6 +24,7 @@
 #include "ncl/nxsdefs.h"
 #include "ncl/nxstaxablock.h"
 
+
 class NxsTreesBlockAPI
   : public NxsBlock, public NxsLabelToIndicesMapper
 	{
@@ -626,7 +627,7 @@ class NxsTreesBlock
   : public NxsTreesBlockAPI, public NxsTaxaBlockSurrogate
 	{
  	public:
-							NxsTreesBlock(NxsTaxaBlockAPI *tb);
+	    NxsTreesBlock(NxsTaxaBlockAPI *tb);
 		virtual				~NxsTreesBlock();
 
 		void		ReplaceTaxaBlockPtr(NxsTaxaBlockAPI *tb);
