@@ -351,7 +351,7 @@ bool  MultiFormatReader::readFastaSequences(
 				}
 			longest = std::max(longest, row.size());
 			}
-		else 
+		else
 			{
 			if (isgraph(ftcb.current()))
 				{
@@ -1090,7 +1090,7 @@ bool  MultiFormatReader::readFinSequences(
 			}
 		else if (cc == '@')
 			break;
-		else 
+		else
 			{
 			std::string name;
 			bool commentLine= false;
@@ -1336,7 +1336,7 @@ void  MultiFormatReader::ReadFilepath(const char * filepath, DataFormatType form
 			err << "Unknown error occurred while reading \"" << filepath <<"\"." ;
 			this->NexusError(err, 0, -1, -1);
 			}
-		
+
 		}
 	}
 
@@ -1432,7 +1432,7 @@ unsigned MultiFormatReader::readPhylipHeader(std::istream & inf, unsigned & ntax
 		NxsString err("Invalid file stream (this probably indicates an error occurred while opening the file).");
 		throw NxsException(err, 0, -1, -1);
 		}
-	
+
 	if (inf.good())
 		inf >> nchari;
 	else
