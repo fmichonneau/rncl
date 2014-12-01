@@ -801,6 +801,7 @@ NxsTreesBlock::NxsTreesBlock(
   NxsTaxaBlockAPI *tb)	/* the NxsTaxaBlockAPI object to be queried for taxon names appearing in tree descriptions */
   :NxsTaxaBlockSurrogate(tb, NULL),
   processedTreeValidationFunction(NULL),
+   constructingTaxaBlock(false),
   ptvArg(NULL)
 	{
 	NCL_BLOCKTYPE_ATTR_NAME = "TREES";

@@ -98,7 +98,7 @@ unsigned NxsLabelToIndicesMapper::GetIndicesFromSetOrAsNumber(const std::string 
 		{
 		NxsString emsg;
 		emsg << "Numbers are not to be used as labels to indicate " << itemType << " indices, but " << label << " was encountered.";
-		throw NxsException(emsg);		
+		throw NxsException(emsg);
 		}
 	i--;
 	if (i > (long)maxInd  || i < 0)
@@ -285,6 +285,7 @@ NxsBlock::NxsBlock()
 	nexusReader(NULL),
 	next(NULL),
 	linkAPI(false),
+	autoTitle(false),
 	storeSkippedCommands(true)
 	{
 	}
@@ -641,4 +642,3 @@ void NxsBlock::DemandEndSemicolon(NxsToken &token, const char *contextString) co
 	{
 	NxsToken::DemandEndSemicolon(token, this->errormsg, contextString);
 	}
-
