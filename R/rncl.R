@@ -22,6 +22,9 @@
 ##' @references Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
 ##' An extensible file format for systematic information". Systematic
 ##' Biology 46(4) : 590-621. doi:10.1093/sysbio/46.4.590
+##'
+##' Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
+##' files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
 ##' @author Francois Michonneau
 ##' @return A list that contains the elements extracted from a NEXUS
 ##' or a Newick file.
