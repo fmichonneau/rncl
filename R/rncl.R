@@ -170,8 +170,8 @@ build_phylo <- function(ncl, simplify=FALSE) {
 ##' @author Francois Michonneau
 ##' @seealso rncl, and the
 ##' @rdname read_nexus_phylo
-##' @note make_phylo may become deprecated in the future, use
-##' read_nexus_phylo or read_newick_phylo instead.
+##' @note \code{make_phylo} may become deprecated in the future, use
+##' \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
 ##' @export
 make_phylo <- function(file, simplify=FALSE, ...) {
     ncl <- rncl(file=file, ...)
