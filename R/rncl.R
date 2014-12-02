@@ -18,6 +18,14 @@
 ##' labels in the NEXUS file into white spaces (e.g. \code{species_1}
 ##' will become \code{"species 1"}. If you want to preserve the
 ##' underscores, set as TRUE, the default).
+##' @param char.all If TRUE (default), returns all characters, even
+##' those excluded in the NEXUS file (only when NEXUS file contains
+##' DATA block).
+##' @param polymorphic.convert If TRUE (default), converts polymorphic
+##' characters to missing data (only when NEXUS file contains DATA
+##' block).
+##' @param levels.uniform If TRUE (default), uses the same levels for
+##' all characters (only when NEXUS file contains DATA block).
 ##' @param ... additional parameters (currently not in use).
 ##' @references Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
 ##' An extensible file format for systematic information". Systematic
@@ -30,7 +38,8 @@
 ##' or a Newick file.
 ##' @export
 rncl <- function(file, file.format = c("nexus", "newick"),
-                 spacesAsUnderscores = TRUE, ...) {
+                 spacesAsUnderscores = TRUE, char.all=TRUE,
+                 polymorphic.convert=TRUE, levels.uniform=TRUE, ...) {
 
     file <- path.expand(file)
     if (!file.exists(file)) {
@@ -48,8 +57,7 @@ rncl <- function(file, file.format = c("nexus", "newick"),
     ## - levels.uniform (levelsUnif)
     ## - (returnTrees)
     ## - (returnData)
-    #parameters <- c(char.all, polymorphic.convert, levels.uniform, TRUE, TRUE)
-    parameters <- c(TRUE, TRUE, TRUE, TRUE, FALSE)
+    parameters <- c(char.all, polymorphic.convert, levels.uniform, TRUE, TRUE)
 
     ncl <- RNCL(fileName, parameters)
 

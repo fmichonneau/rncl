@@ -6,7 +6,7 @@
 \title{rncl: An R interface to the NEXUS Class Library}
 \usage{
 rncl(file, file.format = c("nexus", "newick"), spacesAsUnderscores = TRUE,
-  ...)
+  char.all = TRUE, polymorphic.convert = TRUE, levels.uniform = TRUE, ...)
 }
 \arguments{
 \item{file}{path to a NEXUS or Newick file}
@@ -20,6 +20,17 @@ underscores. Therefore, NCL converts underscores found in taxa
 labels in the NEXUS file into white spaces (e.g. \code{species_1}
 will become \code{"species 1"}. If you want to preserve the
 underscores, set as TRUE, the default).}
+
+\item{char.all}{If TRUE (default), returns all characters, even
+those excluded in the NEXUS file (only when NEXUS file contains
+DATA block).}
+
+\item{polymorphic.convert}{If TRUE (default), converts polymorphic
+characters to missing data (only when NEXUS file contains DATA
+block).}
+
+\item{levels.uniform}{If TRUE (default), uses the same levels for
+all characters (only when NEXUS file contains DATA block).}
 
 \item{...}{additional parameters (currently not in use).}
 }
