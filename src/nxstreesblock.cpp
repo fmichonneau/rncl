@@ -806,8 +806,8 @@ bool NxsTreesBlock::AddNewPartition(const std::string &label, const NxsPartition
 NxsTreesBlock::NxsTreesBlock(
   NxsTaxaBlockAPI *tb)	/* the NxsTaxaBlockAPI object to be queried for taxon names appearing in tree descriptions */
   :NxsTaxaBlockSurrogate(tb, NULL),
+   constructingTaxaBlock(false),
   processedTreeValidationFunction(NULL),
-  constructingTaxaBlock(false),
   ptvArg(NULL)
 	{
 	NCL_BLOCKTYPE_ATTR_NAME = "TREES";

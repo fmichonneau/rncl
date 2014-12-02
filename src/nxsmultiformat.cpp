@@ -446,13 +446,15 @@ void  MultiFormatReader::readPhylipData(
 	matList.clear();
 	matList.assign(n_taxa, NxsDiscreteStateRow(n_char, NXS_INVALID_STATE_CODE));
 	std::list<NxsDiscreteStateRow>::iterator mIt = matList.begin();
+	unsigned currentTaxon;
 	while (!isgraph(ftcb.current()))
 		{
-		if (!ftcb.advance())
+		    currentTaxon = 0;
+		    if (!ftcb.advance())
+		    {
 			goto funcExit;
+		    }
 		}
-
-	unsigned currentTaxon;
 	for (currentTaxon = 0; currentTaxon < n_taxa; ++currentTaxon)
 		{
 		std::string n = readPhylipName(ftcb, currentTaxon, relaxedNames);
@@ -555,12 +557,15 @@ void  MultiFormatReader::readInterleavedPhylipData(
 	std::list<NxsDiscreteStateRow>::iterator mIt = matList.begin();
 	unsigned startCharIndex = 0;
 	unsigned endCharIndex = n_char;
+	unsigned currentTaxon;
 	while (!isgraph(ftcb.current()))
 		{
-		if (!ftcb.advance())
+		    currentTaxon = 0;
+		    if (!ftcb.advance())
+		    {
 			goto funcExit;
+		    }
 		}
-	unsigned currentTaxon;
 	while (startCharIndex < n_char)
 		{
 		for (currentTaxon = 0; currentTaxon < n_taxa; ++currentTaxon)
