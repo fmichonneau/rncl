@@ -6,9 +6,9 @@ Date: 2014-12-01
 Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
     email="francois.michonneau@gmail.com"),
     person("Ben", "Bolker", role=c("aut")),
-    person("Mark", "Holder", role=c("aut", "cre")),
-    person("Paul", "Lewis", role=c("aut", "cre")),
-    person("Brian", "O'Meara", role=c("aut", "cre")))
+    person("Mark", "Holder", role=c("aut")),
+    person("Paul", "Lewis", role=c("aut")),
+    person("Brian", "O'Meara", role=c("aut")))
 Maintainer: Francois Michonneau <francois.michonneau@gmail.com>
 Description: An interface to the Nexus Class Library which allows parsing
     of NEXUS, Newick and other phylogenetic tree file formats. It provides
