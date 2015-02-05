@@ -10,8 +10,8 @@
 ##' from the elements contained in this list.
 ##' @title Get all the elements from a NEXUS (or Newick) file
 ##' @param file path to a NEXUS or Newick file
-##' @param file.format something a character string indicating the
-##' type of file to be parsed.
+##' @param file.format a character string indicating the type of file
+##' to be parsed.
 ##' @param spacesAsUnderscores In the NEXUS file format white spaces
 ##' are not allowed in taxa labels and are represented by
 ##' underscores. Therefore, NCL converts underscores found in taxa
