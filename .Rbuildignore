@@ -1,5 +1,6 @@
 ^\.travis\.yml$
 appveyor.yml
 cran-comments.md
+NEWS.md
 travis-tool.sh
 tmp/*
