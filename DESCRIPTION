@@ -1,6 +1,6 @@
 Roxygen: list(wrap = FALSE)
 Package: rncl
-Title: An interface to the Nexus Class Library
+Title: An Interface to the Nexus Class Library
 Version: 0.2.3
 Date: 2015-05-01
 Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
