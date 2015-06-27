@@ -120,9 +120,11 @@ build_raw_phylo <- function(ncl) {
 
             if (!all(is.na(edgeLgth))) {
                 if (any(is.na(edgeLgth))) {
-                    stop("missing edge lengths are not allowed in phylo class")
+                    warning("missing edge lengths are not allowed in phylo class. All removed.")
+                    edgeLgth[!is.na(edgeLgth)] <- NA
+                } else {
+                    tr <- c(tr, list(edge.length=edgeLgth))
                 }
-                tr <- c(tr, list(edge.length=edgeLgth))
             }
 
             if (has_node_labels(ncl$nodeLabelsVector[[i]])) {
@@ -168,7 +170,7 @@ build_phylo <- function(ncl, simplify=FALSE) {
 ##' @param ... additional parameters to be passed to the rncl function
 ##' @return A phylo or a multiPhyloo object
 ##' @author Francois Michonneau
-##' @seealso rncl, and the
+##' @seealso rncl-package
 ##' @rdname read_nexus_phylo
 ##' @note \code{make_phylo} may become deprecated in the future, use
 ##' \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
