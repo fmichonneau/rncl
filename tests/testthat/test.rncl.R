@@ -136,3 +136,31 @@ test_that("weird files",{
     expect_equal(tr2$node.label, "E")
     expect_equal(tr2$Nnode, 1)
 })
+
+test_that("file with missing edge lengths (default behavior)", {
+    expect_warning(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre")),
+                   "All removed")
+    expect_true(is.null(tr$edge.length))
+})
+
+test_that("file with missing edge lengths specify missing value", {
+    expect_warning(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre"),
+                                           missing_edge_length = -99),
+                   "replaced by")
+    expect_true(sum(tr$edge.length == -99) > 0)
+})
+
+test_that("missing_edge_length is a single numeric value", {
+    expect_error(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre"),
+                                           missing_edge_length = "test"),
+                 "single numerical value")
+    expect_error(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre"),
+                                           missing_edge_length = c(0, 1)),
+                 "single numerical value")
+    expect_error(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre"),
+                                           missing_edge_length = c(NA, 1)),
+                 "single numerical value")
+    expect_error(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre"),
+                                           missing_edge_length = c(TRUE)),
+                 "single numerical value")
+})

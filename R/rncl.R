@@ -101,7 +101,7 @@ has_node_labels <- function(nodeLabelsVector) {
 ## Pieces together the elements needed to build a phylo object, but
 ## they are not converted as such to allow for singletons (and
 ## possibly other kinds of trees that phylo doesn't support)
-build_raw_phylo <- function(ncl) {
+build_raw_phylo <- function(ncl, missing_edge_length) {
     if (length(ncl$trees) > 0) {
         listTrees <- vector("list", length(ncl$trees))
 
@@ -120,8 +120,19 @@ build_raw_phylo <- function(ncl) {
 
             if (!all(is.na(edgeLgth))) {
                 if (any(is.na(edgeLgth))) {
-                    warning("missing edge lengths are not allowed in phylo class. All removed.")
-                    edgeLgth[!is.na(edgeLgth)] <- NA
+                    if(!(identical(length(missing_edge_length), 1L))) {
+                        stop("A single numerical value should be provided for the missing edge length.")
+                    }
+                    if (is.na(missing_edge_length)) {
+                        warning("missing edge lengths are not allowed in phylo class. All removed.")
+                    } else {
+                        if(!identical(mode(missing_edge_length), "numeric")) {
+                            stop("A single numerical value should be provided for the missing edge lengths.")
+                        }
+                        warning("missing edge lengths replaced by ", sQuote(missing_edge_length), ".")
+                        edgeLgth[is.na(edgeLgth)] <- missing_edge_length
+                        tr <- c(tr,  list(edge.length = edgeLgth))
+                    }
                 } else {
                     tr <- c(tr, list(edge.length=edgeLgth))
                 }
@@ -144,8 +155,8 @@ build_raw_phylo <- function(ncl) {
 }
 
 ## polishes things up
-build_phylo <- function(ncl, simplify=FALSE) {
-    trees <- build_raw_phylo(ncl)
+build_phylo <- function(ncl, simplify=FALSE, missing_edge_length) {
+    trees <- build_raw_phylo(ncl, missing_edge_length)
     trees <- lapply(trees, function(tr) {
         tr <- ape::collapse.singles(tr)
         class(tr) <- "phylo"
@@ -166,28 +177,37 @@ build_phylo <- function(ncl, simplify=FALSE) {
 ##' @title Read phylogenetic trees from files
 ##' @param file Path of NEXUS or Newick file
 ##' @param simplify If the file includes more than one tree, returns
-##' only the first tree; otherwise, returns a multiPhylo object
+##'     only the first tree; otherwise, returns a multiPhylo object
+##' @param missing_edge_length If the tree contains missing edge
+##'     lengths, the value to be attributed to these edge lengths. By
+##'     default, (\code{missing_edge_length = NA}) if at least edge
+##'     length is missing, they are all removed. Otherwise, the value
+##'     must be a single numeric value. In any case, a warning will
+##'     be generated if the tree contains missing edge lengths.
 ##' @param ... additional parameters to be passed to the rncl function
-##' @return A phylo or a multiPhyloo object
+##' @return A phylo or a multiPhylo object
 ##' @author Francois Michonneau
 ##' @seealso rncl-package
 ##' @rdname read_nexus_phylo
 ##' @note \code{make_phylo} may become deprecated in the future, use
-##' \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
+##'     \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
 ##' @export
-make_phylo <- function(file, simplify=FALSE, ...) {
+
+make_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
     ncl <- rncl(file=file, ...)
-    build_phylo(ncl, simplify=simplify)
+    build_phylo(ncl, simplify=simplify, missing_edge_length = missing_edge_length)
 }
 
 ##' @rdname read_nexus_phylo
 ##' @export
-read_nexus_phylo <- function(file, simplify=FALSE, ...) {
-    make_phylo(file=file, simplify=simplify, file.format="nexus", ...)
+read_nexus_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
+    make_phylo(file=file, simplify=simplify, file.format="nexus",
+               missing_edge_length = missing_edge_length, ...)
 }
 
 ##' @rdname read_nexus_phylo
 ##' @export
-read_newick_phylo <- function(file, simplify=FALSE, ...) {
-    make_phylo(file=file, simplify=simplify, file.format="newick", ...)
+read_newick_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
+    make_phylo(file=file, simplify=simplify, file.format="newick",
+               missing_edge_length = missing_edge_length, ...)
 }
