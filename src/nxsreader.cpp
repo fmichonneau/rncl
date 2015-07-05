@@ -1352,7 +1352,7 @@ void ExceptionRaisingNxsReader::SkippingDisabledBlock(NxsString blockName)
 void NxsReader::statusMessage(const std::string & m) const
 {
 	if (alwaysReportStatusMessages || currentWarningLevel == UNCOMMON_SYNTAX_WARNING) {
-		Rcpp::Rcerr << m << std::endl;
+	    //Rcpp::Rcout << m << std::endl;
 	}
 }
 
@@ -1394,6 +1394,3 @@ void NxsReader::DemoteBlocks(int priorityLevel)
 		AssignBlockPriority(b, priorityLevel);
 		}
 	}
-
-
-

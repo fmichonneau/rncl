@@ -7,6 +7,10 @@
   length, all edge lengths are dropped. Alternatively, the user can provide a
   numeric value that will be used to replace all missing edge lengths. (#33 from
   `rotl`)
+* Parsing tree files is now quiet, the default output of NCL is
+  silenced. Because of the implementation of this output, it's difficult to give
+  control to the user over this, but it's probably best to keep it quiet rather
+  than having unneeded messages pollute the screen.
 
 ## rncl 0.2.2
 
