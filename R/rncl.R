@@ -147,15 +147,16 @@ rncl <- function(file, file.format = c("nexus", "newick"),
 
     ncl <- RNCL(fileName, parameters)
 
+    ## Return Error message
+    if (exists("ErrorMsg", where=ncl)) {
+        stop(ncl$ErrorMsg)
+    }
     if (spacesAsUnderscores) {
         ncl$taxonLabelVector <- lapply(ncl$taxonLabelVector, function(x) {
             gsub("\\s", "_", x)
         })
     }
 
-    ## Return Error message
-    if (exists("ErrorMsg", where=ncl)) {
-        stop(ncl$ErrorMsg)
     }
 
     ncl
