@@ -38,8 +38,8 @@ These functions read NEXUS or Newick files and return an object of
 class phylo/multiPhylo.
 }
 \note{
-\code{make_phylo} may become deprecated in the future, use
-    \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
+\code{make_phylo} will soon be deprecated , use
+\code{read_nexus_phylo} or \code{read_newick_phylo} instead.
 }
 \author{
 Francois Michonneau

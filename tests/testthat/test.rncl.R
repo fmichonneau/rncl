@@ -26,18 +26,16 @@ multiLinesFile <- file.path(pth, "MultiLineTrees.nex")
 ## Newick trees
 newick <- file.path(pth, "newick.tre")
 
-## Contains correct (as of 2014-11-29) phylo representation of one of the tree
-## stored in the nexus file
-mlFile <- file.path(pth, "multiLines.rds")
+## treeWithDiscreteData.nex -- Mesquite file with discrete data
+treeDiscDt <- file.path(pth, "treeWithDiscreteData.nex")
 
 ## Nexus files where trees only contain subset of taxa listed in TAXA block
 taxsub <- file.path(pth, "test_subset_taxa.nex")
 
 stopifnot(file.exists(co1File))
 stopifnot(file.exists(multiLinesFile))
-stopifnot(file.exists(mlFile))
 stopifnot(file.exists(taxsub))
-
+stopifno(file.exists(treeDistDt))
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
 ##   char.all=FALSE, polymorphic.convert=TRUE, levels.uniform=TRUE,
@@ -102,7 +100,7 @@ test_that("readNCL can handle multi line files", {
     multiLines <- read_nexus_phylo(file=multiLinesFile)
     ## load correct representation and make sure that the trees read
     ## match it
-    ml <- readRDS(mlFile)
+    ml <- ape::read.nexus(file = multiLinesFile)
     expect_equal(multiLines[[1]], ml[[1]])
     expect_equal(multiLines[[2]], ml[[2]])
     rm(ml)
@@ -184,3 +182,13 @@ test_that("taxa subset", {
               expect_error(tr <- read_nexus_phylo(file = taxsub),
                            "All the taxa listed")
           })
+
+############################################################################
+## Test roundtrip with Myrmecus file                                      ##
+############################################################################
+
+context("Compare output from ape read file and phylobase", {
+            tr_ape <- ape::read.nexus(file = treeDiscDt)
+            tr_ph4 <- read_nexus_phylo(file = treeDiscDt)
+            expect_equal(tr_ape, tr_ph4)
+})
