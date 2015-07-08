@@ -35,7 +35,7 @@ taxsub <- file.path(pth, "test_subset_taxa.nex")
 stopifnot(file.exists(co1File))
 stopifnot(file.exists(multiLinesFile))
 stopifnot(file.exists(taxsub))
-stopifno(file.exists(treeDistDt))
+stopifnot(file.exists(treeDistDt))
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
 ##   char.all=FALSE, polymorphic.convert=TRUE, levels.uniform=TRUE,
