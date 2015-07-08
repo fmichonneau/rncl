@@ -290,11 +290,17 @@ build_phylo <- function(ncl, simplify=FALSE, missing_edge_length) {
 ##' @author Francois Michonneau
 ##' @seealso rncl-package
 ##' @rdname read_nexus_phylo
-##' @note \code{make_phylo} may become deprecated in the future, use
-##'     \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
+##' @note \code{make_phylo} will soon be deprecated , use
+##' \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
 ##' @export
 
 make_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
+    .Deprecated(msg = paste0("Use ", sQuote("read_nexus_phylo"),
+                " or ", sQuote("read_newick_phylo"), " instead"))
+    internal_make_phylo(file = file, simplify=simplify, missing_edge_length = missing_edge_length, ...)
+}
+
+internal_make_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
     ncl <- rncl(file=file, ...)
     build_phylo(ncl, simplify=simplify, missing_edge_length = missing_edge_length)
 }
@@ -302,13 +308,13 @@ make_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
 ##' @rdname read_nexus_phylo
 ##' @export
 read_nexus_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
-    make_phylo(file=file, simplify=simplify, file.format="nexus",
+    internal_make_phylo(file=file, simplify=simplify, file.format="nexus",
                missing_edge_length = missing_edge_length, ...)
 }
 
 ##' @rdname read_nexus_phylo
 ##' @export
 read_newick_phylo <- function(file, simplify=FALSE, missing_edge_length = NA, ...) {
-    make_phylo(file=file, simplify=simplify, file.format="newick",
+    internal_make_phylo(file=file, simplify=simplify, file.format="newick",
                missing_edge_length = missing_edge_length, ...)
 }
