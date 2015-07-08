@@ -151,10 +151,14 @@ rncl <- function(file, file.format = c("nexus", "newick"),
     if (exists("ErrorMsg", where=ncl)) {
         stop(ncl$ErrorMsg)
     }
+
     if (spacesAsUnderscores) {
         ncl$taxonLabelVector <- lapply(ncl$taxonLabelVector, function(x) {
-            gsub("\\s", "_", x)
-        })
+                                           gsub("\\s", "_", x)
+                                       })
+        ncl$taxaNames <- lapply(ncl$taxaNames, function(x) {
+                                    gsub("\\s", "_", x)
+                                })
     }
 
     }
