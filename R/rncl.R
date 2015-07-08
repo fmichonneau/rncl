@@ -161,6 +161,14 @@ rncl <- function(file, file.format = c("nexus", "newick"),
                                 })
     }
 
+    ## in case the trees contain a subset of the taxa listed in the TAXA block
+    ## ideally, this should be fixed in the C++ code
+    any_subset <- sapply(ncl$taxonLabelVector, function(x) {
+                             length(setdiff(ncl$taxaNames, x))
+                         })
+    if (any(any_subset > 0)) {
+        stop("All the taxa listed in the TAXA block must also be found in",
+             " the tip labels of all the trees.")
     }
 
     ncl

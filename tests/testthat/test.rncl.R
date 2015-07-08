@@ -30,10 +30,13 @@ newick <- file.path(pth, "newick.tre")
 ## stored in the nexus file
 mlFile <- file.path(pth, "multiLines.rds")
 
+## Nexus files where trees only contain subset of taxa listed in TAXA block
+taxsub <- file.path(pth, "test_subset_taxa.nex")
 
 stopifnot(file.exists(co1File))
 stopifnot(file.exists(multiLinesFile))
 stopifnot(file.exists(mlFile))
+stopifnot(file.exists(taxsub))
 
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
@@ -139,6 +142,10 @@ test_that("weird files",{
     expect_equal(tr2$Nnode, 1)
 })
 
+############################################################################
+## missing edge lengths                                                   ##
+############################################################################
+
 test_that("file with missing edge lengths (default behavior)", {
     expect_warning(tr <- read_newick_phylo(file = file.path(pth_nw_good, "missing_edge_lengths.tre")),
                    "All removed")
@@ -166,3 +173,14 @@ test_that("missing_edge_length is a single numeric value", {
                                            missing_edge_length = c(TRUE)),
                  "single numerical value")
 })
+
+############################################################################
+## Files where trees contain a subset of the taxa listed in TAXA block    ##
+############################################################################
+
+context("Tree with subset of taxa listed in TAXA block")
+
+test_that("taxa subset", {
+              expect_error(tr <- read_nexus_phylo(file = taxsub),
+                           "All the taxa listed")
+          })
