@@ -156,9 +156,8 @@ rncl <- function(file, file.format = c("nexus", "newick"),
         ncl$taxonLabelVector <- lapply(ncl$taxonLabelVector, function(x) {
                                            gsub("\\s", "_", x)
                                        })
-        ncl$taxaNames <- lapply(ncl$taxaNames, function(x) {
-                                    gsub("\\s", "_", x)
-                                })
+        ncl$taxaNames <- gsub("\\s", "_", ncl$taxaNames)
+
     }
 
     ## in case the trees contain a subset of the taxa listed in the TAXA block
