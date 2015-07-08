@@ -97,11 +97,6 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
     std::vector<std::string> taxaNames;      //vector of taxa names
     std::string errorMsg;                    //error message
 
-    std::vector<bool> test(3);
-    test[0] = charall;
-    test[1] = polyconvert;
-    test[2] = levelsUnif;
-
 #   if defined(FILENAME_AS_NEXUS)
     std::string filename = "'" + list["fileName"] + "'";
 #   else
@@ -222,7 +217,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
                         nodeLabelVector.clear();
 
 			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k);
-			treeNames.push_back(ftd.GetName());
+
 			NxsSimpleTree simpleTree(ftd, -1, -1.0);
 			std::vector<const NxsSimpleNode *> ndVector =  simpleTree.GetPreorderTraversal();
 			unsigned internalNdIndex = nTax;
@@ -390,7 +385,6 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 					Rcpp::Named("nbStates") = nbStates,
 					Rcpp::Named("stateLabels") = stateLabels,
 					Rcpp::Named("dataChr") = dataChr,
-					Rcpp::Named("Test") = test,
                                         Rcpp::Named("isRooted") = lIsRooted,
                                         Rcpp::Named("hasPolytomies") = lHasPolytomies,
                                         Rcpp::Named("hasSingletons") = lHasSingletons);
