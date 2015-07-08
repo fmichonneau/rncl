@@ -214,7 +214,7 @@ build_raw_phylo <- function(ncl, missing_edge_length) {
 
             nNodes <- length(ncl$parentVector[[i]]) - length(ncl$taxaNames)
 
-            tipLbl <- ncl$taxonLabelVector[[i]]
+            tipLbl <- ncl$taxaNames
 
             tr <- list(edge=edgeMat, tip.label=tipLbl, Nnode=nNodes)
 
