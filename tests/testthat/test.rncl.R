@@ -69,6 +69,8 @@ context("rncl can deal with simple NEXUS files (tree only)")
 test_that("file with 2 trees (warning normal)", {
     ## Read trees
     co1 <- read_nexus_phylo(file=co1File)
+    ## Check files are named
+    expect_equal(names(co1), c("con 50 majrule", "con 50 majrule"))
     ## Tree 1
     co1Tree1 <- co1[[1]]
     target_edgeLength <- unname(eLco1[paste(co1Tree1$edge[,1], co1Tree1$edge[,2], sep="-")])
