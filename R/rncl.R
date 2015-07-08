@@ -29,13 +29,99 @@
 ##' @param ... additional parameters (currently not in use).
 ##' @references Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
 ##' An extensible file format for systematic information". Systematic
-##' Biology 46(4) : 590-621. doi:10.1093/sysbio/46.4.590
+##' Biology 46(4) : 590-621.
+##' doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
 ##'
 ##' Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 ##' files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
 ##' @author Francois Michonneau
+##' @seealso For example on how to use the elements from the list
+##' returned by this function to build tree objects, inspect the
+##' source code of this package and how \code{read_newick_phylo} and
+##' \code{read_nexus_phylo} work. For a more complex example that also
+##' use the data contained in NEXUS files, inspect the source code of
+##' the \code{readNCL} function in the phylobase package.
 ##' @return A list that contains the elements extracted from a NEXUS
 ##' or a Newick file.
+##'
+##' \itemize{
+##'
+##'   \item {\code{taxaNames}} {A vector of the taxa names listed in the TAXA
+##' block of the NEXUS file or inferred from the tree strings (if
+##' block missing or Newick file).}
+##'
+##'   \item {\code{treeNames}} {A vector listing the names of the trees}
+##'
+##'   \item {\code{taxonLabelVector}} {A list containing as many
+##' elements as there are trees in the file. Each element is a
+##' character vector that lists the taxon names encountered in the
+##' tree string *in the order they appear*, and therefore may not
+##' match the order they are listed in the translation table.}
+##'
+##'   \item {\code{parentVector}} { A list containing as many elements
+##' as there are trees in the file. Each element is a numeric vector
+##' listing the parent node for the node given by its position in the
+##' vector. If the beginning of the vector is 5 5 6, the parent node
+##' of node 1 is 5, the parent of node 2 is 5 and the parent of node 3
+##' is 6. The implicit root of the tree is identified with 0 (node
+##' without a parent).}
+##'
+##'   \item{\code{branchLengthVector}} { A list containing as many
+##' elements as there are trees in the file. Each element is a numeric
+##' vector listing the edge/branch lengths for the edges in the same
+##' order as nodes are listed in the corresponding \code{parentVector}
+##' element. Values of -1 indicate that the value is missing for this
+##' particular edge. The implicit root as a length of 0.}
+##'
+##'   \item{\code{nodeLabelsVector}} { A list containing as many
+##' elements as there are trees in the file. Each element is a
+##' character vector listing the node labels in the same order as the
+##' nodes are specified in the same order as nodes are listed in the
+##' corresponding \code{parentVector} element.}
+##'
+##'   \item{\code{trees}} { A character vector listing the tree
+##' strings where tip labels have been replaced by their indices in
+##' the \code{taxonLabelVector} vector. They do not correspond to the
+##' numbers listed in the translation table that might be associated
+##' with the tree.}
+##'
+##'   \item{\code{dataTypes}} { A character vector indicating the type
+##' of data associated with the tree (e.g., \dQuote{standard}). }
+##'
+##'   \item{\code{nbCharacters}} { A numeric vector indicating how
+##' many characters/traits are available. }
+##'
+##'   \item{\code{charLabels}} { A character vector listing the names
+##' of the characters/traits that are available. }
+##'
+##'   \item {\code{nbStates}} { A numeric vector listing the number of
+##' possible states for each character/trait.}
+##'
+##'   \item {\code{stateLabels}} { A character vector listing in
+##' order, all possible states for each character/trait.}
+##'
+##'   \item {\code{dataChr}} { A character vector with as many
+##' elements as there are characters/traits in the dataset. Each
+##' element is string that can be parsed by R to create a factor
+##' vector representing the data found in the file.}
+##'
+##'   \item {\code{isRooted}} { A list with as many elements as there
+##' are trees in the file. Each element is a logical indicating
+##' whether the tree is rooted. NCL definition of a rooted tree
+##' differs from the one APE uses in some cases. }
+##'
+##'   \item {\code{hasPolytomies}} { A list with as many elements as
+##' there are trees in the file. Each element is a logical indicating
+##' whether the tree contains polytomies.}
+##'
+##'   \item {\code{hasSingletons}} { A list with as many elements as
+##' there are trees in the file. Each element is a logical indicating
+##' whether the tree contains singleton nodes, in other words nodes
+##' with a single descendant (also known as knuckles).}
+##'
+##' }
+##'
+##'
 ##' @export
 rncl <- function(file, file.format = c("nexus", "newick"),
                  spacesAsUnderscores = TRUE, char.all=TRUE,
