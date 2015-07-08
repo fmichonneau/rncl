@@ -195,6 +195,7 @@ has_node_labels <- function(nodeLabelsVector) {
 build_raw_phylo <- function(ncl, missing_edge_length) {
     if (length(ncl$trees) > 0) {
         listTrees <- vector("list", length(ncl$trees))
+        names(listTrees) <- ncl$treeNames
 
         for (i in 1:length(ncl$trees)) {
             edgeMat <- get_edge_matrix(ncl$parentVector[[i]])
