@@ -16,15 +16,16 @@ rncl(file, file.format = c("nexus", "newick"), spacesAsUnderscores = TRUE,
 to be parsed.}
 
 \item{spacesAsUnderscores}{In the NEXUS file format white spaces
-are not allowed in taxa labels and are represented by
-underscores. Therefore, NCL converts underscores found in taxa
-labels in the NEXUS file into white spaces (e.g. \code{species_1}
-will become \code{"species 1"}. If you want to preserve the
-underscores, set as TRUE, the default).}
+are not allowed and are represented by underscores. Therefore, NCL
+converts underscores found in taxon labels in the NEXUS file into
+white spaces (e.g. \code{species_1} will become \code{"species
+1"}). If you want to preserve the underscores, set as \code{TRUE}
+(default). This option affects taxon labels, character labels and
+state labels.}
 
-\item{char.all}{If TRUE (default), returns all characters, even
-those excluded in the NEXUS file (only when NEXUS file contains
-DATA block).}
+\item{char.all}{If \code{TRUE} (default), returns all characters,
+even those excluded in the NEXUS file (only when NEXUS file
+contains DATA block).}
 
 \item{polymorphic.convert}{If TRUE (default), converts polymorphic
 characters to missing data (only when NEXUS file contains DATA
@@ -157,11 +158,12 @@ Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
 }
 \seealso{
-For example on how to use the elements from the list
+For examples on how to use the elements of the list
 returned by this function to build tree objects, inspect the
-source code of this package and how \code{read_newick_phylo} and
-\code{read_nexus_phylo} work. For a more complex example that also
-use the data contained in NEXUS files, inspect the source code of
-the \code{readNCL} function in the phylobase package.
+source code of this package, in particular how
+\code{read_newick_phylo} and \code{read_nexus_phylo} work. For a
+more complex example that also use the data contained in NEXUS
+files, inspect the source code of the \code{readNCL} function in
+the phylobase package.
 }
 
