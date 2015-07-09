@@ -4,3 +4,5 @@ cran-comments.md
 NEWS.md
 travis-tool.sh
 tmp/*
+^revdep$
+^cran-comments\.md$
