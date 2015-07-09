@@ -32,10 +32,14 @@ treeDiscDt <- file.path(pth, "treeWithDiscreteData.nex")
 ## Nexus files where trees only contain subset of taxa listed in TAXA block
 taxsub <- file.path(pth, "test_subset_taxa.nex")
 
+## NEXUS file to test for underscores
+tr_under <- file.path(pth, "test_underscores.nex")
+
 stopifnot(file.exists(co1File))
 stopifnot(file.exists(multiLinesFile))
 stopifnot(file.exists(taxsub))
 stopifnot(file.exists(treeDiscDt))
+stopifnot(file.exists(tr_under))
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
 ##   char.all=FALSE, polymorphic.convert=TRUE, levels.uniform=TRUE,
@@ -187,8 +191,33 @@ test_that("taxa subset", {
 ## Test roundtrip with Myrmecus file                                      ##
 ############################################################################
 
-context("Compare output from ape read file and phylobase", {
+context("Compare output from ape read file and phylobase")
+
+test_that("compare read.nexus and read_nexus_phylo", {
             tr_ape <- ape::read.nexus(file = treeDiscDt)
             tr_ph4 <- read_nexus_phylo(file = treeDiscDt)
             expect_equal(tr_ape, tr_ph4)
 })
+
+############################################################################
+## Test spacesAsUnderscores                                               ##
+############################################################################
+
+context("test spacesAsUnderscores")
+
+test_that("spacesAsUnderscores is TRUE",  {
+              ncl <- rncl(file = tr_under, file.format = "nexus", spacesAsUnderscores = TRUE)
+              expect_true(any(grepl("\\_", ncl$taxaNames)))
+              expect_true(all(sapply(ncl$taxonLabelVector, function(x) any(grepl("_", x)))))
+              expect_true(any(grepl("_", ncl$charLabels)))
+              expect_true(any(grepl("_", ncl$stateLabels)))
+          })
+
+
+test_that("spacesAsUnderscores is FALSE",  {
+              ncl <- rncl(file = tr_under, file.format = "nexus", spacesAsUnderscores = FALSE)
+              expect_false(any(grepl("\\_", ncl$taxaNames)))
+              expect_false(all(sapply(ncl$taxonLabelVector, function(x) any(grepl("_", x)))))
+              expect_false(any(grepl("_", ncl$charLabels)))
+              expect_false(any(grepl("_", ncl$stateLabels)))
+          })

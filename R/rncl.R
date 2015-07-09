@@ -158,6 +158,10 @@ rncl <- function(file, file.format = c("nexus", "newick"),
                                        })
         ncl$taxaNames <- gsub("\\s", "_", ncl$taxaNames)
 
+        ncl$charLabels <- gsub("\\s", "_", ncl$charLabels)
+
+        ncl$stateLabels <- gsub("\\s", "_", ncl$stateLabels)
+
     }
 
     ## in case the trees contain a subset of the taxa listed in the TAXA block
