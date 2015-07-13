@@ -167,16 +167,6 @@ rncl <- function(file, file.format = c("nexus", "newick"),
 
     }
 
-    ## in case the trees contain a subset of the taxa listed in the TAXA block
-    ## ideally, this should be fixed in the C++ code
-    any_subset <- sapply(ncl$taxonLabelVector, function(x) {
-                             length(setdiff(ncl$taxaNames, x))
-                         })
-    if (any(any_subset > 0)) {
-        stop("All the taxa listed in the TAXA block must also be found in",
-             " the tip labels of all the trees.")
-    }
-
     ncl
 }
 
@@ -219,9 +209,9 @@ build_raw_phylo <- function(ncl, missing_edge_length) {
 
             edgeLgth <- get_edge_length(ncl$branchLength[[i]], ncl$parentVector[[i]])
 
-            nNodes <- length(ncl$parentVector[[i]]) - length(ncl$taxaNames)
+            tipLbl <- ncl$taxonLabelVector[[i]]
 
-            tipLbl <- ncl$taxaNames
+            nNodes <- length(ncl$parentVector[[i]]) - length(tipLbl)
 
             tr <- list(edge=edgeMat, tip.label=tipLbl, Nnode=nNodes)
 

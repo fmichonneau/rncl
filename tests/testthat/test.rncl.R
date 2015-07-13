@@ -183,8 +183,27 @@ test_that("missing_edge_length is a single numeric value", {
 context("Tree with subset of taxa listed in TAXA block")
 
 test_that("taxa subset", {
-              expect_error(tr <- read_nexus_phylo(file = taxsub),
-                           "All the taxa listed")
+              tr <- read_nexus_phylo(file = taxsub)
+              ncl <- rncl(file = taxsub, file.format = "nexus")
+              expect_equal(ncl$trees[1], "(2,((3,1),(5,4)))")
+              expect_equal(ncl$trees[2], "(2:6,((3:2,1:1):4,(5:10,4:9):7):3)")
+              expect_equal(ncl$trees[3], "(2,(3,(6,(5,4))))")
+              expect_equal(ncl$trees[4], "(5,(4,(2,(3,(1,6)))))")
+              expect_equal(tr[[1]]$edge, cbind(c(6, 8, 8, 9, 9, 6, 7, 7),
+                                               (1:9)[-6]))
+              expect_equal(tr[[2]]$edge, cbind(c(6, 8, 8, 9, 9, 6, 7, 7),
+                                               (1:9)[-6]))
+              expect_equal(tr[[3]]$edge, cbind(c(6, 7, 8, 9, 9, 6, 7, 8),
+                                               (1:9)[-6]))
+              expect_equal(tr[[4]]$edge, cbind(c(7, 8, 9, 10, 11, 11, 7, 8, 9, 10),
+                                               (1:11)[-7]))
+              expect_equal(tr[[2]]$edge.length,
+                           c(6, 2, 1, 10, 9, 3, 4, 7))
+              expect_equal(tr[[1]]$edge.length, NULL)
+              expect_equal(tr[[1]]$tip.label, c("porifera", "ctenophora", "cnidaria", "deuterostomia", "protostomia"))
+              expect_equal(tr[[2]]$tip.label, c("porifera", "ctenophora", "cnidaria", "deuterostomia", "protostomia"))
+              expect_equal(tr[[3]]$tip.label, c("porifera", "ctenophora", "xeno", "deuterostomia", "protostomia"))
+              expect_equal(tr[[4]]$tip.label, c("deuterostomia", "protostomia", "porifera", "ctenophora", "cnidaria", "xeno"))
           })
 
 ############################################################################

@@ -220,22 +220,56 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 
 			NxsSimpleTree simpleTree(ftd, -1, -1.0);
 			std::vector<const NxsSimpleNode *> ndVector =  simpleTree.GetPreorderTraversal();
-			unsigned internalNdIndex = nTax;
+
+                        /// first loop over nodes to figure out number of tips
+                        /// This is needed as we can't rely on the length of the number of taxa in the
+                        /// event some trees of the TREE block have only a subset of the taxa
+                        int ntips = 0;
+                        for (std::vector<const NxsSimpleNode *>::const_iterator ndIt = ndVector.begin();
+			     ndIt != ndVector.end(); ++ndIt) {
+
+                            NxsSimpleNode * nd = (NxsSimpleNode *) *ndIt;
+                            NxsSimpleEdge edge = nd->GetEdgeToParent();
+
+			    NxsSimpleNode * par = 0L;
+			    par = (NxsSimpleNode *) edge.GetParent();
+
+                            if (nd->IsTip() && par != 0L) {
+                                ntips++;
+                            }
+                        }
+
+                        /// Second loop to build the parentVector and associated edge lengths and edge labels
+                        /// vectors
+                        unsigned internalNdIndex = ntips; // internal node counter
+                        unsigned internalTipId = 0;       // tip counter
+
 			for (std::vector<const NxsSimpleNode *>::const_iterator ndIt = ndVector.begin();
 			     ndIt != ndVector.end(); ++ndIt)
 			{
 			    NxsSimpleNode * nd = (NxsSimpleNode *) *ndIt;
 			    unsigned nodeIndex;
-			    if (nd->IsTip())
+
+                            if (nd->IsTip())
 			    {
-				nodeIndex = nd->GetTaxonIndex();
-				taxonLabelVector.push_back(taxaNames[nodeIndex]);
+                                // get the taxon label associated with this tip
+                                // we can't rely on  GetTaxonIndex as if the tree only includes
+                                // a subset of the TAXA block, it won't be accurate
+                                nodeIndex = internalTipId++;
+                                taxonLabelVector.push_back(taxaNames[nd->GetTaxonIndex()]);
 			    }
-			    else {
-				nodeIndex = internalNdIndex++;
-				nd->SetTaxonIndex(nodeIndex);
+                            else
+                            {
+                                nodeIndex = internalNdIndex++;
+                                nd->SetTaxonIndex(nodeIndex);
                                 nodeLabelVector.push_back(nd->GetName());
-			    }
+                            }
+
+                            NxsSimpleEdge edge = nd->GetEdgeToParent();
+
+			    NxsSimpleNode * par = 0L;
+			    par = (NxsSimpleNode *) edge.GetParent();
+
 			    if (parentVector.size() < nodeIndex + 1)
 			    {
 				parentVector.resize(nodeIndex + 1);
@@ -248,10 +282,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
                             {
                                 nodeLabelVector.resize(nodeIndex + 1);
                             }
-			    NxsSimpleEdge edge = nd->GetEdgeToParent();
 
-			    NxsSimpleNode * par = 0L;
-			    par = (NxsSimpleNode *) edge.GetParent();
 			    if (par != 0L)
 			    {
 				parentVector[nodeIndex] = 1 + par->GetTaxonIndex();
@@ -259,8 +290,8 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 			    }
 			    else
 			    {
-				parentVector[nodeIndex] = 0;
-				branchLengthVector[nodeIndex] = -1.0;
+                                parentVector[nodeIndex] = 0;
+                                branchLengthVector[nodeIndex] = -1.0;
 			    }
 			}
 
