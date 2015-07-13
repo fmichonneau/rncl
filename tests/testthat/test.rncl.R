@@ -35,11 +35,15 @@ taxsub <- file.path(pth, "test_subset_taxa.nex")
 ## NEXUS file to test for underscores
 tr_under <- file.path(pth, "test_underscores.nex")
 
+## NEXUS file with no tree block
+tr_empty <- file.path(pth, "test_empty.nex")
+
 stopifnot(file.exists(co1File))
 stopifnot(file.exists(multiLinesFile))
 stopifnot(file.exists(taxsub))
 stopifnot(file.exists(treeDiscDt))
 stopifnot(file.exists(tr_under))
+stopifnot(file.exists(tr_empty))
 
 ## function (file, simplify=TRUE, type=c("all", "tree", "data"),
 ##   char.all=FALSE, polymorphic.convert=TRUE, levels.uniform=TRUE,
@@ -241,3 +245,23 @@ test_that("spacesAsUnderscores is FALSE",  {
               expect_false(any(grepl("_", ncl$charLabels)))
               expect_false(any(grepl("_", ncl$stateLabels)))
           })
+
+############################################################################
+## Test on non - existing file                                            ##
+############################################################################
+
+context("non existing file")
+
+test_that("non existing file",
+          expect_error(rncl(file = "foo"), "doesn't exist")
+          )
+
+############################################################################
+## Test on an empty file                                                  ##
+############################################################################
+
+context("test on empty file")
+
+test_that("empty file (no trees)",
+          expect_equal(read_nexus_phylo(file = tr_empty),
+                       NULL))

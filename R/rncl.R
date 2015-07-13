@@ -254,15 +254,17 @@ build_raw_phylo <- function(ncl, missing_edge_length) {
 ## polishes things up
 build_phylo <- function(ncl, simplify=FALSE, missing_edge_length) {
     trees <- build_raw_phylo(ncl, missing_edge_length)
-    trees <- lapply(trees, function(tr) {
-        tr <- ape::collapse.singles(tr)
-        class(tr) <- "phylo"
-        tr
-    })
-    if (length(trees) == 1 || simplify) {
-        trees <- trees[[1]]
-    } else {
-        class(trees) <- "multiPhylo"
+    if (!is.null(trees)) {
+        trees <- lapply(trees, function(tr) {
+                            tr <- ape::collapse.singles(tr)
+                            class(tr) <- "phylo"
+                            tr
+                        })
+        if (length(trees) == 1 || simplify) {
+            trees <- trees[[1]]
+        } else {
+            class(trees) <- "multiPhylo"
+        }
     }
     trees
 }
