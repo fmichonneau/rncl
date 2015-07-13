@@ -204,6 +204,7 @@ test_that("taxa subset", {
               expect_equal(tr[[2]]$tip.label, c("porifera", "ctenophora", "cnidaria", "deuterostomia", "protostomia"))
               expect_equal(tr[[3]]$tip.label, c("porifera", "ctenophora", "xeno", "deuterostomia", "protostomia"))
               expect_equal(tr[[4]]$tip.label, c("deuterostomia", "protostomia", "porifera", "ctenophora", "cnidaria", "xeno"))
+              expect_equal(names(tr), paste0("hyp", 1:4))
           })
 
 ############################################################################
