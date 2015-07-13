@@ -1,5 +1,10 @@
 
-## rncl 0.4.0.999
+## rncl 0.6.0
+
+### New features
+
+* `rncl` now allows the parsing of tree files where the trees contain a subset
+  of the taxa listed in the TAXA block.
 
 ## rncl 0.4.0
 
