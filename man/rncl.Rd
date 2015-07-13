@@ -42,9 +42,9 @@ or a Newick file.
 
 \itemize{
 
-  \item {\code{taxaNames}} {A vector of the taxa names listed in the TAXA
-block of the NEXUS file or inferred from the tree strings (if
-block missing or Newick file).}
+  \item {\code{taxaNames}} {A vector of the taxa names listed in
+the TAXA block of the NEXUS file or inferred from the tree strings
+(if block missing or Newick file).}
 
   \item {\code{treeNames}} {A vector listing the names of the trees}
 
@@ -77,9 +77,9 @@ corresponding \code{parentVector} element.}
 
   \item{\code{trees}} { A character vector listing the tree
 strings where tip labels have been replaced by their indices in
-the \code{taxonLabelVector} vector. They do not correspond to the
-numbers listed in the translation table that might be associated
-with the tree.}
+the \code{taxaNames} vector. They do not correspond to the numbers
+listed in the translation table that might be associated with the
+tree.}
 
   \item{\code{dataTypes}} { A character vector indicating the type
 of data associated with the tree (e.g., \dQuote{standard}). }
