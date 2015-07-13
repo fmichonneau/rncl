@@ -73,7 +73,7 @@
 ##' elements as there are trees in the file. Each element is a numeric
 ##' vector listing the edge/branch lengths for the edges in the same
 ##' order as nodes are listed in the corresponding \code{parentVector}
-##' element. Values of -1 indicate that the value is missing for this
+##' element. Values of -999 indicate that the value is missing for this
 ##' particular edge. The implicit root as a length of 0.}
 ##'
 ##'   \item{\code{nodeLabelsVector}} { A list containing as many
@@ -180,10 +180,10 @@ get_edge_matrix <- function(parentVector) {
     edgeMat
 }
 
-## Returns the edge lengths (missing are represented by -1)
+## Returns the edge lengths (missing are represented by -999)
 get_edge_length <- function(branchLengthVector, parentVector) {
     edgeLgth <- branchLengthVector[which(parentVector != 0)]
-    edgeLgth[edgeLgth == -1] <- NA
+    edgeLgth[edgeLgth == -999] <- NA
     edgeLgth
 }
 
@@ -286,7 +286,7 @@ build_phylo <- function(ncl, simplify=FALSE, missing_edge_length) {
 ##' @author Francois Michonneau
 ##' @seealso rncl-package
 ##' @rdname read_nexus_phylo
-##' @note \code{make_phylo} will soon be deprecated , use
+##' @note \code{make_phylo} will soon be deprecated, use
 ##' \code{read_nexus_phylo} or \code{read_newick_phylo} instead.
 ##' @export
 

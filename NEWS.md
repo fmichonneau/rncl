@@ -6,6 +6,11 @@
 * `rncl` now allows the parsing of tree files where the trees contain a subset
   of the taxa listed in the TAXA block.
 
+### Major changes
+
+* Missing edge lengths are now represented by -999 instead of -1 in the object
+  returned by the `rncl` function.
+
 ## rncl 0.4.0
 
 ### New features

@@ -218,7 +218,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 
 			const NxsFullTreeDescription & ftd = treeBlock->GetFullTreeDescription(k);
 
-			NxsSimpleTree simpleTree(ftd, -1, -1.0);
+			NxsSimpleTree simpleTree(ftd, -999, -999.0);
 			std::vector<const NxsSimpleNode *> ndVector =  simpleTree.GetPreorderTraversal();
 
                         /// first loop over nodes to figure out number of tips
@@ -291,7 +291,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 			    else
 			    {
                                 parentVector[nodeIndex] = 0;
-                                branchLengthVector[nodeIndex] = -1.0;
+                                branchLengthVector[nodeIndex] = -999.0;
 			    }
 			}
 
