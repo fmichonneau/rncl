@@ -236,10 +236,10 @@ build_raw_phylo <- function(ncl, missing_edge_length) {
             }
 
             if (has_node_labels(ncl$nodeLabelsVector[[i]])) {
-                ntips <- length(tr$tip.label)
                 ndLbl <- ncl$nodeLabelsVector[[i]]
                 ndLbl[rootNd] <- ndLbl[1]
-                tr <- c(tr, list(node.label=ndLbl[(ntips+1):length(ndLbl)]))
+                ndLbl <- ndLbl[min(tr$edge[, 1]):length(ndLbl)]
+                tr <- c(tr, list(node.label=ndLbl))
             }
 
             listTrees[[i]] <- tr
