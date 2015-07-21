@@ -18,6 +18,5 @@
 ##' @name rncl
 ##' @docType package
 ##' @useDynLib rncl
-##' @import ape
 ##' @importFrom Rcpp evalCpp
 NULL
