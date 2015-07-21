@@ -256,7 +256,9 @@ build_phylo <- function(ncl, simplify=FALSE, missing_edge_length) {
     trees <- build_raw_phylo(ncl, missing_edge_length)
     if (!is.null(trees)) {
         trees <- lapply(trees, function(tr) {
-                            tr <- ape::collapse.singles(tr)
+                            if (any(tabulate(tr$edge[, 1]) == 1)) {
+                                tr <- ape::collapse.singles(tr)
+                            }
                             class(tr) <- "phylo"
                             tr
                         })
