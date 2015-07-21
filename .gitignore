@@ -30,7 +30,6 @@
 # other files
 ~
 .Rhistory
-cran-comments.md
 
 # stuff
 tmp/
