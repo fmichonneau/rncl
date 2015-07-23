@@ -207,7 +207,7 @@ build_raw_phylo <- function(ncl, missing_edge_length) {
             attr(edgeMat, "root") <- NULL
             attr(edgeMat, "dimnames") <- NULL
 
-            edgeLgth <- get_edge_length(ncl$branchLength[[i]], ncl$parentVector[[i]])
+            edgeLgth <- get_edge_length(ncl$branchLengthVector[[i]], ncl$parentVector[[i]])
 
             tipLbl <- ncl$taxonLabelVector[[i]]
 
