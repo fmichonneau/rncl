@@ -2,6 +2,7 @@
 #include <iostream>
 #include <set>
 #include <algorithm>
+#include <RProgress.h>
 
 std::vector<int> tabulate_tips (Rcpp::IntegerVector ances) {
 // tabulates ancestor nodes that are not the root.
@@ -16,7 +17,7 @@ std::vector<int> tabulate_tips (Rcpp::IntegerVector ances) {
     return ans;
 }
 
-bool is_one(int i) { return ( i == 1); }
+bool is_one(int i) { return ( i == 1 ); }
 
 //[[Rcpp::export]]
 int n_singletons (Rcpp::IntegerVector ances) {
@@ -67,6 +68,8 @@ Rcpp::List collapse_single_cpp(
     Rcpp::IntegerVector position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
     Rcpp::IntegerVector position_singleton_orig = position_singleton;
 
+    RProgress::RProgress pb("Progress [:bar]", (double) n_singles);
+    pb.tick(0);
     while (position_singleton.size() > 0) {
 	// Rcpp::Rcout << "tabNode is ";
 	//     for (unsigned k = 0; k < tabNode.size(); ++k)
@@ -109,6 +112,7 @@ Rcpp::List collapse_single_cpp(
 	tab_node_rcpp(tab_node.size());
 	tab_node_rcpp = tab_node;
 	position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
+	pb.tick();
     }
 
     Rcpp::List res = Rcpp::List::create(

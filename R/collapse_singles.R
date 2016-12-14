@@ -33,7 +33,8 @@ collapse_singles_old <- function(tree) {
     tree
 }
 
-
+##' @importFrom progress progress_bar
+##' @importFrom Rcpp loadRcppModules
 collapse_singles <- function(tree) {
 
     if (is.null(tree$edge.length)) {
