@@ -1,4 +1,4 @@
-// -*- mode: C++; c-indent-level: 4; c-basic-offset: 4; indent-tabs-mode: nil; -*-
+// -*- mode: C++; -*-
 
 #include <Rcpp.h>
 #include "ncl/nxsmultiformat.h"
