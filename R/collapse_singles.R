@@ -65,3 +65,39 @@ collapse_singles <- function(tree) {
 
     tree
 }
+
+if (FALSE) {
+
+    ances <- c(4,  4,  5,  6,  6)
+    desc <- c(1,  2,  4,  5,  3)
+    elen <- rep(1, 5)
+    nodlab <- NULL
+    nnode <- 3
+    ntip <- 3
+    tree <- list(
+        edge = matrix(c(ances, desc), ncol = 2),
+        node.label = nodlab,
+        Nnode <- nnode,
+        edge.length = elen,
+        tip.label = letters[1:3]
+    )
+    class(tree) <- "phylo"
+
+
+    ances <- c(6, 6, 8, 9, 9, 7, 7, 11, 11, 10)
+    desc  <- c(1, 2, 3, 4, 5, 6, 8, 7,  10,  9)
+    elen  <- rep(1, length(ances))
+    nodlab <- NULL
+    nnode <- 4
+    ntip <-  5
+    tiplbl <- letters[1:5]
+    tree <-  list(
+        edge = matrix(c(ances, desc), ncol = 2),
+        node.label = nodlab,
+        Nnode =  nnode,
+        edge.length = elen,
+        tip.label = tiplbl
+    )
+    class(tree) <- "phylo"
+
+}

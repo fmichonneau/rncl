@@ -25,3 +25,4 @@ License: BSD_2_clause + file LICENSE
 URL: https://github.com/fmichonneau/rncl
 BugReports: https://github.com/fmichonneau/rncl/issues
 LazyData: true
+RoxygenNote: 5.0.1
