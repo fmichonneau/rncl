@@ -68,8 +68,9 @@ Rcpp::List collapse_single_cpp(
     Rcpp::IntegerVector position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
     Rcpp::IntegerVector position_singleton_orig = position_singleton;
 
-    RProgress::RProgress pb("Progress [:bar]", (double) n_singles);
+    RProgress::RProgress pb("Progress [:bar] :current/:total (:percent) :eta", (double) n_singles, 60);
     pb.tick(0);
+
     while (position_singleton.size() > 0) {
 	// Rcpp::Rcout << "tabNode is ";
 	//     for (unsigned k = 0; k < tabNode.size(); ++k)
@@ -112,6 +113,7 @@ Rcpp::List collapse_single_cpp(
 	tab_node_rcpp(tab_node.size());
 	tab_node_rcpp = tab_node;
 	position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
+
 	pb.tick();
     }
 
