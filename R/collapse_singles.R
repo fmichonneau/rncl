@@ -1,5 +1,6 @@
 ##' @importFrom progress progress_bar
 ##' @importFrom Rcpp loadRcppModules
+##' @importFrom stats na.omit
 collapse_singles <- function(tree) {
 
     if (is.null(tree$edge.length)) {
@@ -28,7 +29,7 @@ collapse_singles <- function(tree) {
         idx_nd_lbl <- res$position_singletons + 1  - length(tree$tip.label)
 
         warning("Dropping singleton nodes with labels: ",
-                paste(na.omit(tree$node.label[idx_nd_lbl]), collapse = ", "))
+                paste(stats::na.omit(tree$node.label[idx_nd_lbl]), collapse = ", "))
 
         tree$node.label <- tree$node.label[- idx_nd_lbl]
     }
