@@ -5,13 +5,10 @@
 ### Get all the test files
 if (Sys.getenv("RCMDCHECK") == FALSE) {
     pth <- file.path(getwd(), "..", "inst", "nexusfiles")
+    pth_nw_good <- file.path(getwd(), "..", "inst", "newick_good")
+
 } else {
     pth <- system.file(package="rncl", "nexusfiles")
-}
-
-if (Sys.getenv("RCMDCHECK") == FALSE) {
-    pth_nw_good <- file.path(getwd(), "..", "inst", "newick_good")
-} else {
     pth_nw_good <- system.file(package="rncl", "newick_good")
 }
 
@@ -139,23 +136,47 @@ test_that("weird files",{
     expect_equal(typeof(tr$edge), "integer")
     expect_equal(length(tr$tip.label), 68)
     expect_equal(tr$Nnode, 42)
+})
+
+test_that("simple tree with singletons",  {
     expect_warning(simple_tree <- read_newick_phylo(file=file.path(pth_nw_good, "simpleTree.tre")),
                    "fur")
     expect_equal(typeof(simple_tree$edge), "integer")
     expect_equal(simple_tree$tip.label, c("A_1", "B__2", "C", "D"))
     expect_equal(simple_tree$node.label, c("mammals", "cats", "dogs"))
-    expect_warning(sing_tree <- read_newick_phylo(file=file.path(pth_nw_good, "singTree.tre")),
+})
+
+test_that("tree with singletons", {
+    expect_warning(sing_tree <- read_newick_phylo(file=file.path(pth_nw_good, "singleton_tree.tre")),
                    "cats")
     expect_equal(typeof(sing_tree$edge), "integer")
+    expect_true(is.null(sing_tree$edge.length))
     expect_equal(sing_tree$tip.label, c("A", "B", "C", "D", "E"))
     expect_equal(sing_tree$node.label, c("life", "tetrapods", "dogs", "mammals"))
+})
+
+test_that("tree with singletons", {
+    expect_warning(sing_tree <- read_newick_phylo(file=file.path(pth_nw_good, "singleton_with_edge_length.tre")),
+                   "cats")
+    expect_equal(typeof(sing_tree$edge), "integer")
+    expect_equal(length(sing_tree$edge.length), nrow(sing_tree$edge))
+    expect_equal(sing_tree$tip.label, c("A", "B", "C", "D", "E"))
+    expect_equal(sing_tree$node.label, c("life", "tetrapods", "dogs", "mammals"))
+})
+
+test_that("tree with tip and node labels", {
     tr1 <- read_newick_phylo(file=file.path(pth_nw_good, "tree1.tre"))
     expect_equal(typeof(tr1$edge), "integer")
+    expect_equal(length(tr1$edge.length), nrow(tr1$edge))
     expect_equal(tr1$tip.label, c("A", "B", "C", "D"))
     expect_equal(tr1$node.label, c("F", "E"))
     expect_equal(tr1$edge.length, seq(.1, .5, by=.1))
+})
+
+test_that("tree with tip and node labels 2", {
     tr2 <- read_newick_phylo(file=file.path(pth_nw_good, "tree2.tre"))
     expect_equal(typeof(tr2$edge), "integer")
+    expect_true(is.null(tr2$edge.length))
     expect_equal(tr2$tip.label, LETTERS[1:4])
     expect_equal(tr2$node.label, "E")
     expect_equal(tr2$Nnode, 1)
