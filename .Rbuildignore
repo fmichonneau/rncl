@@ -5,3 +5,4 @@ tmp/*
 ^cran-comments\.md$
 R/deduplicate_labels\.R$
 inst/opentree
+^\.#*
