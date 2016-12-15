@@ -53,7 +53,7 @@ collapse_singles <- function(tree) {
     new_mat <- matrix(c(res$ances, res$desc), ncol = 2)
     tree$edge <- new_mat
 
-    if (length(res$elen) > 1) {
+    if (length(res$edge.length) > 1) {
         tree$edge.length <- res$edge.length
     }
 
