@@ -202,7 +202,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 		    for (unsigned k = 0; k < nTrees; k++) {
 
 			std::vector<std::string> taxonLabelVector; //Index of the parent. 0 means no parent.
-			std::vector<unsigned> parentVector;        //Index of the parent. 0 means no parent.
+			std::vector<int> parentVector;        //Index of the parent. 0 means no parent.
 			std::vector<double> branchLengthVector;
                         std::vector<std::string> nodeLabelVector;
 

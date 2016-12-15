@@ -173,7 +173,7 @@ rncl <- function(file, file.format = c("nexus", "newick"),
 ## Returns the edge matrix from the parentVector (the i^th element is
 ## the descendant element of node i)
 get_edge_matrix <- function(parentVector) {
-    edgeMat <- cbind(parentVector, 1:length(parentVector))
+    edgeMat <- cbind(parentVector, seq_along(parentVector))
     rootNd <- edgeMat[which(edgeMat[, 1] == 0), 2]
     edgeMat <- edgeMat[-which(edgeMat[, 1] == 0), ]
     attr(edgeMat, "root") <- rootNd
