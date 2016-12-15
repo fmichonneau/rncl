@@ -1,4 +1,19 @@
 
+## rncl 0.8.0
+
+### New features
+
+* The re-numbering of the edge matrix to deal with singleton is now performed in
+  C++, leading to improved speed (about 3x for a 1700 tip tree) (#11).
+
+* A progress bar is displayed when removing the singleton, which is useful when
+  the tree is very large.
+
+### Major changes
+
+* the components of the edge matrix are storred as integer (they were storred as
+  double. (#17, reported by @KlausVigo)
+
 ## rncl 0.6.0
 
 ### New features
