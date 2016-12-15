@@ -139,11 +139,13 @@ test_that("weird files",{
     expect_equal(typeof(tr$edge), "integer")
     expect_equal(length(tr$tip.label), 68)
     expect_equal(tr$Nnode, 42)
-    simple_tree <- read_newick_phylo(file=file.path(pth_nw_good, "simpleTree.tre"))
+    expect_warning(simple_tree <- read_newick_phylo(file=file.path(pth_nw_good, "simpleTree.tre")),
+                   "fur")
     expect_equal(typeof(simple_tree$edge), "integer")
     expect_equal(simple_tree$tip.label, c("A_1", "B__2", "C", "D"))
     expect_equal(simple_tree$node.label, c("mammals", "cats", "dogs"))
-    sing_tree <- read_newick_phylo(file=file.path(pth_nw_good, "singTree.tre"))
+    expect_warning(sing_tree <- read_newick_phylo(file=file.path(pth_nw_good, "singTree.tre")),
+                   "cats")
     expect_equal(typeof(sing_tree$edge), "integer")
     expect_equal(sing_tree$tip.label, c("A", "B", "C", "D", "E"))
     expect_equal(sing_tree$node.label, c("life", "tetrapods", "dogs", "mammals"))
@@ -206,7 +208,7 @@ test_that("taxa subset", {
     expect_equal(ncl$trees[2], "(2:6,((3:2,1:1):4,(5:10,4:9):7):3)")
     expect_equal(ncl$trees[3], "(2,(3,(6,(5,4))))")
     expect_equal(ncl$trees[4], "(5,(4,(2,(3,(1,6)))))")
-    kexepect_equal(typeof(tr[[1]]$edge), "integer")
+    expect_equal(typeof(tr[[1]]$edge), "integer")
     expect_equal(tr[[1]]$edge, cbind(c(6, 8, 8, 9, 9, 6, 7, 7),
                                (1:9)[-6]))
     expect_equal(tr[[2]]$edge, cbind(c(6, 8, 8, 9, 9, 6, 7, 7),

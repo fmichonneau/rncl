@@ -56,10 +56,10 @@ collapse_singles <- function(tree) {
     tree$Nnode <- res$Nnode
 
     if (!is.null(tree$node.label)) {
-        idx_nd_lbl <- res$position_singletons - (length(tree$tip.labels) - 1)
+        idx_nd_lbl <- res$position_singletons + 1  - length(tree$tip.label)
 
         warning("Dropping singleton nodes with labels: ",
-                paste(tree$node.label[idx_nd_lbl], collapse = ", "))
+                paste(na.omit(tree$node.label[idx_nd_lbl]), collapse = ", "))
 
         tree$node.label <- tree$node.label[- idx_nd_lbl]
     }
