@@ -1,3 +1,7 @@
+## Resubmission
+
+* Fixed the URL in README.md to use https
+
 ## Test environments
 
 - local Ubuntu 16.10, R 3.3.2
