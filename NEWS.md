@@ -1,5 +1,5 @@
 
-## rncl 0.8.0
+## rncl 0.8.2
 
 ### New features
 
