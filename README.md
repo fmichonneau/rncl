@@ -20,7 +20,7 @@ create objects of class `phylo4` or `phylo4d`.
 The package however provides two functions for users: `read_nexus_phylo()` and
 `read_newick_phylo()`. They read NEXUS and Newick files respectively, and return
 (a valid) `phylo` or `multiPhylo` object from the package
-[ape](http://cran.r-project.org/package=ape). These functions differ from those
+[ape](https://cran.r-project.org/package=ape). These functions differ from those
 found in ape (respectively `read.tree` and `read.nexus`) as `rncl` functions can
 read trees with singletons, and missing branch lengths. However, `rncl` adheres
 to the NEXUS standards and only accepts tip labels without white spaces and tip
