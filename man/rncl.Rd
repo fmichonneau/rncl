@@ -4,35 +4,38 @@
 \name{rncl}
 \alias{rncl}
 \alias{rncl-package}
+\alias{rncl}
 \title{rncl: An R interface to the NEXUS Class Library}
 \usage{
 rncl(file, file.format = c("nexus", "newick"), spacesAsUnderscores = TRUE,
-  char.all = TRUE, polymorphic.convert = TRUE, levels.uniform = TRUE, ...)
+  char.all = TRUE, polymorphic.convert = TRUE, levels.uniform = TRUE,
+  show_progress = TRUE, ...)
 }
 \arguments{
 \item{file}{path to a NEXUS or Newick file}
 
-\item{file.format}{a character string indicating the type of file
-to be parsed.}
+\item{file.format}{a character string indicating the type of file to be
+parsed.}
 
-\item{spacesAsUnderscores}{In the NEXUS file format white spaces
-are not allowed and are represented by underscores. Therefore, NCL
-converts underscores found in taxon labels in the NEXUS file into
-white spaces (e.g. \code{species_1} will become \code{"species
-1"}). If you want to preserve the underscores, set as \code{TRUE}
-(default). This option affects taxon labels, character labels and
-state labels.}
+\item{spacesAsUnderscores}{In the NEXUS file format white spaces are not
+allowed and are represented by underscores. Therefore, NCL converts
+underscores found in taxon labels in the NEXUS file into white spaces
+(e.g. \code{species_1} will become \code{"species 1"}). If you want to
+preserve the underscores, set as \code{TRUE} (default). This option
+affects taxon labels, character labels and state labels.}
 
-\item{char.all}{If \code{TRUE} (default), returns all characters,
-even those excluded in the NEXUS file (only when NEXUS file
-contains DATA block).}
+\item{char.all}{If \code{TRUE} (default), returns all characters, even those
+excluded in the NEXUS file (only when NEXUS file contains DATA block).}
 
 \item{polymorphic.convert}{If TRUE (default), converts polymorphic
-characters to missing data (only when NEXUS file contains DATA
-block).}
+characters to missing data (only when NEXUS file contains DATA block).}
 
-\item{levels.uniform}{If TRUE (default), uses the same levels for
-all characters (only when NEXUS file contains DATA block).}
+\item{levels.uniform}{If TRUE (default), uses the same levels for all
+characters (only when NEXUS file contains DATA block).}
+
+\item{show_progress}{If \code{TRUE} (default)), a progress bar is displayed
+during the possibly time consuming step of removing the singletons from
+the tree.}
 
 \item{...}{additional parameters (currently not in use).}
 }
@@ -145,14 +148,11 @@ relevant elements as a list. \code{phylo} (from the ape package)
 or \code{phylo4} (from the phylobase package) can be constructed
 from the elements contained in this list.
 }
-\author{
-Francois Michonneau
-}
 \references{
-Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
-An extensible file format for systematic information". Systematic
-Biology 46(4) : 590-621.
-doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
+Maddison DR, Swofford DL, Maddison WP (1997).
+    "NEXUS: An extensible file format for systematic information".
+    Systematic Biology 46(4) : 590-621.
+    doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
 
 Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
@@ -166,4 +166,6 @@ more complex example that also use the data contained in NEXUS
 files, inspect the source code of the \code{readNCL} function in
 the phylobase package.
 }
-
+\author{
+Francois Michonneau
+}
