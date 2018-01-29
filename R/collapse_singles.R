@@ -1,7 +1,7 @@
 ##' @importFrom progress progress_bar
 ##' @importFrom Rcpp loadRcppModules
 ##' @importFrom stats na.omit
-collapse_singles <- function(tree) {
+collapse_singles <- function(tree, show_progress) {
 
     if (is.null(tree$edge.length)) {
         elen <- numeric(0)
@@ -13,7 +13,8 @@ collapse_singles <- function(tree) {
         ances = tree$edge[, 1],
         desc = tree$edge[, 2],
         elen = elen,
-        nnode = tree$Nnode
+        nnode = tree$Nnode,
+        show_progress = show_progress
     )
 
     new_mat <- matrix(c(res$ances, res$desc), ncol = 2)

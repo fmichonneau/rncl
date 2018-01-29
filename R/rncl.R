@@ -11,28 +11,28 @@
 ##'
 ##' @title Get the elements from a NEXUS (or Newick) file
 ##' @param file path to a NEXUS or Newick file
-##' @param file.format a character string indicating the type of file
-##' to be parsed.
-##' @param spacesAsUnderscores In the NEXUS file format white spaces
-##' are not allowed and are represented by underscores. Therefore, NCL
-##' converts underscores found in taxon labels in the NEXUS file into
-##' white spaces (e.g. \code{species_1} will become \code{"species
-##' 1"}). If you want to preserve the underscores, set as \code{TRUE}
-##' (default). This option affects taxon labels, character labels and
-##' state labels.
-##' @param char.all If \code{TRUE} (default), returns all characters,
-##' even those excluded in the NEXUS file (only when NEXUS file
-##' contains DATA block).
+##' @param file.format a character string indicating the type of file to be
+##'     parsed.
+##' @param spacesAsUnderscores In the NEXUS file format white spaces are not
+##'     allowed and are represented by underscores. Therefore, NCL converts
+##'     underscores found in taxon labels in the NEXUS file into white spaces
+##'     (e.g. \code{species_1} will become \code{"species 1"}). If you want to
+##'     preserve the underscores, set as \code{TRUE} (default). This option
+##'     affects taxon labels, character labels and state labels.
+##' @param char.all If \code{TRUE} (default), returns all characters, even those
+##'     excluded in the NEXUS file (only when NEXUS file contains DATA block).
 ##' @param polymorphic.convert If TRUE (default), converts polymorphic
-##' characters to missing data (only when NEXUS file contains DATA
-##' block).
-##' @param levels.uniform If TRUE (default), uses the same levels for
-##' all characters (only when NEXUS file contains DATA block).
+##'     characters to missing data (only when NEXUS file contains DATA block).
+##' @param levels.uniform If TRUE (default), uses the same levels for all
+##'     characters (only when NEXUS file contains DATA block).
+##' @param show_progress If \code{TRUE} (default)), a progress bar is displayed
+##'     during the possibly time consuming step of removing the singletons from
+##'     the tree.
 ##' @param ... additional parameters (currently not in use).
-##' @references Maddison DR, Swofford DL, Maddison WP (1997). "NEXUS:
-##' An extensible file format for systematic information". Systematic
-##' Biology 46(4) : 590-621.
-##' doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
+##' @references Maddison DR, Swofford DL, Maddison WP (1997).
+##'     "NEXUS: An extensible file format for systematic information".
+##'     Systematic Biology 46(4) : 590-621.
+##'     doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
 ##'
 ##' Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 ##' files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
@@ -286,6 +286,9 @@ build_phylo <- function(ncl, simplify=FALSE, missing_edge_length, show_progress)
 ##'     length is missing, they are all removed. Otherwise, the value
 ##'     must be a single numeric value. In any case, a warning will
 ##'     be generated if the tree contains missing edge lengths.
+##' @param show_progress If \code{TRUE} (default)), a progress bar is displayed
+##'     during the possibly time consuming step of removing the singletons from
+##'     the tree.
 ##' @param ... additional parameters to be passed to the rncl function
 ##' @return A phylo or a multiPhylo object
 ##' @author Francois Michonneau
