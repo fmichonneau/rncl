@@ -58,7 +58,8 @@ Rcpp::List collapse_single_cpp(
     Rcpp::IntegerVector ances,
     Rcpp::IntegerVector desc,
     Rcpp::NumericVector elen,
-    Rcpp::NumericVector nnode) {
+    Rcpp::NumericVector nnode,
+    Rcpp::LogicalVector show_progress) {
 
     int n_singles = n_singletons(ances);
 
@@ -68,8 +69,10 @@ Rcpp::List collapse_single_cpp(
     Rcpp::IntegerVector position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
     Rcpp::IntegerVector position_singleton_orig = position_singleton;
 
-    RProgress::RProgress pb("Progress [:bar] :current/:total (:percent) :eta", (double) n_singles, 60);
-    pb.tick(0);
+    if (show_progress) {
+	RProgress::RProgress pb("Progress [:bar] :current/:total (:percent) :eta", (double) n_singles, 60);
+	pb.tick(0);
+    }
 
     while (position_singleton.size() > 0) {
 	// Rcpp::Rcout << "tabNode is ";
@@ -114,7 +117,9 @@ Rcpp::List collapse_single_cpp(
 	tab_node_rcpp = tab_node;
 	position_singleton = which_integer(tab_node_rcpp, Rcpp::IntegerVector::create(1));
 
-	pb.tick();
+	if (show_progress) {
+	    pb.tick();
+	}
     }
 
     Rcpp::List res = Rcpp::List::create(

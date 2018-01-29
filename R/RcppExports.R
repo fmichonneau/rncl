@@ -2,14 +2,14 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 n_singletons <- function(ances) {
-    .Call('rncl_n_singletons', PACKAGE = 'rncl', ances)
+    .Call('_rncl_n_singletons', PACKAGE = 'rncl', ances)
 }
 
-collapse_single_cpp <- function(ances, desc, elen, nnode) {
-    .Call('rncl_collapse_single_cpp', PACKAGE = 'rncl', ances, desc, elen, nnode)
+collapse_single_cpp <- function(ances, desc, elen, nnode, show_progress) {
+    .Call('_rncl_collapse_single_cpp', PACKAGE = 'rncl', ances, desc, elen, nnode, show_progress)
 }
 
 RNCL <- function(params, paramsVecR) {
-    .Call('rncl_RNCL', PACKAGE = 'rncl', params, paramsVecR)
+    .Call('_rncl_RNCL', PACKAGE = 'rncl', params, paramsVecR)
 }
 

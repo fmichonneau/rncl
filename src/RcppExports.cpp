@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // n_singletons
 int n_singletons(Rcpp::IntegerVector ances);
-RcppExport SEXP rncl_n_singletons(SEXP ancesSEXP) {
+RcppExport SEXP _rncl_n_singletons(SEXP ancesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -17,8 +17,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // collapse_single_cpp
-Rcpp::List collapse_single_cpp(Rcpp::IntegerVector ances, Rcpp::IntegerVector desc, Rcpp::NumericVector elen, Rcpp::NumericVector nnode);
-RcppExport SEXP rncl_collapse_single_cpp(SEXP ancesSEXP, SEXP descSEXP, SEXP elenSEXP, SEXP nnodeSEXP) {
+Rcpp::List collapse_single_cpp(Rcpp::IntegerVector ances, Rcpp::IntegerVector desc, Rcpp::NumericVector elen, Rcpp::NumericVector nnode, Rcpp::LogicalVector show_progress);
+RcppExport SEXP _rncl_collapse_single_cpp(SEXP ancesSEXP, SEXP descSEXP, SEXP elenSEXP, SEXP nnodeSEXP, SEXP show_progressSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -26,13 +26,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type desc(descSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type elen(elenSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type nnode(nnodeSEXP);
-    rcpp_result_gen = Rcpp::wrap(collapse_single_cpp(ances, desc, elen, nnode));
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type show_progress(show_progressSEXP);
+    rcpp_result_gen = Rcpp::wrap(collapse_single_cpp(ances, desc, elen, nnode, show_progress));
     return rcpp_result_gen;
 END_RCPP
 }
 // RNCL
 Rcpp::List RNCL(SEXP params, SEXP paramsVecR);
-RcppExport SEXP rncl_RNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
+RcppExport SEXP _rncl_RNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -41,4 +42,16 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(RNCL(params, paramsVecR));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_rncl_n_singletons", (DL_FUNC) &_rncl_n_singletons, 1},
+    {"_rncl_collapse_single_cpp", (DL_FUNC) &_rncl_collapse_single_cpp, 5},
+    {"_rncl_RNCL", (DL_FUNC) &_rncl_RNCL, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_rncl(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }
