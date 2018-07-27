@@ -214,8 +214,8 @@ class NxsTaxaBlock
 			taxLabels = other.taxLabels;
 			labelToIndex = other.labelToIndex;
 			dimNTax = other.dimNTax;
-			taxSets = taxSets;
-			taxPartitions = other.taxPartitions;
+			static_cast<void>(taxSets);
+                        taxPartitions = other.taxPartitions;
 			inactiveTaxa = other.inactiveTaxa;
 			}
 		NxsTaxaBlock * Clone() const
