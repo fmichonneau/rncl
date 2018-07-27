@@ -1,38 +1,20 @@
-## Resubmission
-
-* Fixed the URL in README.md to use https
-
 ## Test environments
 
-- local Ubuntu 16.10, R 3.3.2
-- Ubuntu 12.04 (travis-ci), R 3.3.1
-- Windows with R-hub using R-devel r71655
-- Debian testing with R-devel (r71774)
+- local Ubuntu 18.04, R 3.5.1
+- Ubuntu 14.04 (travis-ci), R 3.5.0
+- Windows with win-builder using R release (3.5.1) and R-devel r
+- Debian testing with R-devel (2018-07-14 r74963)
+
+## Notes
+
+- This release fixes the NOTEs on the CRAN check results page about registering
+  native routines and disabling symbol search
+- It also addresses a warning detected by the upcoming relase of clang 7 brought
+  up by Prof Brian Ripley in an email sent to me on 2018-07-27
 
 ## R CMD check results
 
 - There were no errors or warnings.
-
-- There were 2 NOTEs:
-
-* checking CRAN incoming feasibility ... NOTE
-	Maintainer: ‘Francois Michonneau <francois.michonneau@gmail.com>’
-
-	License components with restrictions and base license permitting such:
-		BSD_2_clause + file LICENSE
-	File 'LICENSE':
-		YEAR: 2016
-		COPYRIGHT HOLDER: Francois Michonneau
-
-	Possibly mis-spelled words in DESCRIPTION:
-		Newick (13:15)
-		phylobase's (15:30)
-		phylogenetic (13:32, 14:52)
-
-  * checking installed package size ... NOTE
-	installed size is 22.9Mb
-	sub-directories of 1Mb or more:
-		libs  22.6Mb
 
 ## Downstream dependencies
 
