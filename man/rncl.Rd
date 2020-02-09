@@ -3,13 +3,18 @@
 \docType{package}
 \name{rncl}
 \alias{rncl}
-\alias{rncl-package}
-\alias{rncl}
 \title{rncl: An R interface to the NEXUS Class Library}
 \usage{
-rncl(file, file.format = c("nexus", "newick"), spacesAsUnderscores = TRUE,
-  char.all = TRUE, polymorphic.convert = TRUE, levels.uniform = TRUE,
-  show_progress = TRUE, ...)
+rncl(
+  file,
+  file.format = c("nexus", "newick"),
+  spacesAsUnderscores = TRUE,
+  char.all = TRUE,
+  polymorphic.convert = TRUE,
+  levels.uniform = TRUE,
+  show_progress = TRUE,
+  ...
+)
 }
 \arguments{
 \item{file}{path to a NEXUS or Newick file}
@@ -152,7 +157,7 @@ from the elements contained in this list.
 Maddison DR, Swofford DL, Maddison WP (1997).
     "NEXUS: An extensible file format for systematic information".
     Systematic Biology 46(4) : 590-621.
-    doi:\href{http://dx.doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
+    doi:\href{https://doi.org/10.1093/sysbio/46.4.590}{10.1093/sysbio/46.4.590}
 
 Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.

@@ -1,4 +1,3 @@
-Roxygen: list(wrap = FALSE)
 Package: rncl
 Title: An Interface to the Nexus Class Library
 Version: 0.8.4
@@ -30,4 +29,5 @@ License: BSD_2_clause + file LICENSE
 URL: https://github.com/fmichonneau/rncl
 BugReports: https://github.com/fmichonneau/rncl/issues
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2.9000
+Encoding: UTF-8

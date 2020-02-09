@@ -5,6 +5,18 @@
 
 using namespace Rcpp;
 
+// RNCL
+Rcpp::List RNCL(SEXP params, SEXP paramsVecR);
+RcppExport SEXP _rncl_RNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type paramsVecR(paramsVecRSEXP);
+    rcpp_result_gen = Rcpp::wrap(RNCL(params, paramsVecR));
+    return rcpp_result_gen;
+END_RCPP
+}
 // n_singletons
 int n_singletons(Rcpp::IntegerVector ances);
 RcppExport SEXP _rncl_n_singletons(SEXP ancesSEXP) {
@@ -28,18 +40,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type nnode(nnodeSEXP);
     Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type show_progress(show_progressSEXP);
     rcpp_result_gen = Rcpp::wrap(collapse_single_cpp(ances, desc, elen, nnode, show_progress));
-    return rcpp_result_gen;
-END_RCPP
-}
-// RNCL
-Rcpp::List RNCL(SEXP params, SEXP paramsVecR);
-RcppExport SEXP _rncl_RNCL(SEXP paramsSEXP, SEXP paramsVecRSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type params(paramsSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type paramsVecR(paramsVecRSEXP);
-    rcpp_result_gen = Rcpp::wrap(RNCL(params, paramsVecR));
     return rcpp_result_gen;
 END_RCPP
 }

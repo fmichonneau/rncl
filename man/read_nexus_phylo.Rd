@@ -6,11 +6,21 @@
 \alias{make_phylo}
 \title{Read phylogenetic trees from files}
 \usage{
-read_nexus_phylo(file, simplify = FALSE, missing_edge_length = NA,
-  show_progress = TRUE, ...)
+read_nexus_phylo(
+  file,
+  simplify = FALSE,
+  missing_edge_length = NA,
+  show_progress = TRUE,
+  ...
+)
 
-read_newick_phylo(file, simplify = FALSE, missing_edge_length = NA,
-  show_progress = TRUE, ...)
+read_newick_phylo(
+  file,
+  simplify = FALSE,
+  missing_edge_length = NA,
+  show_progress = TRUE,
+  ...
+)
 
 make_phylo(file, simplify = FALSE, missing_edge_length = NA, ...)
 }
