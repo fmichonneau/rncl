@@ -1,3 +1,7 @@
+## rncl 0.8.4
+
+* Maintenance release that fixes warnings on CRAN checks.
+
 ## rncl 0.8.3
 
 * Maintenance release that fixes notes and warnings from CRAN checks.
