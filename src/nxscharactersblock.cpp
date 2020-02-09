@@ -1303,7 +1303,8 @@ NxsCharactersBlock * NxsCharactersBlock::NewCodonsCharactersBlock(
 	NxsDiscreteStateRow matRow(ncodons, 0);
 	codonsBlock->discreteMatrix.assign(ntax, matRow);
 	const std::list<int>::const_iterator endNucIt = sourceChars->end();
-	if (mapPartialAmbigToUnknown && (gapsToUnknown || dnaBlock->GetGapSymbol() != '\0'))
+        (void)endNucIt;
+        if (mapPartialAmbigToUnknown && (gapsToUnknown || dnaBlock->GetGapSymbol() != '\0'))
 		{
 		for (unsigned taxInd = 0; taxInd < ntax; ++taxInd)
 			{

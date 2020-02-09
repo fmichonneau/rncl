@@ -388,7 +388,9 @@ std::vector<std::vector<int> > NxsSimpleTree::GetIntPathDistances(bool toMRCA) c
 							{
 							PairwiseDistRow  iRow = pairwiseDist.find(iIndex);
 							PairwiseDistRow  jRow = pairwiseDist.find(jIndex);
-							NCL_ASSERT(iRow == pairwiseDist.end() || (iRow->second.find(jIndex) == iRow->second.end()));
+                                                        (void)iRow;
+                                                        (void)jRow;
+                                                        NCL_ASSERT(iRow == pairwiseDist.end() || (iRow->second.find(jIndex) == iRow->second.end()));
 							NCL_ASSERT(jRow == pairwiseDist.end() || (jRow->second.find(iIndex) == jRow->second.end()));
 							pairwiseDist[iIndex][jIndex] = idist;
 							pairwiseDist[jIndex][iIndex] = ndToJDist;
@@ -500,7 +502,9 @@ std::vector<std::vector<double> > NxsSimpleTree::GetDblPathDistances(bool toMRCA
 							{
 							PairwiseDistRow  iRow = pairwiseDist.find(iIndex);
 							PairwiseDistRow  jRow = pairwiseDist.find(jIndex);
-							NCL_ASSERT(iRow == pairwiseDist.end() || (iRow->second.find(jIndex) == iRow->second.end()));
+                                                        (void)iRow;
+                                                        (void)jRow;
+                                                        NCL_ASSERT(iRow == pairwiseDist.end() || (iRow->second.find(jIndex) == iRow->second.end()));
 							NCL_ASSERT(jRow == pairwiseDist.end() || (jRow->second.find(iIndex) == jRow->second.end()));
 							pairwiseDist[iIndex][jIndex] = idist;
 							pairwiseDist[jIndex][iIndex] = ndToJDist;
@@ -1711,10 +1715,10 @@ void NxsTreesBlock::ProcessTokenStreamIntoTree(
 				prevToken = NXS_TREE_CLADE_NAME_TOKEN;
 				}
 			}
-        if (allowUnquotedSpaces)
-	        token.SetLabileFlagBit(NxsToken::spaceDoesNotBreakToken);
+                if (allowUnquotedSpaces)
+                    token.SetLabileFlagBit(NxsToken::spaceDoesNotBreakToken);
 
-		token.GetNextToken();
+                token.GetNextToken();
 		}
 	td.flags |= NxsFullTreeDescription::NXS_TREE_PROCESSED;
 	if (someHaveEdgeLens)

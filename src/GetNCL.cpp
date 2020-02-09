@@ -73,7 +73,7 @@ Rcpp::List RNCL (SEXP params, SEXP paramsVecR) {
 
     bool charall = paramsVec[0];
     bool polyconvert = paramsVec[1];
-    bool levelsUnif = paramsVec[2];
+    //bool levelsUnif = paramsVec[2];
     bool returnTrees = paramsVec[3];
     bool returnData = paramsVec[4];
 

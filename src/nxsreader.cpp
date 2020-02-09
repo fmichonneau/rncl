@@ -656,11 +656,11 @@ void NxsReader::CoreExecutionTasks(
 		token.SetLabileFlagBit(NxsToken::saveCommandComments);
 		token.GetNextToken();
 		}
-	catch (NxsException x)
-		{
+	catch (NxsException& x)
+            {
 		NexusError(token.errormsg, 0, 0, 0);
 		return;
-		}
+            }
 
 	if (token.Equals("#NEXUS"))
 		{
@@ -706,13 +706,13 @@ void NxsReader::CoreExecutionTasks(
 					{
 					currBlock = CreateBlockFromFactories(currBlockName, token, &sourceOfBlock);
 					}
-				catch (NxsException x)
-					{
+				catch (NxsException& x)
+                                    {
 					NexusError(x.msg, x.pos, x.line, x.col);
 					token.SetBlockName(0L);
 					token.SetEOFAllowed(true);
 					return;
-					}
+                                    }
 			    }
 			if (currBlock == NULL)
 				{
