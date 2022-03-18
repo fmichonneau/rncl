@@ -1,17 +1,12 @@
----
-title: An R interface to the NEXUS Class Library
----
-
 [![Build Status](https://travis-ci.org/fmichonneau/rncl.svg)](https://travis-ci.org/fmichonneau/rncl)
 [![Build status](https://ci.appveyor.com/api/projects/status/bfcjqt83esp0nnak)](https://ci.appveyor.com/project/fmichonneau/rncl)
-[![Coverage Status](https://coveralls.io/repos/fmichonneau/rncl/badge.svg)](https://coveralls.io/r/fmichonneau/rncl)
 ![](http://cranlogs.r-pkg.org/badges/rncl)
 [![Research software impact](http://depsy.org/api/package/cran/rncl/badge.svg)](http://depsy.org/package/r/rncl)
 
 ## An R interface to the NEXUS Class Library
 
 This R package provides an interface to the C++ library
-[NCL](http://phylo.bio.ku.edu/ncldocs/v2.1/funcdocs/index.html). It can parse
+[NCL](https://phylo.bio.ku.edu/ncldocs/v2.1/funcdocs/index.html). It can parse
 efficiently common file formats used to store phylogenetic trees, especially
 NEXUS and Newick files.
 

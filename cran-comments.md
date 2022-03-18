@@ -7,6 +7,7 @@
 
 ## Notes
 
+- This submission addresses the NOTES triggered by the CRAN autochecks
 - This release fixes the WARNINGS and NOTES on the CRAN check results page.
 
 ## R CMD check results
