@@ -263,10 +263,12 @@ class NStrCaseSensitiveEquals
 	Binary function class that performs case-Insensitive string compares.
 */
 struct NxsStringEqual
-  : public std::binary_function<NxsString, NxsString, bool>
-	{
-	bool operator()(const NxsString &x, const NxsString &y) const;
-	};
+{
+    typedef NxsString first_argument_type;
+    typedef NxsString second_argument_type;
+    typedef bool result_type;
+    bool operator()(const NxsString &x, const NxsString &y) const;
+};
 
 // ############################# start NStrCaseInsensitiveEquals functions ##########################
 
