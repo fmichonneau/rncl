@@ -1,4 +1,4 @@
-## rncl 0.8.5
+## rncl 0.8.6
 
 * Maintenance release that fixes warnings on CRAN checks related to the 
   deprecation of the `binary_function` in gcc 12/clang 14.
