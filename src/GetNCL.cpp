@@ -14,7 +14,7 @@ NxsString contData(NxsCharactersBlock& charBlock, NxsString& charString,
 	}
 	else {
 	    char buffer[100];
-	    sprintf(buffer, "%.10f", state);
+	    snprintf(buffer, sizeof(buffer), "%.10f", state);
 	    charString+=buffer;
 	}
 

@@ -1,3 +1,8 @@
+## rncl 0.8.7
+
+* Maintenance release that fixes warnings on CRAN checks related to
+  the deprecation of `sprintf`.
+
 ## rncl 0.8.6
 
 * Maintenance release that fixes warnings on CRAN checks related to the 

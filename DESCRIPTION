@@ -1,6 +1,6 @@
 Package: rncl
 Title: An Interface to the Nexus Class Library
-Version: 0.8.6
+Version: 0.8.7
 Authors@R: c(person("Francois", "Michonneau", role=c("aut", "cre"),
     email="francois.michonneau@gmail.com",    comment = c("ORCID" = "0000-0002-9092-966X")),
     person("Ben", "Bolker", role=c("aut"),    comment = c("ORCID" = "0000-0002-2127-0443")),
