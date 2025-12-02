@@ -2,6 +2,7 @@
 % Please edit documentation in R/rncl-package.R, R/rncl.R
 \docType{package}
 \name{rncl}
+\alias{rncl-package}
 \alias{rncl}
 \title{rncl: An R interface to the NEXUS Class Library}
 \usage{
@@ -88,13 +89,13 @@ listed in the translation table that might be associated with the
 tree.}
 
   \item{\code{dataTypes}}{A character vector indicating the type
-of data associated with the tree (e.g., \dQuote{standard}).}
+of data associated with the tree (e.g., \dQuote{standard}). }
 
   \item{\code{nbCharacters}}{A numeric vector indicating how
-many characters/traits are available.}
+many characters/traits are available. }
 
   \item{\code{charLabels}}{A character vector listing the names
-of the characters/traits that are available.}
+of the characters/traits that are available. }
 
   \item{\code{nbStates}}{A numeric vector listing the number of
 possible states for each character/trait.}
@@ -110,7 +111,7 @@ vector representing the data found in the file.}
   \item{\code{isRooted}}{A list with as many elements as there
 are trees in the file. Each element is a logical indicating
 whether the tree is rooted. NCL definition of a rooted tree
-differs from the one APE uses in some cases.}
+differs from the one APE uses in some cases. }
 
   \item{\code{hasPolytomies}}{A list with as many elements as
 there are trees in the file. Each element is a logical indicating
@@ -120,7 +121,6 @@ whether the tree contains polytomies.}
 there are trees in the file. Each element is a logical indicating
 whether the tree contains singleton nodes, in other words nodes
 with a single descendant (also known as knuckles).}
-
 }
 \description{
 rncl provides an interface to the NEXUS Class Library (NCL), a C++
@@ -160,6 +160,13 @@ Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
 }
 \seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/fmichonneau/rncl}
+  \item Report bugs at \url{https://github.com/fmichonneau/rncl/issues}
+}
+
+
 For examples on how to use the elements of the list
 returned by this function to build tree objects, inspect the
 source code of this package, in particular how
@@ -169,5 +176,16 @@ files, inspect the source code of the \code{readNCL} function in
 the phylobase package.
 }
 \author{
+\strong{Maintainer}: Francois Michonneau \email{francois.michonneau@gmail.com} (\href{https://orcid.org/0000-0002-9092-966X}{ORCID})
+
+Authors:
+\itemize{
+  \item Ben Bolker (\href{https://orcid.org/0000-0002-2127-0443}{ORCID})
+  \item Mark Holder (\href{https://orcid.org/0000-0001-5575-0536}{ORCID})
+  \item Paul Lewis (\href{https://orcid.org/0000-0001-9852-8759}{ORCID})
+  \item Brian O'Meara (\href{https://orcid.org/0000-0002-0337-5997}{ORCID})
+}
+
+
 Francois Michonneau
 }
