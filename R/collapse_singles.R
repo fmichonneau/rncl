@@ -1,5 +1,4 @@
 ##' @importFrom progress progress_bar
-##' @importFrom Rcpp loadRcppModules
 ##' @importFrom stats na.omit
 collapse_singles <- function(tree, show_progress) {
 
