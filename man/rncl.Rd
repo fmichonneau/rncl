@@ -2,6 +2,7 @@
 % Please edit documentation in R/rncl-package.R, R/rncl.R
 \docType{package}
 \name{rncl}
+\alias{rncl-package}
 \alias{rncl}
 \title{rncl: An R interface to the NEXUS Class Library}
 \usage{
@@ -48,21 +49,19 @@ the tree.}
 A list that contains the elements extracted from a NEXUS
 or a Newick file.
 
-\itemize{
-
-  \item {\code{taxaNames}} {A vector of the taxa names listed in
+  \item{\code{taxaNames}}{A vector of the taxa names listed in
 the TAXA block of the NEXUS file or inferred from the tree strings
 (if block missing or Newick file).}
 
-  \item {\code{treeNames}} {A vector listing the names of the trees}
+  \item{\code{treeNames}}{A vector listing the names of the trees}
 
-  \item {\code{taxonLabelVector}} {A list containing as many
+  \item{\code{taxonLabelVector}}{A list containing as many
 elements as there are trees in the file. Each element is a
 character vector that lists the taxon names encountered in the
 tree string *in the order they appear*, and therefore may not
 match the order they are listed in the translation table.}
 
-  \item {\code{parentVector}} { A list containing as many elements
+  \item{\code{parentVector}}{A list containing as many elements
 as there are trees in the file. Each element is a numeric vector
 listing the parent node for the node given by its position in the
 vector. If the beginning of the vector is 5 5 6, the parent node
@@ -70,60 +69,58 @@ of node 1 is 5, the parent of node 2 is 5 and the parent of node 3
 is 6. The implicit root of the tree is identified with 0 (node
 without a parent).}
 
-  \item{\code{branchLengthVector}} { A list containing as many
+  \item{\code{branchLengthVector}}{A list containing as many
 elements as there are trees in the file. Each element is a numeric
 vector listing the edge/branch lengths for the edges in the same
 order as nodes are listed in the corresponding \code{parentVector}
 element. Values of -999 indicate that the value is missing for this
 particular edge. The implicit root as a length of 0.}
 
-  \item{\code{nodeLabelsVector}} { A list containing as many
+  \item{\code{nodeLabelsVector}}{A list containing as many
 elements as there are trees in the file. Each element is a
 character vector listing the node labels in the same order as the
 nodes are specified in the same order as nodes are listed in the
 corresponding \code{parentVector} element.}
 
-  \item{\code{trees}} { A character vector listing the tree
+  \item{\code{trees}}{A character vector listing the tree
 strings where tip labels have been replaced by their indices in
 the \code{taxaNames} vector. They do not correspond to the numbers
 listed in the translation table that might be associated with the
 tree.}
 
-  \item{\code{dataTypes}} { A character vector indicating the type
+  \item{\code{dataTypes}}{A character vector indicating the type
 of data associated with the tree (e.g., \dQuote{standard}). }
 
-  \item{\code{nbCharacters}} { A numeric vector indicating how
+  \item{\code{nbCharacters}}{A numeric vector indicating how
 many characters/traits are available. }
 
-  \item{\code{charLabels}} { A character vector listing the names
+  \item{\code{charLabels}}{A character vector listing the names
 of the characters/traits that are available. }
 
-  \item {\code{nbStates}} { A numeric vector listing the number of
+  \item{\code{nbStates}}{A numeric vector listing the number of
 possible states for each character/trait.}
 
-  \item {\code{stateLabels}} { A character vector listing in
+  \item{\code{stateLabels}}{A character vector listing in
 order, all possible states for each character/trait.}
 
-  \item {\code{dataChr}} { A character vector with as many
+  \item{\code{dataChr}}{A character vector with as many
 elements as there are characters/traits in the dataset. Each
 element is string that can be parsed by R to create a factor
 vector representing the data found in the file.}
 
-  \item {\code{isRooted}} { A list with as many elements as there
+  \item{\code{isRooted}}{A list with as many elements as there
 are trees in the file. Each element is a logical indicating
 whether the tree is rooted. NCL definition of a rooted tree
 differs from the one APE uses in some cases. }
 
-  \item {\code{hasPolytomies}} { A list with as many elements as
+  \item{\code{hasPolytomies}}{A list with as many elements as
 there are trees in the file. Each element is a logical indicating
 whether the tree contains polytomies.}
 
-  \item {\code{hasSingletons}} { A list with as many elements as
+  \item{\code{hasSingletons}}{A list with as many elements as
 there are trees in the file. Each element is a logical indicating
 whether the tree contains singleton nodes, in other words nodes
 with a single descendant (also known as knuckles).}
-
-}
 }
 \description{
 rncl provides an interface to the NEXUS Class Library (NCL), a C++
@@ -163,6 +160,13 @@ Lewis, P. O. 2003. NCL: a C++ class library for interpreting data
 files in NEXUS format. Bioinformatics 19 (17) : 2330-2331.
 }
 \seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/fmichonneau/rncl}
+  \item Report bugs at \url{https://github.com/fmichonneau/rncl/issues}
+}
+
+
 For examples on how to use the elements of the list
 returned by this function to build tree objects, inspect the
 source code of this package, in particular how
@@ -172,5 +176,16 @@ files, inspect the source code of the \code{readNCL} function in
 the phylobase package.
 }
 \author{
+\strong{Maintainer}: Francois Michonneau \email{francois.michonneau@gmail.com} (\href{https://orcid.org/0000-0002-9092-966X}{ORCID})
+
+Authors:
+\itemize{
+  \item Ben Bolker (\href{https://orcid.org/0000-0002-2127-0443}{ORCID})
+  \item Mark Holder (\href{https://orcid.org/0000-0001-5575-0536}{ORCID})
+  \item Paul Lewis (\href{https://orcid.org/0000-0001-9852-8759}{ORCID})
+  \item Brian O'Meara (\href{https://orcid.org/0000-0002-0337-5997}{ORCID})
+}
+
+
 Francois Michonneau
 }
