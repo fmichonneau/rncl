@@ -1,3 +1,7 @@
+## rncl 0.8.8
+
+* Maintenance release that removes unneeded call to deprecated function in Rcpp (PR [#21](https://github.com/fmichonneau/rncl/pull/21) by @eddelbuettel), and formatting issue in documentation (#22 by @eddelbuettel).
+
 ## rncl 0.8.7
 
 * Maintenance release that fixes warnings on CRAN checks related to

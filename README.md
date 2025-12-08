@@ -1,7 +1,8 @@
-[![Build Status](https://travis-ci.org/fmichonneau/rncl.svg)](https://travis-ci.org/fmichonneau/rncl)
-[![Build status](https://ci.appveyor.com/api/projects/status/bfcjqt83esp0nnak)](https://ci.appveyor.com/project/fmichonneau/rncl)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/fmichonneau/rncl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fmichonneau/rncl/actions/workflows/R-CMD-check.yaml)
 ![](http://cranlogs.r-pkg.org/badges/rncl)
-[![Research software impact](http://depsy.org/api/package/cran/rncl/badge.svg)](http://depsy.org/package/r/rncl)
+<!-- badges: end -->
+
 
 ## An R interface to the NEXUS Class Library
 
