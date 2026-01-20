@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/fmichonneau/rncl/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fmichonneau/rncl/actions/workflows/R-CMD-check.yaml)
 ![](http://cranlogs.r-pkg.org/badges/rncl)
+[![Codecov test coverage](https://codecov.io/gh/fmichonneau/rncl/graph/badge.svg)](https://app.codecov.io/gh/fmichonneau/rncl)
 <!-- badges: end -->
 
 
@@ -25,19 +26,3 @@ found in ape (respectively `read.tree` and `read.nexus`) as `rncl` functions can
 read trees with singletons, and missing branch lengths. However, `rncl` adheres
 to the NEXUS standards and only accepts tip labels without white spaces and tip
 labels cannot be duplicated in the same tree.
-
-
-## Development versions for Windows
-
-Because this package contains some C++ code, it can be tricky to build if you
-are using Windows. Unless you need a feature only available on GitHub, install
-`rncl` from CRAN.
-
-Otherwise, you can obtain a binary version from
-[here](https://ci.appveyor.com/project/fmichonneau/rncl/build/artifacts) (unless
-the AppVeyor badge on top is gray, in which case you can download an older
-version or come back in a few minutes, or red meaning the current version is
-broken and you need to get an older version). Once in appveyor, look for the
-file named `rncl_X.Y.Z.zip` where `X.Y.Z` represent the version number (e.g.,
-`rncl_0.4.0.zip`). Then you can install this compiled version of the package
-directly from R.
