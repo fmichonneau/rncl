@@ -1689,7 +1689,7 @@ bool NxsCharactersBlock::AugmentedSymbolsToMixed()
 	const NxsDiscreteStateCell nOrigStates = (NxsDiscreteStateCell) origSymb.size();
 	std::map<NxsDiscreteStateCell, NxsDiscreteStateCell> oldToNewStateCode;
 	NxsDiscreteStateMatrix::iterator rowIt = discreteMatrix.begin();
-	for (unsigned colIndex = 0; rowIt != discreteMatrix.end(); ++colIndex, ++rowIt)
+	for (; rowIt != discreteMatrix.end(); ++rowIt)
 		{
 		NxsDiscreteStateRow & row = *rowIt;
 		unsigned column = 0;
@@ -3352,7 +3352,6 @@ NxsDiscreteStateCell NxsCharactersBlock::HandleTokenState(
 	*/
 	NxsStringVector::const_iterator ci_begin	= bagIter->second.begin();
 	NxsStringVector::const_iterator ci_end		= bagIter->second.end();
-	NxsStringVector::const_iterator cit;
 	NxsDiscreteStateCell k = 0;
 	for (; ci_begin != ci_end; ++ci_begin, ++k)
 		{
