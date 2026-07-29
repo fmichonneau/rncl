@@ -422,7 +422,7 @@ inline NxsString &NxsString::operator=(
 inline NxsString &NxsString::operator+=(
   const char *s)	/* the C-string to be appended */
 	{
-	append(std::string(s));
+	append(s);
 	return *this;
 	}
 
@@ -442,10 +442,7 @@ inline NxsString &NxsString::operator+=(
 inline NxsString &NxsString::operator+=(
   const char c)	/* the character to append */
 	{
-	char s[2];
-	s[0] = c;
-	s[1] = '\0';
-	append(std::string(s));
+	push_back(c);
 	return *this;
 	}
 
