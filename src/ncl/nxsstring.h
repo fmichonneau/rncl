@@ -385,8 +385,8 @@ inline bool NxsString::IsInVector(
 */
 inline NxsString::NxsString(
   const char *s)	/* the C-string that forms the basis for the new NxsString object */
+  :std::string(s)
 	{
-	assign(s);
 	}
 
 /*!
