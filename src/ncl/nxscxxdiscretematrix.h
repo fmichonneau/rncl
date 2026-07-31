@@ -200,9 +200,9 @@ class NxsCharacterPattern
             return true;
         }
         std::vector<NxsCDiscreteState_t> stateCodes;
-        mutable unsigned count;
-        mutable unsigned patternIndex; // used as scratchspace not always valid!!!
-        mutable double sumOfPatternWeights; // stored as float.  Use NxsCXXDiscreteMatrix::hasIntWeights of the original matrix to see if these weights should be interpretted as ints
+        mutable unsigned count = 0;
+        mutable unsigned patternIndex = 0; // used as scratchspace not always valid!!!
+        mutable double sumOfPatternWeights = 0.0; // stored as float.  Use NxsCXXDiscreteMatrix::hasIntWeights of the original matrix to see if these weights should be interpretted as ints
     };
     
 
