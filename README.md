@@ -8,7 +8,7 @@
 ## An R interface to the NEXUS Class Library
 
 This R package provides an interface to the C++ library
-[NCL](https://phylo.bio.ku.edu/ncldocs/v2.1/funcdocs/index.html). It can parse
+[NCL](https://github.com/mtholder/ncl). It can parse
 efficiently common file formats used to store phylogenetic trees, especially
 NEXUS and Newick files.
 
